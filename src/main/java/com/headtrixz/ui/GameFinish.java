@@ -1,3 +1,9 @@
 package com.headtrixz.ui;
 
-public class GameFinish { }
+import javafx.fxml.FXML;
+import javafx.scene.text.Text;
+
+public class GameFinish {
+    @FXML
+    private Text endText;
+}

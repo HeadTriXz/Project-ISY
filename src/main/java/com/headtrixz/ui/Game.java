@@ -1,3 +1,12 @@
 package com.headtrixz.ui;
 
-public class Game { }
+import javafx.fxml.FXML;
+import javafx.scene.text.Text;
+
+public class Game {
+    @FXML
+    private Text playerOneName;
+
+    @FXML
+    private Text playerTwoName;
+}

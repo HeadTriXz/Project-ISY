@@ -21,13 +21,13 @@
       </Text>
       <ImageView fitHeight="350.0" fitWidth="492.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../Desktop/froze-stop-moving.gif" />
+            <Image url="@./froze-stop-moving.gif" />
          </image>
       </ImageView>
       <Text fx:id="timeWaiting" strokeType="OUTSIDE" strokeWidth="0.0" text="Aan het wachten voor [tijd]" />
       <StackPane prefHeight="31.0" prefWidth="700.0">
          <children>
-            <Button fx:id="cancelButton" alignment="BOTTOM_CENTER" disable="true" mnemonicParsing="false" text="Terug" StackPane.alignment="CENTER_LEFT" />
+            <Button alignment="BOTTOM_CENTER" disable="true" mnemonicParsing="false" text="Terug" StackPane.alignment="CENTER_LEFT" />
          </children>
          <VBox.margin>
             <Insets top="50.0" />
