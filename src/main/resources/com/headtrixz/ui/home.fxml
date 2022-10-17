@@ -54,10 +54,10 @@
                   <TextField fx:id="port" text="7789" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <Button mnemonicParsing="false" text="Connect" />
+                        <Button disable="true" mnemonicParsing="false" text="Connect" />
                      </children>
                   </HBox>
-                  <Text fx:id="connectionMessage" fill="#3da457" strokeType="OUTSIDE" strokeWidth="0.0" text="Connected ofzo, idk dit is een template, geen idee hoe dit werkt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Text fx:id="connectionMessage" fill="#4C08FB" strokeType="OUTSIDE" strokeWidth="0.0" text="WIP" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </children>
@@ -67,7 +67,7 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
          <children>
-            <Button mnemonicParsing="false" text="Speel Tic Tac Toe" />
+            <Button onAction="#playTicTacToe" mnemonicParsing="false" text="Speel Tic Tac Toe" />
          </children>
       </VBox>
    </children>
