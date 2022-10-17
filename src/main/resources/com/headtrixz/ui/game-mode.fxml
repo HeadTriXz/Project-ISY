@@ -23,7 +23,7 @@
             <Button mnemonicParsing="false" text="Terug" StackPane.alignment="CENTER_LEFT" />
          </children>
       </StackPane>
-      <Button mnemonicParsing="false" prefWidth="200.0" text="Tegen AI" />
+      <Button onAction="#playAI" mnemonicParsing="false" prefWidth="200.0" text="Tegen AI" />
       <Button fx:id="onlineGame" disable="true" mnemonicParsing="false" prefWidth="200.0" text="Online Spelen" />
       <Button fx:id="tournament" disable="true" mnemonicParsing="false" prefWidth="200.0" text="Tournament Modes" />
    </children>
