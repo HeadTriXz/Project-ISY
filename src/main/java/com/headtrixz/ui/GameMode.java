@@ -18,10 +18,16 @@ public class GameMode {
     private Button tournament;
 
     public void playAI() throws Exception {
-        // TODO: Find another way to do this a bit more dry
+        this.goTo("game");
+    }
+
+    public void goHome() throws Exception {
+        this.goTo("home");
+    }
+
+    private void goTo(String location) throws Exception {
         Stage screen = (Stage) gameType.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("game.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(location + ".fxml"));
         screen.setScene(new Scene(fxmlLoader.load(), 600, 400));
     }
 }
-// mvn clean compile exec:java

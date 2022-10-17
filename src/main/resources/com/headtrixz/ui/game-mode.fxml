@@ -20,7 +20,7 @@
                   <Font size="31.0" />
                </font>
             </Text>
-            <Button mnemonicParsing="false" text="Terug" StackPane.alignment="CENTER_LEFT" />
+            <Button onAction="#goHome" mnemonicParsing="false" text="Terug" StackPane.alignment="CENTER_LEFT" />
          </children>
       </StackPane>
       <Button onAction="#playAI" mnemonicParsing="false" prefWidth="200.0" text="Tegen AI" />

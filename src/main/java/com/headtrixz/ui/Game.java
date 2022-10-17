@@ -1,11 +1,16 @@
 package com.headtrixz.ui;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class Game {
     @FXML
@@ -21,13 +26,13 @@ public class Game {
 
     public void initialize() {
         board = this.createTicTacToeBoard();
-        board.setAlignment(Pos.CENTER);
         container.getChildren().addAll(board);
     }
 
     private GridPane createTicTacToeBoard() {
         GridPane gridPane = new GridPane();
         gridPane.setGridLinesVisible(true);
+        gridPane.setMaxSize(300, 300);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -52,5 +57,11 @@ public class Game {
         pane.setCursor(Cursor.DEFAULT);
         Text aah = new Text("X");
         pane.getChildren().add(aah);
+    }
+
+    public void goHome() throws Exception {
+        Stage screen = (Stage) board.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("home.fxml"));
+        screen.setScene(new Scene(fxmlLoader.load(), 600, 400));
     }
 }
