@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" fx:controller="com.headtrixz.ui.OnlineWaiting" minHeight="300.0" minWidth="600.0" prefHeight="530.0" prefWidth="800.0" spacing="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <padding>
+      <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+   </padding>
+   <children>
+      <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="Wachten op [thing]">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="350.0" fitWidth="492.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@./froze-stop-moving.gif" />
+         </image>
+      </ImageView>
+      <Text fx:id="timeWaiting" strokeType="OUTSIDE" strokeWidth="0.0" text="Aan het wachten voor [tijd]" />
+      <StackPane prefHeight="31.0" prefWidth="700.0">
+         <children>
+            <Button alignment="BOTTOM_CENTER" disable="true" mnemonicParsing="false" text="Terug" StackPane.alignment="CENTER_LEFT" />
+         </children>
+         <VBox.margin>
+            <Insets top="50.0" />
+         </VBox.margin>
+      </StackPane>
+   </children>
+</VBox>
