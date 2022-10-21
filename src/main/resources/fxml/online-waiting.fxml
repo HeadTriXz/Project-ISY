@@ -21,7 +21,7 @@
       </Text>
       <ImageView fitHeight="350.0" fitWidth="492.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@./froze-stop-moving.gif" />
+            <Image url="@froze-stop-moving.gif" />
          </image>
       </ImageView>
       <Text fx:id="timeWaiting" strokeType="OUTSIDE" strokeWidth="0.0" text="Aan het wachten voor [tijd]" />

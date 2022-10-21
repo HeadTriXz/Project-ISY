@@ -23,7 +23,7 @@ public class Home {
     public void playTicTacToe() throws Exception {
         // TODO: Find another way to do this a bit more dry
         Stage screen = (Stage) username.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("game-mode.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/fxml/game-mode.fxml"));
         screen.setScene(new Scene(fxmlLoader.load(), 600, 400));
     }
 }

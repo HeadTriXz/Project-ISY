@@ -12,7 +12,7 @@ public class GameFinish {
 
     public void goHome() throws Exception {
         Stage screen = (Stage) endText.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("home.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/fxml/home.fxml"));
         screen.setScene(new Scene(fxmlLoader.load(), 600, 400));
     }
 }

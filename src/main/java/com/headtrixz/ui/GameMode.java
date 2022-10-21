@@ -27,7 +27,7 @@ public class GameMode {
 
     private void goTo(String location) throws Exception {
         Stage screen = (Stage) gameType.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(location + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/fxml/" + location + ".fxml"));
         screen.setScene(new Scene(fxmlLoader.load(), 600, 400));
     }
 }

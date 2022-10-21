@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public class UIManager extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(UIManager.class.getResource("home.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setTitle("ISY Project");
         stage.setScene(scene);
