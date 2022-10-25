@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="container" fx:controller="com.headtrixz.controllers.TicTacToeController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="container" fx:controller="com.headtrixz.controllers.GameController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button onAction="#goHome" mnemonicParsing="false" text="Geef op" StackPane.alignment="BOTTOM_LEFT" />
+      <Button onAction="#displayHome" mnemonicParsing="false" text="Geef op" StackPane.alignment="BOTTOM_LEFT" />
       <Text fx:id="playerOneName" strokeType="OUTSIDE" strokeWidth="0.0" text="[Speler 1]" StackPane.alignment="TOP_LEFT" />
       <Text fx:id="playerTwoName" strokeType="OUTSIDE" strokeWidth="0.0" text="[Speler 2]" StackPane.alignment="TOP_RIGHT" />
    </children>

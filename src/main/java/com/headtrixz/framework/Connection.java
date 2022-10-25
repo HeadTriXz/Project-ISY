@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class Connection {
-    private static Connection instance;
+    private static Connection INSTANCE;
 
     private InputHandler inputHandler;
     private Thread inputHandlerThread;
@@ -36,11 +36,11 @@ public class Connection {
     }
 
     public static Connection getInstance() {
-        if (instance == null) {
-            instance = new Connection();
+        if (INSTANCE == null) {
+            INSTANCE = new Connection();
         }
 
-        return instance;
+        return INSTANCE;
     }
 
     public OutputHandler getOutputHandler() {
