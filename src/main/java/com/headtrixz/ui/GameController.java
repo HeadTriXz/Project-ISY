@@ -1,9 +1,9 @@
-package com.headtrixz.controllers;
+package com.headtrixz.ui;
 
-import com.headtrixz.game.AIPlayer;
+import com.headtrixz.tictactoe.TicTacToeAI;
 import com.headtrixz.game.HumanPlayer;
-import com.headtrixz.models.GameModel;
-import com.headtrixz.models.TicTacToe;
+import com.headtrixz.game.GameModel;
+import com.headtrixz.tictactoe.TicTacToe;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -64,7 +64,7 @@ public class GameController implements Initializable {
     }
 
     private void displayScene(String name) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + name + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(name + ".fxml"));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load(), 600, 400);
@@ -84,16 +84,15 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) { // TODO: Replace because hardcoded.
         this.game = new TicTacToe();
 
-        HumanPlayer playerOne = new HumanPlayer("test");
-        AIPlayer playerTwo = new AIPlayer(this.game);
+        HumanPlayer playerOne = new HumanPlayer(this.game, "test");
+        TicTacToeAI playerTwo = new TicTacToeAI((TicTacToe) this.game);
 
         this.game.initialize(this, playerOne, playerTwo);
         this.createBoardGrid();
     }
 
     private void onMouseClick(int x, int y) {
-        int move = y * game.getBoard().getSize() + x;
-        game.setMove(move, game.getCurrentPlayer().getId());
+        game.setGuiMove(y * game.getBoard().getSize() + x);
     }
 
     public void onUpdate(int move, int player) {

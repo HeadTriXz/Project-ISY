@@ -1,6 +1,12 @@
 package com.headtrixz.game;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
+
 public abstract class Player {
+    private static final Executor EXECUTOR = Executors.newSingleThreadExecutor();
+
     protected int id;
     protected final String username;
 
@@ -16,9 +22,13 @@ public abstract class Player {
         return username;
     }
 
+    public void onTurn(Consumer<Integer> callback) {
+        EXECUTOR.execute(() -> callback.accept(getMove()));
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
-    public abstract void onTurn();
+    public abstract int getMove();
 }

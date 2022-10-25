@@ -1,8 +1,7 @@
-package com.headtrixz.models;
+package com.headtrixz.game;
 
-import com.headtrixz.controllers.GameController;
-import com.headtrixz.game.GameBoard;
-import com.headtrixz.game.Player;
+import com.headtrixz.ui.GameController;
+import javafx.application.Platform;
 
 public abstract class GameModel {
     public enum GameState {
@@ -17,6 +16,8 @@ public abstract class GameModel {
     protected Player currentPlayer;
     protected Player[] players;
 
+    protected volatile int guiMove = -1;
+
     public GameModel(int boardSize) {
         board = new GameBoard(boardSize);
     }
@@ -27,6 +28,10 @@ public abstract class GameModel {
 
     public GameBoard getBoard() {
         return board.clone();
+    }
+
+    public int getGuiMove() {
+        return guiMove;
     }
 
     public Player getPlayer(int i) {
@@ -52,6 +57,7 @@ public abstract class GameModel {
         }
 
         board.clear();
+        nextTurn(currentPlayer);
     }
 
     private void nextPlayer() {
@@ -63,21 +69,31 @@ public abstract class GameModel {
         currentPlayer = players[currentPlayer.getId()];
     }
 
-    public void setMove(int move, int player) {
-        if (!board.isValidMove(move)) {
-            return;
-        }
+    public void nextTurn(Player player) {
+        player.onTurn(m -> {
+            if (!board.isValidMove(m)) {
+                return;
+            }
 
-        board.setMove(move, player);
-        controller.onUpdate(move, player);
+            board.setMove(m, player.getId());
+            Platform.runLater(() -> {
+                controller.onUpdate(m, player.getId());
+            });
 
-        // TODO: If local player, and is online, send command to server.
+            if (getState() == GameState.PLAYING) {
+                nextPlayer();
+                nextTurn(currentPlayer);
+            } else {
+                Platform.runLater(() -> {
+                    controller.endGame();
+                });
+            }
+        });
+    }
 
-        if (getState() == GameState.PLAYING) {
-            nextPlayer();
-            currentPlayer.onTurn();
-        } else {
-            controller.endGame();
+    public void setGuiMove(int move) {
+        if (move == -1 || board.isValidMove(move)) {
+            guiMove = move;
         }
     }
 

@@ -1,4 +1,6 @@
-package com.headtrixz.models;
+package com.headtrixz.tictactoe;
+
+import com.headtrixz.game.GameModel;
 
 import static com.headtrixz.game.GameBoard.PLAYER_ONE;
 import static com.headtrixz.game.GameBoard.PLAYER_TWO;
