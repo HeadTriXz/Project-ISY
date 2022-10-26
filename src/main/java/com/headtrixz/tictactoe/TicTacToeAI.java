@@ -15,6 +15,11 @@ public class TicTacToeAI extends Player {
 
     @Override
     public int getMove() {
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         ArrayList<Integer> moves = game.getBoard().getValidMoves();
 
         Random random = new Random();

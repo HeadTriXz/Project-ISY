@@ -24,9 +24,12 @@ public class GameController implements Initializable {
     private GridPane boardGrid;
     private GameModel game;
 
-    @FXML private Text playerOneName;
-    @FXML private Text playerTwoName;
-    @FXML private StackPane container;
+    @FXML
+    private Text playerOneName;
+    @FXML
+    private Text playerTwoName;
+    @FXML
+    private StackPane container;
 
     private void createBoardGrid() {
         boardGrid = new GridPane();
@@ -48,7 +51,7 @@ public class GameController implements Initializable {
                 final int col = i;
                 final int row = j;
                 sp.setOnMouseClicked(a -> onMouseClick(row, col));
-                boardGrid.add(sp, i, j);
+                boardGrid.add(sp, j, i);
             }
         }
 
@@ -76,7 +79,10 @@ public class GameController implements Initializable {
         stage.setScene(scene);
     }
 
-    public void endGame() { // TODO: Debug only.
+    public void endGame() { // TODO: Demo only.
+        SharedState sh = SharedState.getInstance();
+        sh.winner = game.getState();
+        sh.board = game.getBoard();
         displayGameFinish();
     }
 
@@ -87,6 +93,9 @@ public class GameController implements Initializable {
         HumanPlayer playerOne = new HumanPlayer(this.game, "test");
         TicTacToeAI playerTwo = new TicTacToeAI((TicTacToe) this.game);
 
+        playerOneName.setText(playerOne.getUsername() + " - X");
+        playerTwoName.setText("O - " + playerTwo.getUsername());
+
         this.game.initialize(this, playerOne, playerTwo);
         this.createBoardGrid();
     }
@@ -96,7 +105,8 @@ public class GameController implements Initializable {
     }
 
     public void onUpdate(int move, int player) {
-        Text t = new Text(Integer.toString(player));
+        String[] players = { "", "X", "O" };
+        Text t = new Text(players[player]);
         StackPane pane = (StackPane) boardGrid.getChildren().get(move + 1);
         pane.getChildren().add(t);
     }

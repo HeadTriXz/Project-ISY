@@ -6,14 +6,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:controller="com.headtrixz.ui.GameFinish" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="container" fx:controller="com.headtrixz.ui.GameFinish" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button onAction="#goHome" mnemonicParsing="false" text="Start scherm" StackPane.alignment="BOTTOM_CENTER" />
       <Text fx:id="endText" strokeType="OUTSIDE" strokeWidth="0.0" text="Je hebt verloren van [Speler 2], loser" StackPane.alignment="TOP_CENTER">
          <font>
             <Font size="17.0" />
          </font></Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tic Tac Toe scherm hierin, geen idee hoe nog tho" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
