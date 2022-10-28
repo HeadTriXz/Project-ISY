@@ -1,5 +1,6 @@
 package com.headtrixz.ui;
 
+import com.headtrixz.Utils;
 import com.headtrixz.tictactoe.TicTacToeAI;
 import com.headtrixz.game.HumanPlayer;
 import com.headtrixz.game.GameModel;
@@ -59,24 +60,11 @@ public class GameController implements Initializable {
     }
 
     public void displayGameFinish() {
-        displayScene("game-finish"); // TODO: Add actual state
+        Utils.goTo(playerOneName, "game-finish");
     }
 
     public void displayHome() {
-        displayScene("home");
-    }
-
-    private void displayScene(String name) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(name + ".fxml"));
-        Scene scene;
-        try {
-            scene = new Scene(fxmlLoader.load(), 600, 400);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Stage stage = (Stage) boardGrid.getScene().getWindow();
-        stage.setScene(scene);
+        Utils.goTo(playerOneName, "home");
     }
 
     public void endGame() { // TODO: Demo only.

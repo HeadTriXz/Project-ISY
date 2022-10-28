@@ -1,5 +1,6 @@
 package com.headtrixz.ui;
 
+import com.headtrixz.Utils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,17 +18,12 @@ public class GameMode {
     @FXML
     private Button tournament;
 
-    public void playAI() throws Exception {
-        this.goTo("game");
+    public void playAI(){
+        Utils.goTo(gameType, "home");
     }
 
-    public void goHome() throws Exception {
-        this.goTo("home");
+    public void goHome(){
+        Utils.goTo(gameType, "home");
     }
 
-    private void goTo(String location) throws Exception {
-        Stage screen = (Stage) gameType.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource(location + ".fxml"));
-        screen.setScene(new Scene(fxmlLoader.load(), 600, 400));
-    }
 }

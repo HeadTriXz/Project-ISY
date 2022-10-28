@@ -1,5 +1,6 @@
 package com.headtrixz.ui;
 
+import com.headtrixz.Utils;
 import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameModel.GameState;
 
@@ -21,9 +22,7 @@ public class GameFinish {
     GameBoard gameBoard;
 
     public void goHome() throws Exception {
-        Stage screen = (Stage) endText.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("home.fxml"));
-        screen.setScene(new Scene(fxmlLoader.load(), 600, 400));
+        Utils.goTo(endText, "home.fxml");
     }
 
     public void initialize() {
