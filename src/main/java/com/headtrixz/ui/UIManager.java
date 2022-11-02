@@ -8,12 +8,25 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class UIManager extends Application {
+    private static Class<? extends UIManager> uiManagerClass;
+    private static Stage mainStage;
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("home.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        UIManager.uiManagerClass = getClass();
+        UIManager.mainStage = stage;
         stage.setTitle("ISY Project");
-        stage.setScene(scene);
+        UIManager.switchScreen("home");
         stage.show();
+    }
+
+    public static void switchScreen(String name) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(uiManagerClass.getResource(name + ".fxml"));
+            mainStage.setScene(new Scene(fxmlLoader.load(), 600, 400));
+        } catch (IOException e) {
+            System.out.println("Something went wrong whilst switching screens");
+            e.printStackTrace();
+        }
     }
 }
