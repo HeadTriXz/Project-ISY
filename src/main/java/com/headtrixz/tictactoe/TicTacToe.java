@@ -29,6 +29,18 @@ public class TicTacToe extends GameModel {
         return GameState.PLAYING;
     }
 
+    /**
+     * get the score of the game in its current state. the scoring is
+     * -2 if current player has won, -1 if current player has lost, 0 if game is still going or ended in draw
+     *
+     * @return the score of the board
+     */
+    public int getScore() {
+        if (getState() == GameState.DRAW || getState() == GameState.PLAYING) return 0;
+        if (hasPlayerWon(currentPlayer)) return -2;
+        return -1; // player has lost
+    }
+
     private boolean hasWon(int player) {
         return player == board.getMove(0, 0) && player == board.getMove(1, 0) && player == board.getMove(2, 0)
                 || player == board.getMove(0, 1) && player == board.getMove(1, 1) && player == board.getMove(2, 1)

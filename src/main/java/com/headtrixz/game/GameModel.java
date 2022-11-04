@@ -101,6 +101,7 @@ public abstract class GameModel {
     }
 
     public abstract GameState getState();
+    public abstract int getScore();
 
     /**
      * chek if the given player has won by checking if the GameState value with index users id + 1 is equal to the current state
@@ -111,5 +112,4 @@ public abstract class GameModel {
     public boolean hasPlayerWon(Player player) {
         return GameState.values()[player.getId()+1] == getState();
     }
-
 }

@@ -56,15 +56,8 @@ public class MiniMax {
 
 
         // check if the game is finished or the max depth has been reached
-        //TODO:: improve the scoring to work better with other games
-        if (game.getState() == GameModel.GameState.DRAW || depth == maxDepth) {
-            return 0;
-        } else if (game.getState() != GameModel.GameState.PLAYING) {
-            // check if the current player has won in 1 move
-            if (game.hasPlayerWon(currentPlayer) && depth == 1) {
-                return -2;
-            }
-            return -1;
+        if (game.getState() != GameModel.GameState.PLAYING || depth == maxDepth) {
+            return game.getScore();
         }
 
         //get the opponent. the id of current player is +1 of the index in players array
