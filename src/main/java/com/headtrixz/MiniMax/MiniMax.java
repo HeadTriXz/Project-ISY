@@ -25,7 +25,7 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMove() {
-        return minimax( 0, game.getCurrentPlayer(), maxDepth, 1);
+        return getMove(maxDepth);
     }
     /**
      * get the best next move for any given player based on the current game state.
@@ -37,7 +37,7 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMove(int maxDepth) {
-        return minimax( 0, game.getCurrentPlayer(), maxDepth, 1);
+        return minimax(0 , game.getCurrentPlayer(), maxDepth, 1, game.getMinScore(), game.getMaxScore());
     }
 
 
@@ -48,7 +48,7 @@ public class MiniMax {
      * @param currentPlayer the player that is currently at play
      * @return best move to make if depth == 0, else the score of the board
      */
-    private int minimax(int depth, Player currentPlayer, int maxDepth, int color) {
+    private int minimax(int depth, Player currentPlayer, int maxDepth, int color, int alpha, int beta) {
 
         //TODO:: refractor to keep the next moves state so we can progresifly build up the next moves.
         // not needed for tictactoe but usefull for reversi/othello
@@ -67,15 +67,22 @@ public class MiniMax {
         // iterate over all valid moves and calculate there score
         for (int move : game.getBoard().getValidMoves()) {
             game.getActualGameBoard().setMove(move, currentPlayer.getId());
-            potentialOutcomes.put(move, (-1 * minimax( depth + 1, opp, maxDepth, -color)));
+
+            int score = -minimax( depth + 1, opp, maxDepth, -color, -beta, -alpha);
+            potentialOutcomes.put(move, score);
+
             game.getActualGameBoard().setMove(move, 0);
+
+            // check if we already have a board with the max score.
+            alpha= Math.max(alpha, score);
+            if (alpha >= beta) break;
         }
 
         // return the move if we are at the base call or the score if we are in a recursive call
         if (depth == 0) {
             return getBestOutcome(potentialOutcomes).getKey();
         } else {
-            return getBestOutcome(potentialOutcomes).getValue();
+            return alpha;
         }
 
     }
