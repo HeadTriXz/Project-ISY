@@ -3,12 +3,17 @@ package com.headtrixz.MiniMax;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.Player;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MiniMax {
 
     public static int maxDepth = 8;
+    public final GameModel game;
+
+
+    public MiniMax(GameModel game) {
+        this.game = game;
+    }
 
 
     /**
@@ -17,22 +22,33 @@ public class MiniMax {
      * this function works using the current board and does not work on a clone of the board because it uses the state
      * of the game determining the score of the board
      *
-     * @param game the current game state
      * @return the best move to make given the current game state
      */
-    public static int getMove(GameModel game) {
-        return minimax(game, 0, game.getCurrentPlayer());
+    public int getMove() {
+        return minimax( 0, game.getCurrentPlayer(), maxDepth);
     }
+    /**
+     * get the best next move for any given player based on the current game state.
+     * the game should be advanced to the next player for it to work correctly.
+     * this function works using the current board and does not work on a clone of the board because it uses the state
+     * of the game determining the score of the board
+     *
+     * @param maxDepth the maximum depth to look to
+     * @return the best move to make given the current game state
+     */
+    public int getMove(int maxDepth) {
+        return minimax( 0, game.getCurrentPlayer(), maxDepth);
+    }
+
 
     /**
      * the algorith that actualy gets the correct next move
      *
-     * @param game          the current game.
      * @param depth         the current depth
      * @param currentPlayer the player that is currently at play
      * @return best move to make if depth == 0, else the score of the board
      */
-    private static int minimax(GameModel game, int depth, Player currentPlayer) {
+    private int minimax(int depth, Player currentPlayer, int maxDepth) {
 
         //TODO:: refractor to keep the next moves state so we can progresifly build up the next moves.
         // not needed for tictactoe but usefull for reversi/othello
@@ -58,10 +74,8 @@ public class MiniMax {
         // iterate over all valid moves and calculate there score
         for (int move : game.getBoard().getValidMoves()) {
             game.getActualGameBoard().setMove(move, currentPlayer.getId());
-
-            potentialOutcomes.put(move, (-1 * minimax(game, depth + 1, opp)));
+            potentialOutcomes.put(move, (-1 * minimax( depth + 1, opp, maxDepth)));
             game.getActualGameBoard().setMove(move, 0);
-
         }
 
         // return the move if we are at the base call or the score if we are in a recursive call

@@ -3,6 +3,7 @@ package com.headtrixz.game;
 import com.headtrixz.ui.GameController;
 import javafx.application.Platform;
 
+
 public abstract class GameModel {
     public enum GameState {
         PLAYING,
