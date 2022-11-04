@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class MiniMax {
 
-    public static int maxDepth = 4;
+    public static int maxDepth = 9;
 
 
     /**
