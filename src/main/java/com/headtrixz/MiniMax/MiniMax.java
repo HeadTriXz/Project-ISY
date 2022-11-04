@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class MiniMax {
 
-    public static int maxDepth = 9;
+    public static int maxDepth = 8;
 
 
     /**
@@ -44,6 +44,10 @@ public class MiniMax {
         if (game.getState() == GameModel.GameState.DRAW || depth == maxDepth) {
             return 0;
         } else if (game.getState() != GameModel.GameState.PLAYING) {
+            // check if the current player has won in 1 move
+            if (game.hasPlayerWon(currentPlayer) && depth == 1) {
+                return -2;
+            }
             return -1;
         }
 
@@ -78,6 +82,4 @@ public class MiniMax {
     private static Map.Entry<Integer, Integer> getBestOutcome(Map<Integer, Integer> boardScores) {
         return boardScores.entrySet().stream().max(Map.Entry.comparingByValue()).get();
     }
-
-
 }
