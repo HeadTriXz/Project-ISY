@@ -25,7 +25,7 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMove() {
-        return minimax( 0, game.getCurrentPlayer(), maxDepth);
+        return minimax( 0, game.getCurrentPlayer(), maxDepth, 1);
     }
     /**
      * get the best next move for any given player based on the current game state.
@@ -37,7 +37,7 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMove(int maxDepth) {
-        return minimax( 0, game.getCurrentPlayer(), maxDepth);
+        return minimax( 0, game.getCurrentPlayer(), maxDepth, 1);
     }
 
 
@@ -48,7 +48,7 @@ public class MiniMax {
      * @param currentPlayer the player that is currently at play
      * @return best move to make if depth == 0, else the score of the board
      */
-    private int minimax(int depth, Player currentPlayer, int maxDepth) {
+    private int minimax(int depth, Player currentPlayer, int maxDepth, int color) {
 
         //TODO:: refractor to keep the next moves state so we can progresifly build up the next moves.
         // not needed for tictactoe but usefull for reversi/othello
@@ -57,7 +57,7 @@ public class MiniMax {
 
         // check if the game is finished or the max depth has been reached
         if (game.getState() != GameModel.GameState.PLAYING || depth == maxDepth) {
-            return game.getScore(currentPlayer, depth);
+            return game.getScore(currentPlayer, depth) * color;
         }
 
         //get the opponent. the id of current player is +1 of the index in players array
@@ -67,7 +67,7 @@ public class MiniMax {
         // iterate over all valid moves and calculate there score
         for (int move : game.getBoard().getValidMoves()) {
             game.getActualGameBoard().setMove(move, currentPlayer.getId());
-            potentialOutcomes.put(move, (-1 * minimax( depth + 1, opp, maxDepth)));
+            potentialOutcomes.put(move, (-1 * minimax( depth + 1, opp, maxDepth, -color)));
             game.getActualGameBoard().setMove(move, 0);
         }
 

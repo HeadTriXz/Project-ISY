@@ -38,8 +38,10 @@ public class TicTacToe extends GameModel {
      */
     public int getScore(Player currentPlayer, int depth) {
         if (getState() == GameState.DRAW || getState() == GameState.PLAYING) return 0;
-        if (hasPlayerWon(currentPlayer) && depth == 1) return -2;
-        return -1; // player has lost
+        if (hasPlayerWon(currentPlayer)) {
+            return 1000 / depth;
+        }
+        return -1000 / depth; // player has lost
     }
 
 
