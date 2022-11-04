@@ -101,7 +101,7 @@ public abstract class GameModel {
     }
 
     public abstract GameState getState();
-    public abstract int getScore();
+    public abstract int getScore(Player currentPlayer, int depth);
 
     /**
      * chek if the given player has won by checking if the GameState value with index users id + 1 is equal to the current state

@@ -57,7 +57,7 @@ public class MiniMax {
 
         // check if the game is finished or the max depth has been reached
         if (game.getState() != GameModel.GameState.PLAYING || depth == maxDepth) {
-            return game.getScore();
+            return game.getScore(currentPlayer, depth);
         }
 
         //get the opponent. the id of current player is +1 of the index in players array
