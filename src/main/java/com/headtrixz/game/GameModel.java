@@ -26,6 +26,7 @@ public abstract class GameModel {
         return currentPlayer;
     }
 
+    public GameBoard getActualGameBoard() {return board;}
     public GameBoard getBoard() {
         return board.clone();
     }
@@ -35,7 +36,8 @@ public abstract class GameModel {
     }
 
     public Player getPlayer(int i) {
-        return players[i];
+        return players[i% players.length];
+
     }
 
     public Player getPlayer(String username) {
