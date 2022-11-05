@@ -1,5 +1,6 @@
 package com.headtrixz.MiniMax;
 
+import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.Player;
 
@@ -10,9 +11,11 @@ public class MiniMax {
     public static int maxDepth = 8;
     public final GameModel game;
 
+    private final Map<GameBoard, TranspositionEntry> transpositionTable;
 
     public MiniMax(GameModel game) {
         this.game = game;
+        this.transpositionTable = new HashMap<>();
     }
 
 
@@ -37,7 +40,7 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMove(int maxDepth) {
-        return minimax(0 , game.getCurrentPlayer(), maxDepth, 1, game.getMinScore(), game.getMaxScore());
+                return minimax(0 , game.getCurrentPlayer(), maxDepth, 1, game.getMinScore(), game.getMaxScore());
     }
 
 
@@ -49,10 +52,23 @@ public class MiniMax {
      * @return best move to make if depth == 0, else the score of the board
      */
     private int minimax(int depth, Player currentPlayer, int maxDepth, int color, int alpha, int beta) {
+        int alphaOriginal = alpha;
 
-        //TODO:: refractor to keep the next moves state so we can progresifly build up the next moves.
-        // not needed for tictactoe but usefull for reversi/othello
-        Map<Integer, Integer> potentialOutcomes = new HashMap<>();
+        TranspositionEntry entry = transpositionTable.get(game.getBoard());
+        if (entry != null && entry.depth() >= depth && depth > 0) {
+
+            if (entry.flag() == TranspositionEntry.Flags.EXACT) {
+                return entry.value();
+            } else if(entry.flag() == TranspositionEntry.Flags.LOWER_BOUND) {
+                alpha = Math.max(entry.value(), alpha);
+            } else if(entry.flag() == TranspositionEntry.Flags.UPPER_BOUND) {
+                beta = Math.min(entry.value(), beta);
+            }
+
+            if (alpha >= beta) {
+                return entry.value();
+            }
+        }
 
 
         // check if the game is finished or the max depth has been reached
@@ -60,10 +76,13 @@ public class MiniMax {
             return game.getScore(currentPlayer, depth) * color;
         }
 
+        Map<Integer, Integer> potentialOutcomes = new HashMap<>();
+
         //get the opponent. the id of current player is +1 of the index in players array
         // so by passing the currentPlayers id we get the next player
         Player opp = game.getPlayer(currentPlayer.getId());
 
+        int max = Integer.MIN_VALUE;
         // iterate over all valid moves and calculate there score
         for (int move : game.getBoard().getValidMoves()) {
             game.getActualGameBoard().setMove(move, currentPlayer.getId());
@@ -82,7 +101,16 @@ public class MiniMax {
         if (depth == 0) {
             return getBestOutcome(potentialOutcomes).getKey();
         } else {
-            return alpha;
+            if (max <= alphaOriginal) {
+                entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.UPPER_BOUND);
+            } else if (max >= beta) {
+                entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.LOWER_BOUND);
+            } else {
+                entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.EXACT);
+            }
+
+            transpositionTable.put(game.getBoard(), entry);
+            return max;
         }
 
     }
@@ -95,5 +123,22 @@ public class MiniMax {
      */
     private static Map.Entry<Integer, Integer> getBestOutcome(Map<Integer, Integer> boardScores) {
         return boardScores.entrySet().stream().max(Map.Entry.comparingByValue()).get();
+    }
+}
+
+
+
+/**
+ * record to be stored in the transposition table
+ *
+ * @param value the score of the boarded used as key in the table
+ * @param depth the depth the entry was created at
+ * @param flag
+ */
+record TranspositionEntry(int value, int depth,  Flags flag) {
+    enum Flags {
+        EXACT,
+        UPPER_BOUND,
+        LOWER_BOUND
     }
 }
