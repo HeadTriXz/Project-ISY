@@ -40,7 +40,29 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMove(int maxDepth) {
-                return minimax(0 , game.getCurrentPlayer(), maxDepth, 1, game.getMinScore(), game.getMaxScore());
+        return minimax(0 , game.getCurrentPlayer(), maxDepth, 1, game.getMinScore(), game.getMaxScore());
+    }
+
+    public int getMoveIterative(int maxMillis) {
+        //TODO:: investigate moveset {0,8,7,2,5}
+        final int maxIterations = game.getBoard().getValidMoves().size();
+
+        final LinkedList<Integer> moves = new LinkedList<>();
+        moves.addLast(getMove(0));
+
+        Thread work = new Thread(() -> {
+            for(int i=1; i < maxIterations; i++) {
+                moves.addLast(getMove(i));
+            }
+        });
+
+        work.start();
+        try {
+            work.join(maxMillis);
+        } catch (InterruptedException e) {}
+
+        return moves.getLast();
+
     }
 
 
@@ -55,7 +77,7 @@ public class MiniMax {
         int alphaOriginal = alpha;
 
         TranspositionEntry entry = transpositionTable.get(game.getBoard());
-        if (entry != null && entry.depth() >= depth && depth > 0) {
+        if (entry != null && entry.depth() > depth && depth > 0) {
 
             if (entry.flag() == TranspositionEntry.Flags.EXACT) {
                 return entry.value();
@@ -70,9 +92,8 @@ public class MiniMax {
             }
         }
 
-
         // check if the game is finished or the max depth has been reached
-        if (game.getState() != GameModel.GameState.PLAYING || depth == maxDepth) {
+        if (game.getState() != GameModel.GameState.PLAYING || depth >= maxDepth) {
             return game.getScore(currentPlayer, depth) * color;
         }
 
@@ -94,6 +115,7 @@ public class MiniMax {
 
             // check if we already have a board with the max score.
             alpha= Math.max(alpha, score);
+            max = Math.max(max, score);
             if (alpha >= beta) break;
         }
 

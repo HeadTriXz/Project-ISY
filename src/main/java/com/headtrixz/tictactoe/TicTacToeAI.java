@@ -15,6 +15,7 @@ public class TicTacToeAI extends Player {
 
     @Override
     public int getMove() {
+//        return miniMax.getMoveIterative(5000);
         return miniMax.getMove();
     }
 }
