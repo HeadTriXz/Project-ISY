@@ -26,7 +26,7 @@ public class Home {
     @FXML
     private Text connectionMessage;
 
-    private Boolean connected = false;
+    private boolean connected = false;
     private String usernameLocal;
     private String addressLocal;
     private String portLocal;
