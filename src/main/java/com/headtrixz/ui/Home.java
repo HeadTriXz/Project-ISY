@@ -25,16 +25,16 @@ public class Home {
 
     @FXML
     public void initialize() {
-            username.setText(UIManager.getSetting("username"));
-            address.setText(UIManager.getSetting("address"));
-            port.setText(UIManager.getSetting("port"));
-            }
+        username.setText(UIManager.getSetting("username"));
+        address.setText(UIManager.getSetting("address"));
+        port.setText(UIManager.getSetting("port"));
+    }
 
     public void playTicTacToe() throws Exception {
         UIManager.switchScreen("game-mode");
     }
 
-    public void canPlay(Boolean bool){
+    public void canPlay(Boolean bool) {
         playTicTacToeButton.setDisable(!bool);
     }
 
