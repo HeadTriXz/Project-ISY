@@ -79,9 +79,7 @@ public class Home {
     public void disableCheck() {
         boolean boolForSinglePlayer = !_username.equals("");
         boolean boolForMultiplayer = !_username.equals("") && !_address.equals("") && !_port.equals("");
-
-        System.out.println(boolForMultiplayer);
-
+        
         connect.setDisable(!boolForMultiplayer);
         playTicTacToeButton.setDisable(!boolForSinglePlayer);
 
