@@ -49,15 +49,15 @@ public class Home {
     }
 
     public void connect() {
-        if (Tyfus) {
+        if (connected) {
             save.setDisable(false);
             connect.setText("Connected");
-            Tyfus = false;
+            connected = false;
         } else {
             save.setDisable(true);
             connect.setText("Disconnect");
 
-            Tyfus = true;
+            connected = true;
         }
     }
 
