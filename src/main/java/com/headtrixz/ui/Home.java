@@ -27,19 +27,19 @@ public class Home {
     private Text connectionMessage;
 
     private Boolean _connected = false;
-    private String _username;
-    private String _address;
-    private String _port;
+    private String usernameLocal;
+    private String addressLocal;
+    private String portLocal;
 
     @FXML
     public void initialize() {
-        _username = UIManager.getSetting("username");
-        _address = UIManager.getSetting("address");
-        _port = UIManager.getSetting("port");
+        usernameLocal = UIManager.getSetting("username");
+        addressLocal = UIManager.getSetting("address");
+        portLocal = UIManager.getSetting("port");
 
-        username.setText(_username);
-        address.setText(_address);
-        port.setText(_port);
+        username.setText(usernameLocal);
+        address.setText(addressLocal);
+        port.setText(portLocal);
 
         disableCheck();
     }
@@ -66,9 +66,9 @@ public class Home {
         UIManager.setSetting("address", address.getText());
         UIManager.setSetting("port", port.getText());
 
-        _username = username.getText();
-        _address = address.getText();
-        _port = port.getText();
+        usernameLocal = username.getText();
+        addressLocal = address.getText();
+        portLocal = port.getText();
 
 
         connect.setDisable(false);
@@ -77,8 +77,8 @@ public class Home {
     }
 
     public void disableCheck() {
-        boolean boolForSinglePlayer = !_username.equals("");
-        boolean boolForMultiplayer = !_username.equals("") && !_address.equals("") && !_port.equals("");
+        boolean boolForSinglePlayer = !usernameLocal.equals("");
+        boolean boolForMultiplayer = !usernameLocal.equals("") && !addressLocal.equals("") && !portLocal.equals("");
         
         connect.setDisable(!boolForMultiplayer);
         playTicTacToeButton.setDisable(!boolForSinglePlayer);
