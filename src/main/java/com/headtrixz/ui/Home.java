@@ -26,7 +26,7 @@ public class Home {
     @FXML
     private Text connectionMessage;
 
-    private Boolean _connected = false;
+    private Boolean Tyfus = false;
     private String usernameLocal;
     private String addressLocal;
     private String portLocal;
@@ -49,15 +49,15 @@ public class Home {
     }
 
     public void connect() {
-        if (_connected) {
+        if (Tyfus) {
             save.setDisable(false);
             connect.setText("Connected");
-            _connected = false;
+            Tyfus = false;
         } else {
             save.setDisable(true);
             connect.setText("Disconnect");
 
-            _connected = true;
+            Tyfus = true;
         }
     }
 
