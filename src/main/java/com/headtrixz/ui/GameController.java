@@ -1,10 +1,7 @@
 package com.headtrixz.ui;
 
-import com.headtrixz.tictactoe.TicTacToeAI;
 import com.headtrixz.ui.elements.GameGrid;
-import com.headtrixz.game.HumanPlayer;
 import com.headtrixz.game.GameModel;
-import com.headtrixz.tictactoe.TicTacToe;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,7 +35,7 @@ public class GameController implements Initializable {
         try {
             GameFinish gfController = new GameFinish();
             gfController.setPlayerTwoName(this.game.getPlayer(1).getUsername());
-            gfController.setState(this.game.getBoard());
+            gfController.setState(this.game.cloneBoard());
             gfController.setWinner(this.game.getState());
             Stage screen = (Stage) playerOneName.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("game-finish.fxml"));
@@ -51,15 +48,9 @@ public class GameController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) { // TODO: Replace because hardcoded.
-        this.game = new TicTacToe();
-
-        HumanPlayer playerOne = new HumanPlayer(this.game, "test");
-        TicTacToeAI playerTwo = new TicTacToeAI((TicTacToe) this.game);
-
-        this.game.initialize(this, playerOne, playerTwo);
-
-        this.gameGrid = new GameGrid(this.game.getBoard().getSize(), PANE_SIZE);
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO: Define game somewhere and somehow.
+        this.gameGrid = new GameGrid(this.game.cloneBoard().getSize(), PANE_SIZE);
         this.gameGrid.createBoardGrid();
         this.gameGrid.setCallback((index) -> onMouseClick(index));
         this.container.getChildren().add(this.gameGrid);
@@ -69,7 +60,7 @@ public class GameController implements Initializable {
         game.setGuiMove(index);
     }
 
-    public void onUpdate(int move, int player) {
+    public void update(int move, int player) {
         String[] players = { "", "X", "O" }; // TODO: Do this differently
         this.gameGrid.setTile(move, players[player]);
     }
