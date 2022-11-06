@@ -34,7 +34,7 @@ public class UIManager extends Application {
     }
 
     public static String getSetting(String key) {
-        return getSetting(key, "Not found!");
+        return getSetting(key, "");
     }
 
     public static void switchScreen(String name) {
