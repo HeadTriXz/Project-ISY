@@ -6,8 +6,8 @@ import com.headtrixz.game.Player;
 public class TicTacToeAI extends Player {
     private final TicTacToe game;
 
-    public TicTacToeAI(TicTacToe game) {
-        super("noobmaster69");
+    public TicTacToeAI(TicTacToe game, String username) {
+        super(username);
         this.game = game;
     }
 

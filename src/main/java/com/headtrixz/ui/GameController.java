@@ -54,8 +54,10 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) { // TODO: Replace because hardcoded.
         this.game = new TicTacToe();
 
-        HumanPlayer playerOne = new HumanPlayer(this.game, "test");
-        TicTacToeAI playerTwo = new TicTacToeAI((TicTacToe) this.game);
+        HumanPlayer playerOne = new HumanPlayer(this.game, UIManager.getSetting("username"));
+        TicTacToeAI playerTwo = new TicTacToeAI((TicTacToe) this.game, "AI");
+
+        System.out.println(playerOne.getUsername());
 
         this.game.initialize(this, playerOne, playerTwo);
 
@@ -63,6 +65,10 @@ public class GameController implements Initializable {
         this.gameGrid.createBoardGrid();
         this.gameGrid.setCallback((index) -> onMouseClick(index));
         this.container.getChildren().add(this.gameGrid);
+
+        //Set visible usernames.
+        playerOneName.setText(playerOne.getUsername());
+        playerTwoName.setText(playerTwo.getUsername());
     }
 
     private void onMouseClick(int index) {
