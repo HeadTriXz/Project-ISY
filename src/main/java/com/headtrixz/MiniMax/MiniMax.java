@@ -44,14 +44,13 @@ public class MiniMax {
     }
 
     public int getMoveIterative(int maxMillis) {
-        //TODO:: investigate moveset {0,8,7,2,5}
         final int maxIterations = game.getBoard().getValidMoves().size();
 
         final LinkedList<Integer> moves = new LinkedList<>();
         moves.addLast(getMove(0));
 
         Thread work = new Thread(() -> {
-            for(int i=1; i < maxIterations; i++) {
+            for (int i = 1; i <= maxIterations; i++) {
                 moves.addLast(getMove(i));
             }
         });
