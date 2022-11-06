@@ -23,6 +23,13 @@ public class Home {
     @FXML
     private Text connectionMessage;
 
+    @FXML
+    public void initialize() {
+            username.setText(UIManager.getSetting("username"));
+            address.setText(UIManager.getSetting("address"));
+            port.setText(UIManager.getSetting("port"));
+            }
+
     public void playTicTacToe() throws Exception {
         UIManager.switchScreen("game-mode");
     }
@@ -37,7 +44,5 @@ public class Home {
         UIManager.setSetting("port", port.getText());
 
         canPlay(true);
-
-        System.out.println("hoi");
     }
 }

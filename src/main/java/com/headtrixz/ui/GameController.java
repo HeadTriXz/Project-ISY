@@ -57,8 +57,6 @@ public class GameController implements Initializable {
         HumanPlayer playerOne = new HumanPlayer(this.game, UIManager.getSetting("username"));
         TicTacToeAI playerTwo = new TicTacToeAI((TicTacToe) this.game, "AI");
 
-        System.out.println(playerOne.getUsername());
-
         this.game.initialize(this, playerOne, playerTwo);
 
         this.gameGrid = new GameGrid(this.game.getBoard().getSize(), PANE_SIZE);

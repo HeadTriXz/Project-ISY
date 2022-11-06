@@ -28,9 +28,13 @@ public class UIManager extends Application {
         preferences.put(key, value);
     }
 
-    public static String getSetting(String key) {
+    public static String getSetting(String key, String def) {
         preferences = Preferences.userNodeForPackage(UIManager.class);
-        return preferences.get(key, "Not found");
+        return preferences.get(key, def);
+    }
+
+    public static String getSetting(String key) {
+        return getSetting(key, "Not found!");
     }
 
     public static void switchScreen(String name) {
