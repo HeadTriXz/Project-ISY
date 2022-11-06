@@ -7,13 +7,19 @@ import static com.headtrixz.game.GameBoard.PLAYER_TWO;
 
 public class TicTacToe extends GameModel {
     private static final int BOARD_SIZE = 3;
+    private static final String NAME = "Tic-Tac-Toe";
 
     public TicTacToe() {
-        super(BOARD_SIZE);
+        super(NAME, BOARD_SIZE);
     }
 
     @Override
     public GameState getState() {
+        GameState state = helper.getState();
+        if (state != null) {
+            return state;
+        }
+
         if (hasWon(PLAYER_ONE)) {
             return GameState.PLAYER_ONE_WON;
         }
