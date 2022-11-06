@@ -1,6 +1,7 @@
 package com.headtrixz.ui;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -11,6 +12,8 @@ import java.util.prefs.Preferences;
 
 public class Home {
     public Button playTicTacToeButton;
+    public Button connect;
+    public Button save;
     @FXML
     private TextField username;
 
@@ -23,26 +26,64 @@ public class Home {
     @FXML
     private Text connectionMessage;
 
+    private Boolean _connected = false;
+    private String _username;
+    private String _address;
+    private String _port;
+
     @FXML
     public void initialize() {
-        username.setText(UIManager.getSetting("username"));
-        address.setText(UIManager.getSetting("address"));
-        port.setText(UIManager.getSetting("port"));
+        _username = UIManager.getSetting("username");
+        _address = UIManager.getSetting("address");
+        _port = UIManager.getSetting("port");
+
+        username.setText(_username);
+        address.setText(_address);
+        port.setText(_port);
+
+        disableCheck();
     }
 
     public void playTicTacToe() throws Exception {
         UIManager.switchScreen("game-mode");
     }
 
-    public void canPlay(Boolean bool) {
-        playTicTacToeButton.setDisable(!bool);
+    public void connect() {
+        if (_connected) {
+            save.setDisable(false);
+            connect.setText("Connected");
+            _connected = false;
+        } else {
+            save.setDisable(true);
+            connect.setText("Disconnect");
+
+            _connected = true;
+        }
     }
 
-    public void connect() {
+    public void save() {
         UIManager.setSetting("username", username.getText());
         UIManager.setSetting("address", address.getText());
         UIManager.setSetting("port", port.getText());
 
-        canPlay(true);
+        _username = username.getText();
+        _address = address.getText();
+        _port = port.getText();
+
+
+        connect.setDisable(false);
+
+        disableCheck();
+    }
+
+    public void disableCheck() {
+        boolean boolForSinglePlayer = !_username.equals("");
+        boolean boolForMultiplayer = !_username.equals("") && !_address.equals("") && !_port.equals("");
+
+        System.out.println(boolForMultiplayer);
+
+        connect.setDisable(!boolForMultiplayer);
+        playTicTacToeButton.setDisable(!boolForSinglePlayer);
+
     }
 }
