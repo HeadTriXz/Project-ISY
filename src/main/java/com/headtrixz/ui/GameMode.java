@@ -1,10 +1,14 @@
 package com.headtrixz.ui;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
-public class GameMode {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class GameMode implements Initializable {
     @FXML
     private Text gameType;
 
@@ -20,5 +24,10 @@ public class GameMode {
 
     public void goHome() throws Exception {
         UIManager.switchScreen("home");
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+//        gameType.setText("Speel " + url);
     }
 }

@@ -54,6 +54,10 @@ public class GameController implements Initializable {
         this.gameGrid.createBoardGrid();
         this.gameGrid.setCallback((index) -> onMouseClick(index));
         this.container.getChildren().add(this.gameGrid);
+
+        //Set visible usernames.
+        playerOneName.setText(playerOne.getUsername());
+        playerTwoName.setText(playerTwo.getUsername());
     }
 
     private void onMouseClick(int index) {
