@@ -26,7 +26,7 @@ public class Home {
     @FXML
     private Text connectionMessage;
 
-    private Boolean Tyfus = false;
+    private Boolean TyFuS = false;
     private String usernameLocal;
     private String addressLocal;
     private String portLocal;
