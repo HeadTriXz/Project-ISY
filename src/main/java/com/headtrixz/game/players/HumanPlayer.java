@@ -19,11 +19,6 @@ public class HumanPlayer extends Player {
                 game.setGuiMove(-1);
                 return move;
             }
-
-            try {
-                Thread.sleep(1000);
-            } catch (Exception ignored) {}
-            System.out.println(move);
         }
 
         return -1;
