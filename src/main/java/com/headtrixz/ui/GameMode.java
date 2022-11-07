@@ -22,12 +22,16 @@ public class GameMode implements Initializable {
         UIManager.switchScreen("game");
     }
 
+    public void playTournament() {
+        UIManager.switchScreen("tournament");
+    }
+
     public void goHome() throws Exception {
         UIManager.switchScreen("home");
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        gameType.setText("Speel " + url);
+        // gameType.setText("Speel " + url);
     }
 }
