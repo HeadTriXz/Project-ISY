@@ -20,7 +20,7 @@ public class HomeController {
     }
 
     public void playTicTacToe(){
-        saveAndSwitch("game-mode");
+        saveAndSwitch("game");
     }
 
     public void playTournament(){
