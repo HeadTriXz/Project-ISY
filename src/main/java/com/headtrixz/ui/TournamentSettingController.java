@@ -7,7 +7,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
 public class TournamentSettingController {
-    public Button playTicTacToeButton;
     @FXML
     private TextField usernameField;
     @FXML
