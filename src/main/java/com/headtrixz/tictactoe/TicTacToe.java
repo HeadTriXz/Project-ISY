@@ -1,7 +1,7 @@
 package com.headtrixz.tictactoe;
 
 import com.headtrixz.game.GameModel;
-import com.headtrixz.game.Player;
+import com.headtrixz.game.players.Player;
 
 import static com.headtrixz.game.GameBoard.PLAYER_ONE;
 import static com.headtrixz.game.GameBoard.PLAYER_TWO;

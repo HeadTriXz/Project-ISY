@@ -110,7 +110,7 @@ public class MiniMax {
             int score = -minimax( depth + 1, opp, maxDepth, -color, -beta, -alpha);
             potentialOutcomes.put(move, score);
 
-            game.getActualGameBoard().setMove(move, 0);
+            game.getBoard().setMove(move, 0);
 
             // check if we already have a board with the max score.
             alpha= Math.max(alpha, score);
