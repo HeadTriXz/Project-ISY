@@ -5,16 +5,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class HomeController {
+    @FXML
     public Button playTicTacToeButton;
     @FXML
     private TextField usernameField;
-    private String username;
 
-    @FXML
     public void initialize() {
-        username = UIManager.getSetting("username");
-
-        usernameField.setText(username);
+        usernameField.setText(UIManager.getSetting("username"));
     }
 
     private void saveAndSwitch(String name) {

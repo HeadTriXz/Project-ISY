@@ -52,7 +52,7 @@ public class TournamentController implements GameCommands {
     private final Consumer<ServerMessage> match = message -> {
         HashMap<String, String> obj = message.getObject();
         String oppenent = obj.get("OPPONENT");
-        addToLogs("Starting match with: " + oppenent);
+        addToLogs("Start een match met: " + oppenent);
 
         // TODO: Set this to a helper/util class
         currentGame = new TicTacToe();
