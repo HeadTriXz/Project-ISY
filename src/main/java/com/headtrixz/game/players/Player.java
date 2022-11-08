@@ -1,4 +1,4 @@
-package com.headtrixz.game;
+package com.headtrixz.game.players;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

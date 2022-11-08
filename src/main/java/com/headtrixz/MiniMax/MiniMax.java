@@ -2,7 +2,7 @@ package com.headtrixz.MiniMax;
 
 import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameModel;
-import com.headtrixz.game.Player;
+import com.headtrixz.game.players.Player;
 
 import java.util.*;
 
@@ -104,8 +104,8 @@ public class MiniMax {
 
         int max = Integer.MIN_VALUE;
         // iterate over all valid moves and calculate there score
-        for (int move : game.getBoard().getValidMoves()) {
-            game.getActualGameBoard().setMove(move, currentPlayer.getId());
+        for (int move : game.cloneBoard().getValidMoves()) {
+            game.getBoard().setMove(move, currentPlayer.getId());
 
             int score = -minimax( depth + 1, opp, maxDepth, -color, -beta, -alpha);
             potentialOutcomes.put(move, score);

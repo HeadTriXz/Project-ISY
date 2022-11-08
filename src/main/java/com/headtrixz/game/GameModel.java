@@ -1,7 +1,8 @@
 package com.headtrixz.game;
 
+import com.headtrixz.game.helpers.GameModelHelper;
+import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.GameController;
-import javafx.application.Platform;
 
 
 public abstract class GameModel {
@@ -15,21 +16,31 @@ public abstract class GameModel {
     protected GameBoard board;
     protected GameController controller;
     protected Player currentPlayer;
+    protected GameModelHelper helper;
+    protected String name;
     protected Player[] players;
 
     protected volatile int guiMove = -1;
 
-    public GameModel(int boardSize) {
-        board = new GameBoard(boardSize);
+    public GameModel(String name, int boardSize) {
+        this.name = name;
+        this.board = new GameBoard(boardSize); // TODO: Move to initialize
+    }
+
+    public GameBoard cloneBoard() {
+        return board.clone();
+    }
+
+    public GameBoard getBoard() {
+        return board;
+    }
+
+    public GameController getController() {
+        return controller;
     }
 
     public Player getCurrentPlayer() {
         return currentPlayer;
-    }
-
-    public GameBoard getActualGameBoard() {return board;}
-    public GameBoard getBoard() {
-        return board.clone();
     }
 
     public int getGuiMove() {
@@ -37,8 +48,7 @@ public abstract class GameModel {
     }
 
     public Player getPlayer(int i) {
-        return players[i% players.length];
-
+        return players[i % players.length];
     }
 
     public Player getPlayer(String username) {
@@ -51,47 +61,23 @@ public abstract class GameModel {
         throw new RuntimeException("Unknown player: " + username);
     }
 
-    public void initialize(GameController controller, Player ...players) {
+    public void initialize(GameController controller, GameModelHelper helper, Player ...players) {
         this.controller = controller;
         this.currentPlayer = players[0];
+        this.helper = helper;
         this.players = players;
         for (int i = 0; i < players.length; i++) {
             players[i].setId(i + 1);
         }
 
         board.clear();
-        nextTurn(currentPlayer);
+        helper.initialize();
     }
 
-    private void nextPlayer() {
-        if (currentPlayer.getId() == players.length) {
-            currentPlayer = players[0];
-            return;
-        }
-
-        currentPlayer = players[currentPlayer.getId()];
-    }
-
-    public void nextTurn(Player player) {
-        player.onTurn(m -> {
-            if (!board.isValidMove(m)) {
-                return;
-            }
-
-            board.setMove(m, player.getId());
-            Platform.runLater(() -> {
-                controller.onUpdate(m, player.getId());
-            });
-
-            if (getState() == GameState.PLAYING) {
-                nextPlayer();
-                nextTurn(currentPlayer);
-            } else {
-                Platform.runLater(() -> {
-                    controller.endGame();
-                });
-            }
-        });
+    public Player nextPlayer() {
+        return currentPlayer = currentPlayer.getId() == players.length
+                ? players[0]
+                : players[currentPlayer.getId()];
     }
 
     public void setGuiMove(int move) {

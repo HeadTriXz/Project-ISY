@@ -1,14 +1,14 @@
 package com.headtrixz.tictactoe;
 
 import com.headtrixz.MiniMax.MiniMax;
-import com.headtrixz.game.Player;
+import com.headtrixz.game.players.Player;
 
 public class TicTacToeAI extends Player {
     private final TicTacToe game;
     private final MiniMax miniMax;
 
-    public TicTacToeAI(TicTacToe game) {
-        super("noobmaster69");
+    public TicTacToeAI(TicTacToe game, String username) {
+        super(username);
         this.game = game;
         this.miniMax = new MiniMax(this.game);
     }

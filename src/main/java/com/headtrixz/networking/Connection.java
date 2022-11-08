@@ -1,4 +1,4 @@
-package com.headtrixz.framework;
+package com.headtrixz.networking;
 
 import java.io.IOException;
 import java.net.Socket;

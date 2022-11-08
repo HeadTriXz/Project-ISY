@@ -1,6 +1,7 @@
 package com.headtrixz.ui;
 
 import java.io.IOException;
+import java.util.prefs.Preferences;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,8 @@ public class UIManager extends Application {
     private static Class<? extends UIManager> uiManagerClass;
     private static Stage mainStage;
 
+    private static Preferences preferences;
+
     @Override
     public void start(Stage stage) throws IOException {
         UIManager.uiManagerClass = getClass();
@@ -18,6 +21,20 @@ public class UIManager extends Application {
         stage.setTitle("ISY Project");
         UIManager.switchScreen("home");
         stage.show();
+    }
+
+    public static void setSetting(String key, String value) {
+        preferences = Preferences.userNodeForPackage(UIManager.class);
+        preferences.put(key, value);
+    }
+
+    public static String getSetting(String key, String def) {
+        preferences = Preferences.userNodeForPackage(UIManager.class);
+        return preferences.get(key, def);
+    }
+
+    public static String getSetting(String key) {
+        return getSetting(key, "");
     }
 
     public static void switchScreen(String name) {
