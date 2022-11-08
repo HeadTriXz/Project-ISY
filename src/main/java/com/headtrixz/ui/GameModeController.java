@@ -3,7 +3,6 @@ package com.headtrixz.ui;
 import com.headtrixz.networking.Connection;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
