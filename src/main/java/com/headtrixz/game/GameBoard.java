@@ -90,4 +90,20 @@ public class GameBoard {
     public void setMove(int move, int player) {
         cells[move] = player;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GameBoard gameBoard = (GameBoard) o;
+
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(cells, gameBoard.cells);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(cells);
+    }
 }

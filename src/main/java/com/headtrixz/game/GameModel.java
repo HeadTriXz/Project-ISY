@@ -4,6 +4,7 @@ import com.headtrixz.game.helpers.GameModelHelper;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.GameController;
 
+
 public abstract class GameModel {
     public enum GameState {
         PLAYING,
@@ -86,6 +87,9 @@ public abstract class GameModel {
     }
 
     public abstract GameState getState();
+    public abstract int getScore(Player currentPlayer, int depth);
+    public abstract int getMinScore();
+    public abstract int getMaxScore();
 
     /**
      * chek if the given player has won by checking if the GameState value with index users id + 1 is equal to the current state
