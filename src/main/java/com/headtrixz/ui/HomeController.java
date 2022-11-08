@@ -7,18 +7,18 @@ import javafx.scene.control.TextField;
 public class HomeController {
     public Button playTicTacToeButton;
     @FXML
-    private TextField username;
-    private String usernameLocal;
+    private TextField usernameField;
+    private String username;
 
     @FXML
     public void initialize() {
-        usernameLocal = UIManager.getSetting("username");
+        username = UIManager.getSetting("username");
 
-        username.setText(usernameLocal);
+        usernameField.setText(username);
     }
 
     private void saveAndSwitch(String name) {
-        System.out.println(username.getText());
+        UIManager.setSetting("username", usernameField.getText());
         UIManager.switchScreen(name);
     }
 
