@@ -148,7 +148,6 @@ public class MiniMax {
 }
 
 
-
 /**
  * record to be stored in the transposition table
  *

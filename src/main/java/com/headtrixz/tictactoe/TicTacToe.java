@@ -43,11 +43,15 @@ public class TicTacToe extends GameModel {
      * @return the score of the board
      */
     public int getScore(Player currentPlayer, int depth) {
-        if (getState() == GameState.DRAW || getState() == GameState.PLAYING) return 0;
-        if (hasPlayerWon(currentPlayer)) {
-            return 1000 / depth;
+        if (getState() == GameModel.GameState.DRAW) {
+            return 0;
+        } else if (getState() != GameModel.GameState.PLAYING) {
+            if (hasPlayerWon(currentPlayer) && depth == 1) {
+                return -2;
+            }
+            return -1;
         }
-        return -1000 / depth; // player has lost
+        return 0;
     }
 
     public int getMaxScore() {
