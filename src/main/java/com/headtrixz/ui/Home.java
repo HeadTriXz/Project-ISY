@@ -74,10 +74,6 @@ public class Home {
         }
     }
 
-    public void disconnectFromServer() {
-
-    }
-
     public void save() {
         UIManager.setSetting("username", username.getText());
         UIManager.setSetting("address", address.getText());
