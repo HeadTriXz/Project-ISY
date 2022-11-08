@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<VBox fx:controller="com.headtrixz.ui.Tournament" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="5.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="5.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.headtrixz.ui.Tournament">
    <children>
-      <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament modes for [game]" textAlignment="CENTER">
+      <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament modes for Tic Tac Toe" textAlignment="CENTER">
          <font>
             <Font size="25.0" />
          </font>
@@ -28,13 +28,18 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text fx:id="draws" fill="#1f2bcf" strokeType="OUTSIDE" strokeWidth="0.0" text="Draws: " GridPane.columnIndex="1" />
-            <Text fx:id="loses" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Loses: " GridPane.columnIndex="2" />
-            <Text fx:id="wins" fill="#3dbf19" strokeType="OUTSIDE" strokeWidth="0.0" text="Wins: " />
+            <Text fx:id="wins" fill="GREEN" strokeType="OUTSIDE" strokeWidth="0.0" text="Gewonnen: 0" />
+            <Text fx:id="draws" fill="BLUE" strokeType="OUTSIDE" strokeWidth="0.0" text="Gelijkspel: 0" GridPane.columnIndex="1" />
+            <Text fx:id="loses" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Verloren: 0" GridPane.columnIndex="2" />
          </children>
       </GridPane>
       <TextArea fx:id="logs" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="289.0" prefWidth="580.0" />
-      <Button mnemonicParsing="false" onAction="#disconnect" text="Disconnect" />
+      <StackPane>
+         <children>
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#disconnect" text="Disconnect" StackPane.alignment="CENTER_LEFT" />
+            <Text fx:id="loggedInAs" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingelogd als: " StackPane.alignment="CENTER_RIGHT" />
+         </children>
+      </StackPane>
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

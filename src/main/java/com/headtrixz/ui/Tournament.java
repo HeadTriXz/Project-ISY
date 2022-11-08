@@ -20,15 +20,14 @@ import javafx.scene.text.Text;
 public class Tournament implements GameCommands {
     @FXML
     TextArea logs;
-
     @FXML
     Text wins;
-
     @FXML
     Text loses;
-
     @FXML
     Text draws;
+    @FXML
+    Text loggedInAs;
 
     String username;
     GameModel currentGame;
@@ -42,6 +41,7 @@ public class Tournament implements GameCommands {
         winCount = 0;
         loseCount = 0;
         username = UIManager.getSetting("username");
+        loggedInAs.setText(String.format("Ingelogd als: %s", username));
 
         Connection connection = Connection.getInstance();
         connection.getOutputHandler().login(username);
@@ -53,7 +53,7 @@ public class Tournament implements GameCommands {
         String oppenent = obj.get("OPPONENT");
         addToLogs("Starting match with: " + oppenent);
 
-        // TODO: Set this to helper
+        // TODO: Set this to a helper/util class
         currentGame = new TicTacToe();
         RemotePlayer remotePlayer = new RemotePlayer(oppenent);
         TicTacToeAI aiPlayer = new TicTacToeAI((TicTacToe) currentGame, username);
@@ -62,9 +62,8 @@ public class Tournament implements GameCommands {
     };
 
     public void addToLogs(String message) {
-        // TODO: Max lines in log.
-        String curr = logs.getText();
-        logs.setText(curr + "\n" + message);
+        logs.appendText(String.format("%s\n", message));
+        logs.setScrollTop(Double.MAX_VALUE);
     }
 
     public void disconnect() {
@@ -76,27 +75,38 @@ public class Tournament implements GameCommands {
 
     @Override
     public void endGame() {
+        String logText;
         switch (currentGame.getState()) {
-            case DRAW:
-                drawCount++;
-                draws.setText("Gelijk: " + drawCount);
-                break;
             case PLAYER_ONE_WON:
                 winCount++;
-                wins.setText("Gewonnen: " + winCount);
+                wins.setText(String.format("Gewonnen: %d", winCount));
+                logText = "Match gewonnen van";
+                break;
+            case DRAW:
+                drawCount++;
+                draws.setText(String.format("Gelijkspel: %d", drawCount));
+                logText = "Match gelijkgespeeld tegen";
                 break;
             case PLAYER_TWO_WON:
                 loseCount++;
-                loses.setText("Verloren: " + loseCount);
+                loses.setText(String.format("Verloren: %d", loseCount));
+                logText = "Match verloren van";
                 break;
+            case PLAYING:
             default:
-                // My editor did not like that there was not a default case.
+                // This default case should not be able to be reached. But everything complains
+                // if i don't have this... Thanks java!
+                logText = "Ja dit is een apparte situatie, maar je hebt iets gedaan tegen";
                 break;
         }
+
+        String opponent = currentGame.getPlayer(2).getUsername();
+        addToLogs(String.format("%s: %s\n", logText, opponent));
     }
 
     @Override
     public void update(int move, int playerId) {
-        addToLogs(move + " has been set by: " + playerId);
+        String player = currentGame.getPlayer(playerId).getUsername();
+        addToLogs(String.format("%s was gezet door speler %s", move, player));
     }
 }
