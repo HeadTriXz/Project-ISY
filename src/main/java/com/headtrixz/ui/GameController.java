@@ -43,7 +43,7 @@ public class GameController implements Initializable, GameCommands {
     @Override
     public void endGame() {
         try {
-            GameFinish gfController = new GameFinish();
+            GameFinishController gfController = new GameFinishController();
             gfController.setPlayerTwoName(this.game.getPlayer(1).getUsername());
             gfController.setState(this.game.cloneBoard());
             gfController.setWinner(this.game.getState());

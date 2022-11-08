@@ -17,7 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 
-public class Tournament implements GameCommands {
+public class TournamentController implements GameCommands {
     @FXML
     TextArea logs;
     @FXML
@@ -52,7 +52,7 @@ public class Tournament implements GameCommands {
     private final Consumer<ServerMessage> match = message -> {
         HashMap<String, String> obj = message.getObject();
         String oppenent = obj.get("OPPONENT");
-        addToLogs("Starting match with: " + oppenent);
+        addToLogs("Start een match met: " + oppenent);
 
         // TODO: Set this to a helper/util class
         currentGame = new TicTacToe();
