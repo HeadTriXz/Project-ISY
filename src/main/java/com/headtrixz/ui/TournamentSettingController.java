@@ -44,11 +44,13 @@ public class TournamentSettingController {
 
     public void playTicTacToe() throws Exception {
         connect();
+        //TODO: response when connected or not!
         saveAndSwitch("tournament");
     }
 
     public void playOthello() throws Exception {
         connect();
+        //TODO: response when connected or not!
 //        saveAndSwitch("othello");
     }
 
@@ -61,9 +63,7 @@ public class TournamentSettingController {
     }
 
     private boolean validate(){
-
-
-
+        //TODO: validate fields of ui
         return true;
     }
 }
