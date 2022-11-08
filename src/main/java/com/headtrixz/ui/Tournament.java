@@ -59,7 +59,7 @@ public class Tournament implements GameCommands {
         RemotePlayer remotePlayer = new RemotePlayer(oppenent);
         TicTacToeAI aiPlayer = new TicTacToeAI((TicTacToe) currentGame, username);
         onlineHelper = new OnlineHelper(currentGame);
-        currentGame.initialize(this, onlineHelper, remotePlayer, aiPlayer);
+        currentGame.initialize(this, onlineHelper, aiPlayer, remotePlayer);
     };
 
     public void addToLogs(String message) {
@@ -104,7 +104,7 @@ public class Tournament implements GameCommands {
                 break;
         }
 
-        String opponent = currentGame.getPlayer(2).getUsername();
+        String opponent = currentGame.getPlayer(1).getUsername();
         addToLogs(String.format("%s: %s\n", logText, opponent));
 
         currentGame = null;
