@@ -1,14 +1,13 @@
 package com.headtrixz.ui;
 
+import com.headtrixz.networking.Connection;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class GameMode implements Initializable {
+public class GameMode {
     @FXML
     private Text gameType;
 
@@ -22,12 +21,19 @@ public class GameMode implements Initializable {
         UIManager.switchScreen("game");
     }
 
+    public void playTournament() {
+        UIManager.switchScreen("tournament");
+    }
+
     public void goHome() throws Exception {
         UIManager.switchScreen("home");
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-//        gameType.setText("Speel " + url);
+    public void initialize() {
+        Connection connection = Connection.getInstance();
+
+        if (!connection.isConnected()) {
+            tournament.setDisable(true);
+        }
     }
 }

@@ -1,14 +1,11 @@
 package com.headtrixz.ui;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
+import com.headtrixz.networking.Connection;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-
-import java.util.TreeMap;
-import java.util.prefs.Preferences;
 
 public class Home {
     public Button playTicTacToeButton;
@@ -48,16 +45,32 @@ public class Home {
         UIManager.switchScreen("game-mode");
     }
 
-    public void connect() {
-        if (connected) {
-            save.setDisable(false);
-            connect.setText("Connected");
-            connected = false;
-        } else {
-            save.setDisable(true);
-            connect.setText("Disconnect");
+    public void connect() throws NumberFormatException {
+        if (!connected) {
+            String address = UIManager.getSetting("address");
+            int port = Integer.parseInt(UIManager.getSetting("port"));
 
+            connectToServer(address, port);
+        } else {
+            save.setDisable(false);
+            connect.setText("Connect");
+
+            connected = false;
+        }
+    }
+
+    public void connectToServer(String address, int port) {
+        Connection conn = Connection.getInstance();
+        save.setDisable(true);
+
+        try {
+            conn.connect(UIManager.getSetting("address"), Integer.parseInt(UIManager.getSetting("port")));
+            connect.setText("Disconnect");
             connected = true;
+        } catch (Exception e) {
+            save.setDisable(false);
+            e.printStackTrace();
+            connect.setText("Not connected");
         }
     }
 
@@ -70,7 +83,6 @@ public class Home {
         addressLocal = address.getText();
         portLocal = port.getText();
 
-
         connect.setDisable(false);
 
         disableCheck();
@@ -79,7 +91,7 @@ public class Home {
     public void disableCheck() {
         boolean boolForSinglePlayer = !usernameLocal.equals("");
         boolean boolForMultiplayer = !usernameLocal.equals("") && !addressLocal.equals("") && !portLocal.equals("");
-        
+
         connect.setDisable(!boolForMultiplayer);
         playTicTacToeButton.setDisable(!boolForSinglePlayer);
 

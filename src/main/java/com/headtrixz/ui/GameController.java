@@ -1,7 +1,14 @@
 package com.headtrixz.ui;
 
 import com.headtrixz.ui.elements.GameGrid;
+import com.headtrixz.game.GameCommands;
 import com.headtrixz.game.GameModel;
+import com.headtrixz.game.helpers.OfflineHelper;
+import com.headtrixz.game.players.HumanPlayer;
+import com.headtrixz.game.players.Player;
+import com.headtrixz.tictactoe.TicTacToe;
+import com.headtrixz.tictactoe.TicTacToeAI;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,10 +21,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GameController implements Initializable {
+public class GameController implements Initializable, GameCommands {
     private static final double PANE_SIZE = 300.0;
 
     private GameModel game;
+    private OfflineHelper helper;
     private GameGrid gameGrid;
 
     @FXML
@@ -28,10 +36,11 @@ public class GameController implements Initializable {
     private StackPane container;
 
     public void displayHome() {
-        // TODO: helper.forfeit();
+        helper.forfeit();
         UIManager.switchScreen("home");
     }
 
+    @Override
     public void endGame() {
         try {
             GameFinish gfController = new GameFinish();
@@ -50,13 +59,21 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO: Define game somewhere and somehow.
+        // TODO: Turn this into a something else.
+        this.game = new TicTacToe();
+        this.helper = new OfflineHelper(this.game);
+
+        Player playerOne = new HumanPlayer(this.game, "Humon");
+        Player playerTwo = new TicTacToeAI((TicTacToe) this.game, "Compuper");
+
+        this.game.initialize(this, this.helper, playerOne, playerTwo);
+
         this.gameGrid = new GameGrid(this.game.cloneBoard().getSize(), PANE_SIZE);
         this.gameGrid.createBoardGrid();
         this.gameGrid.setCallback((index) -> onMouseClick(index));
         this.container.getChildren().add(this.gameGrid);
 
-        //Set visible usernames.
+        // Set visible usernames.
         playerOneName.setText(playerOne.getUsername());
         playerTwoName.setText(playerTwo.getUsername());
     }
@@ -65,6 +82,7 @@ public class GameController implements Initializable {
         game.setGuiMove(index);
     }
 
+    @Override
     public void update(int move, int player) {
         String[] players = { "", "X", "O" }; // TODO: Do this differently
         this.gameGrid.setTile(move, players[player]);

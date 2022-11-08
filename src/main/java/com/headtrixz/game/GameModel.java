@@ -2,7 +2,6 @@ package com.headtrixz.game;
 
 import com.headtrixz.game.helpers.GameModelHelper;
 import com.headtrixz.game.players.Player;
-import com.headtrixz.ui.GameController;
 
 public abstract class GameModel {
     public enum GameState {
@@ -13,7 +12,7 @@ public abstract class GameModel {
     }
 
     protected GameBoard board;
-    protected GameController controller;
+    protected GameCommands controller;
     protected Player currentPlayer;
     protected GameModelHelper helper;
     protected String name;
@@ -34,7 +33,7 @@ public abstract class GameModel {
         return board;
     }
 
-    public GameController getController() {
+    public GameCommands getController() {
         return controller;
     }
 
@@ -60,7 +59,7 @@ public abstract class GameModel {
         throw new RuntimeException("Unknown player: " + username);
     }
 
-    public void initialize(GameController controller, GameModelHelper helper, Player ...players) {
+    public void initialize(GameCommands controller, GameModelHelper helper, Player... players) {
         this.controller = controller;
         this.currentPlayer = players[0];
         this.helper = helper;
@@ -88,12 +87,13 @@ public abstract class GameModel {
     public abstract GameState getState();
 
     /**
-     * chek if the given player has won by checking if the GameState value with index users id + 1 is equal to the current state
+     * chek if the given player has won by checking if the GameState value with
+     * index users id + 1 is equal to the current state
      *
      * @param player the player to check
      * @return a boolean that is true if the player has won
      */
     public boolean hasPlayerWon(Player player) {
-        return GameState.values()[player.getId()+1] == getState();
+        return GameState.values()[player.getId() + 1] == getState();
     }
 }
