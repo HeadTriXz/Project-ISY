@@ -39,25 +39,20 @@ public class TournamentSettingController {
     }
 
     public void back() throws Exception {
-        saveAndSwitch("home");
+        save();
+        UIManager.switchScreen("home");
     }
 
     public void playTicTacToe() throws Exception {
+        save();
         connect();
-        saveAndSwitch("tournament");
+        UIManager.switchScreen("tournament");
     }
 
     public void playOthello() throws Exception {
+        save();
         connect();
-//        saveAndSwitch("othello");
-    }
-
-    private void saveAndSwitch(String name) {
-        UIManager.setSetting("username", usernameField.getText());
-        UIManager.setSetting("ip", ipField.getText());
-        UIManager.setSetting("port", portField.getText());
-
-        UIManager.switchScreen(name);
+//        UIManager.switchScreen("othello");
     }
 
     private boolean validate(){
