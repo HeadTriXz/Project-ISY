@@ -17,7 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 
-public class Tournament implements GameCommands {
+public class TournamentController implements GameCommands {
     @FXML
     TextArea logs;
     @FXML

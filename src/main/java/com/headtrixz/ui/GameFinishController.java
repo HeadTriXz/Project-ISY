@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
-public class GameFinish {
+public class GameFinishController {
     @FXML
     private Text endText;
 

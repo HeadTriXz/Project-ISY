@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
-public class GameMode {
+public class GameModeController {
     @FXML
     private Text gameType;
 

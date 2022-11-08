@@ -6,60 +6,82 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="530.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.headtrixz.ui.Home">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="530.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.headtrixz.ui.HomeController">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="190.0" minHeight="10.0" prefHeight="80.89758682250977" vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="469.77389907836914" minHeight="10.0" prefHeight="449.10241317749023" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="190.0" minHeight="10.0" prefHeight="105.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="497.0" minHeight="10.0" prefHeight="328.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="469.77389907836914" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project ISY" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
         <font>
-            <Font name="Roboto Bold" size="33.0"/>
+            <Font name="Roboto Bold" size="33.0" />
         </font>
     </Text>
-    <VBox alignment="CENTER_LEFT" prefHeight="339.0" prefWidth="300.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-        </padding>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Speel online">
-            <font>
-                <Font name="System Bold" size="18.0"/>
-            </font>
-        </Text>
-        <GridPane>
+    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+        <GridPane alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.08169555664062" minWidth="10.0" prefWidth="81.91943359375"/>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.611083984375" minWidth="10.0" prefWidth="299.08056640625"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.611083984375" minWidth="10.0" prefWidth="299.08056640625" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Naam"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Address" GridPane.rowIndex="1"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Port" GridPane.rowIndex="2"/>
-                <TextField fx:id="username" GridPane.columnIndex="1"/>
-                <TextField fx:id="address" text="127.0.0.1" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                <TextField fx:id="port" text="7789" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                    <Button fx:id="save" onAction="#save" mnemonicParsing="false" text="Opslaan"/>
-                    <Button fx:id="connect" onAction="#connect" mnemonicParsing="false" text="Connect"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Naam" GridPane.rowIndex="1">
+            <font>
+               <Font name="System Bold" size="21.0" />
+            </font>
+         </Text>
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
+            <children>
+                      <TextField fx:id="username" prefHeight="25.0" prefWidth="314.0">
+                  <padding>
+                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  </padding>
+               </TextField>
+            </children>
                 </HBox>
-                <Text fx:id="connectionMessage" fill="#4C08FB" strokeType="OUTSIDE" strokeWidth="0.0" text="WIP" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+         <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
+            <children>
+               <Button mnemonicParsing="false" onAction="#playTicTacToe" text="Speel Tic Tac Toe">
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+                  <padding>
+                     <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                  </padding>
+               </Button>
+               <Pane HBox.hgrow="ALWAYS" />
+               <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" text="Speel Othello">
+                  <padding>
+                     <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
+                  </padding>
+               </Button>
+            </children>
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </HBox>
         </GridPane>
     </VBox>
-    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
-        <Button fx:id="playTicTacToeButton" disable="true" onAction="#playTicTacToe" mnemonicParsing="false" text="Speel Tic Tac Toe"/>
-    </VBox>
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+      <children>
+         <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#playTournament" text="Tournooi modus">
+            <font>
+               <Font size="17.0" />
+            </font>
+         </Button>
+      </children>
+   </HBox>
 </GridPane>
