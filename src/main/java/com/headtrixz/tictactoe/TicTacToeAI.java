@@ -5,14 +5,17 @@ import com.headtrixz.game.players.Player;
 
 public class TicTacToeAI extends Player {
     private final TicTacToe game;
+    private final MiniMax miniMax;
 
     public TicTacToeAI(TicTacToe game, String username) {
         super(username);
         this.game = game;
+        this.miniMax = new MiniMax(this.game);
     }
 
     @Override
     public int getMove() {
-        return MiniMax.getMove(game);
+//        return miniMax.getMoveIterative(5000);
+        return miniMax.getMove();
     }
 }
