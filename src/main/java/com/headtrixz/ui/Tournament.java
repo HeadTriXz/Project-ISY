@@ -31,6 +31,7 @@ public class Tournament implements GameCommands {
 
     String username;
     GameModel currentGame;
+    OnlineHelper onlineHelper;
 
     int drawCount;
     int winCount;
@@ -57,7 +58,7 @@ public class Tournament implements GameCommands {
         currentGame = new TicTacToe();
         RemotePlayer remotePlayer = new RemotePlayer(oppenent);
         TicTacToeAI aiPlayer = new TicTacToeAI((TicTacToe) currentGame, username);
-        OnlineHelper onlineHelper = new OnlineHelper(currentGame);
+        onlineHelper = new OnlineHelper(currentGame);
         currentGame.initialize(this, onlineHelper, remotePlayer, aiPlayer);
     };
 
@@ -67,6 +68,9 @@ public class Tournament implements GameCommands {
     }
 
     public void disconnect() {
+        if (currentGame != null) {
+            onlineHelper.forfeit();
+        }
         Connection connection = Connection.getInstance();
         connection.getInputHandler().off(ServerMessageType.MATCH, match);
         connection.getOutputHandler().logout();
@@ -102,6 +106,8 @@ public class Tournament implements GameCommands {
 
         String opponent = currentGame.getPlayer(2).getUsername();
         addToLogs(String.format("%s: %s\n", logText, opponent));
+
+        currentGame = null;
     }
 
     @Override

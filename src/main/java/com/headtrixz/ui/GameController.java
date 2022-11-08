@@ -36,6 +36,7 @@ public class GameController implements Initializable, GameCommands {
     private StackPane container;
 
     public void displayHome() {
+        helper.forfeit();
         UIManager.switchScreen("home");
     }
 
