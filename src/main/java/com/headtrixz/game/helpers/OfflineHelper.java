@@ -6,18 +6,19 @@ import javafx.application.Platform;
 
 public class OfflineHelper implements GameModelHelper {
     private final GameModel game;
+    private GameModel.GameState state;
 
     public OfflineHelper(GameModel game) {
         this.game = game;
     }
 
     public void forfeit() {
-        // Does nothing.
+        this.state = GameModel.GameState.PLAYER_TWO_WON;
     }
 
     @Override
     public GameModel.GameState getState() {
-        return null;
+        return state;
     }
 
     @Override
