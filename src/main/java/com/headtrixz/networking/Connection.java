@@ -11,6 +11,10 @@ public class Connection {
     private OutputHandler outputHandler;
     private Socket socket;
 
+    public boolean isConnected() {
+        return socket != null && socket.isConnected();
+    }
+
     public void close() throws IOException {
         outputHandler.close();
         inputHandlerThread.interrupt();
