@@ -15,7 +15,6 @@ public class TournamentSettingController {
     @FXML
     private TextField portField;
 
-    @FXML
     public void initialize() {
         usernameField.setText(UIManager.getSetting("username"));
         ipField.setText(UIManager.getSetting("ip"));
