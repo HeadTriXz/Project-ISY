@@ -58,7 +58,6 @@ public class OnlineHelper implements GameModelHelper {
     public void nextTurn(Player player) {
         player.onTurn(m -> {
             connection.getOutputHandler().move(m);
-            game.nextPlayer();
         });
     }
 
