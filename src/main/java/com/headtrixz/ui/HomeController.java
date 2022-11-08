@@ -6,8 +6,6 @@ import javafx.scene.control.TextField;
 
 public class HomeController {
     @FXML
-    public Button playTicTacToeButton;
-    @FXML
     private TextField usernameField;
 
     public void initialize() {
