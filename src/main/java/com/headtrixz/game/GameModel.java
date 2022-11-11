@@ -3,7 +3,6 @@ package com.headtrixz.game;
 import com.headtrixz.game.helpers.GameModelHelper;
 import com.headtrixz.game.players.Player;
 
-
 public abstract class GameModel {
     public enum GameState {
         PLAYING,
@@ -13,7 +12,7 @@ public abstract class GameModel {
     }
 
     protected GameBoard board;
-    protected GameCommands controller;
+    protected GameMethods controller;
     protected Player currentPlayer;
     protected GameModelHelper helper;
     protected String name;
@@ -23,7 +22,7 @@ public abstract class GameModel {
 
     public GameModel(String name, int boardSize) {
         this.name = name;
-        this.board = new GameBoard(boardSize); // TODO: Move to initialize
+        this.board = new GameBoard(boardSize);
     }
 
     public GameBoard cloneBoard() {
@@ -34,7 +33,7 @@ public abstract class GameModel {
         return board;
     }
 
-    public GameCommands getController() {
+    public GameMethods getController() {
         return controller;
     }
 
@@ -47,7 +46,7 @@ public abstract class GameModel {
     }
 
     public Player getPlayer(int i) {
-        return players[i % players.length];
+        return players[i];
     }
 
     public Player getPlayer(String username) {
@@ -60,7 +59,24 @@ public abstract class GameModel {
         throw new RuntimeException("Unknown player: " + username);
     }
 
-    public void initialize(GameCommands controller, GameModelHelper helper, Player... players) {
+    public Player getOpponent() {
+        return currentPlayer.getId() == players.length
+                ? players[0]
+                : players[currentPlayer.getId()];
+    }
+
+    /**
+     * check if the given player has won by checking if the GameState value with
+     * index users id + 1 is equal to the current state
+     *
+     * @param player the player to check
+     * @return a boolean that is true if the player has won
+     */
+    public boolean hasPlayerWon(Player player) {
+        return GameState.values()[player.getId() + 1] == getState();
+    }
+
+    public void initialize(GameMethods controller, GameModelHelper helper, Player... players) {
         this.controller = controller;
         this.currentPlayer = players[0];
         this.helper = helper;
@@ -73,10 +89,8 @@ public abstract class GameModel {
         helper.initialize();
     }
 
-    public Player nextPlayer() {
-        return currentPlayer = currentPlayer.getId() == players.length
-                ? players[0]
-                : players[currentPlayer.getId()];
+    public void setCurrentPlayer(Player player) {
+        this.currentPlayer = player;
     }
 
     public void setGuiMove(int move) {
@@ -89,15 +103,4 @@ public abstract class GameModel {
     public abstract int getScore(Player currentPlayer, int depth);
     public abstract int getMinScore();
     public abstract int getMaxScore();
-
-    /**
-     * chek if the given player has won by checking if the GameState value with
-     * index users id + 1 is equal to the current state
-     *
-     * @param player the player to check
-     * @return a boolean that is true if the player has won
-     */
-    public boolean hasPlayerWon(Player player) {
-        return GameState.values()[player.getId() + 1] == getState();
-    }
 }

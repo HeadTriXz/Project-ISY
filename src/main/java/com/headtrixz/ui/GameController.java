@@ -1,13 +1,13 @@
 package com.headtrixz.ui;
 
 import com.headtrixz.ui.elements.GameGrid;
-import com.headtrixz.game.GameCommands;
+import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.helpers.OfflineHelper;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
-import com.headtrixz.tictactoe.TicTacToe;
-import com.headtrixz.tictactoe.TicTacToeAI;
+import com.headtrixz.game.TicTacToe;
+import com.headtrixz.game.players.TicTacToeAI;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,13 +15,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class GameController implements Initializable, GameCommands {
+public class GameController implements GameMethods {
     private static final double PANE_SIZE = 300.0;
 
     private GameModel game;
@@ -60,18 +55,17 @@ public class GameController implements Initializable, GameCommands {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO: Turn this into a something else.
-        this.game = new TicTacToe();
-        this.helper = new OfflineHelper(this.game);
+        game = new TicTacToe();
+        helper = new OfflineHelper(game);
 
-        Player playerOne = new HumanPlayer(this.game, "Humon");
-        Player playerTwo = new TicTacToeAI((TicTacToe) this.game, "Compuper");
+        Player playerOne = new HumanPlayer(game, "Humon");
+        Player playerTwo = new TicTacToeAI((TicTacToe) game, "Compuper");
 
-        this.game.initialize(this, this.helper, playerOne, playerTwo);
+        game.initialize(this, helper, playerOne, playerTwo);
 
-        this.gameGrid = new GameGrid(this.game.cloneBoard().getSize(), PANE_SIZE);
-        this.gameGrid.createBoardGrid();
-        this.gameGrid.setCallback((index) -> onMouseClick(index));
-        this.container.getChildren().add(this.gameGrid);
+        gameGrid = new GameGrid(game.getBoard().getSize(), PANE_SIZE, true);
+        gameGrid.setCallback(this::onMouseClick);
+        container.getChildren().add(gameGrid);
 
         // Set visible usernames.
         playerOneName.setText(playerOne.getUsername());
@@ -85,6 +79,6 @@ public class GameController implements Initializable, GameCommands {
     @Override
     public void update(int move, Player player) {
         String[] players = { "", "X", "O" }; // TODO: Do this differently
-        this.gameGrid.setTile(move, players[player.getId()]);
+        gameGrid.setTile(move, players[player.getId()]);
     }
 }

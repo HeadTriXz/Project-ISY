@@ -2,8 +2,6 @@ package com.headtrixz.ui;
 
 import com.headtrixz.networking.Connection;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
 public class TournamentSettingController {
@@ -48,8 +46,8 @@ public class TournamentSettingController {
 
     public void playOthello() throws Exception {
         connect();
-        //TODO: response when connected or not!
-//        saveAndSwitch("othello");
+        // TODO: response when connected or not!
+        // saveAndSwitch("othello");
     }
 
     private void saveAndSwitch(String name) {
@@ -60,8 +58,8 @@ public class TournamentSettingController {
         UIManager.switchScreen(name);
     }
 
-    private boolean validate(){
-        //TODO: validate fields of ui
+    private boolean validate() {
+        // TODO: validate fields of ui
         return true;
     }
 }

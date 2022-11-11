@@ -5,6 +5,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
+import java.util.function.Consumer;
+
 public class GameGrid extends GridPane {
     private int size;
     private double boardSize;
@@ -25,8 +27,7 @@ public class GameGrid extends GridPane {
         this.setGridLinesVisible(true);
         this.setMaxSize(boardSize, boardSize);
 
-        final double paneSize = boardSize / size;
-
+        final double paneSize = gridSize / size;
         for (int i = 0; i < size * size; i++) {
             StackPane sp = new StackPane();
             sp.setMinSize(paneSize, paneSize);
@@ -46,21 +47,21 @@ public class GameGrid extends GridPane {
     }
 
     public void setTile(int move, String player) {
-        Text t = new Text(player);
+        Text text = new Text(player);
         StackPane pane = (StackPane) this.getChildren().get(move + 1);
         pane.setCursor(Cursor.DEFAULT);
-        pane.getChildren().add(t);
+        pane.getChildren().add(text);
     }
 
     private void onClick(int index) {
-        if (this.callback == null) {
+        if (callback == null) {
             return;
         }
 
-        this.callback.cb(index);
+        callback.accept(index);
     }
 
-    public void setCallback(Callback callback) {
+    public void setCallback(Consumer<Integer> callback) {
         this.callback = callback;
     }
 }
