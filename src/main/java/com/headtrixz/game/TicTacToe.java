@@ -47,7 +47,7 @@ public class TicTacToe extends GameModel {
         }
 
         if (hasPlayerWon(currentPlayer)) {
-            return 1000 / depth;
+            return getMaxScore() / depth;
         }
 
         return getMinScore() / depth; // player has lost
@@ -60,7 +60,6 @@ public class TicTacToe extends GameModel {
     public int getMinScore() {
         return -1000;
     }
-
 
     private boolean hasWon(int player) {
         return player == board.getMove(0, 0) && player == board.getMove(1, 0) && player == board.getMove(2, 0)

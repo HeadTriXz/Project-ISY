@@ -56,7 +56,7 @@ public class TournamentController implements GameMethods {
 
     @Override
     public void endGame() {
-        String logText;
+        String logText = "Ja dit is een apparte situatie, maar je hebt iets gedaan tegen";
         switch (currentGame.getState()) {
             case PLAYER_ONE_WON -> {
                 winCount++;

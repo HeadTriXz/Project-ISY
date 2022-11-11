@@ -8,24 +8,13 @@ import javafx.scene.text.Text;
 import java.util.function.Consumer;
 
 public class GameGrid extends GridPane {
-    private int size;
-    private double boardSize;
-    private Callback callback;
+    private Consumer<Integer> callback;
 
-    public GameGrid(int size, double boardSize) {
+    public GameGrid(int size, double gridSize, boolean renderCursor) {
         super();
 
-        this.size = size;
-        this.boardSize = boardSize;
-    }
-
-    public void createBoardGrid() {
-        this.createBoardGrid(true);
-    }
-
-    public void createBoardGrid(boolean renderCursor) {
-        this.setGridLinesVisible(true);
-        this.setMaxSize(boardSize, boardSize);
+        setGridLinesVisible(true);
+        setMaxSize(gridSize, gridSize);
 
         final double paneSize = gridSize / size;
         for (int i = 0; i < size * size; i++) {
@@ -33,16 +22,14 @@ public class GameGrid extends GridPane {
             sp.setMinSize(paneSize, paneSize);
             sp.setMaxSize(paneSize, paneSize);
 
-            final int row = i / size;
-            final int col = i % size;
-
             if (renderCursor) {
                 this.setCursor(Cursor.HAND);
             }
 
-            final int index = i; // because java is stupid
-            sp.setOnMouseClicked(a -> this.onClick(index));
-            this.add(sp, col, row);
+            final int index = i; // Java is stupid (╯°□°）╯︵ ┻━┻
+            sp.setOnMouseClicked(a -> onClick(index));
+
+            add(sp, i % size, i / size);
         }
     }
 

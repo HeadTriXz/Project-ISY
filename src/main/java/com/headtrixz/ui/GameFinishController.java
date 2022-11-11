@@ -44,7 +44,7 @@ public class GameFinishController {
         container.getChildren().add(grid);
     }
 
-    public void goHome() throws Exception {
+    public void goHome() {
         UIManager.switchScreen("home");
     }
 }

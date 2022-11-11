@@ -10,9 +10,6 @@ import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.players.TicTacToeAI;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -37,23 +34,10 @@ public class GameController implements GameMethods {
 
     @Override
     public void endGame() {
-        try {
-            GameFinishController gfController = new GameFinishController();
-            gfController.setPlayerTwoName(this.game.getPlayer(1).getUsername());
-            gfController.setState(this.game.cloneBoard());
-            gfController.setWinner(this.game.getState());
-            Stage screen = (Stage) playerOneName.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("game-finish.fxml"));
-            fxmlLoader.setController(gfController);
-            screen.setScene(new Scene(fxmlLoader.load(), 600, 400));
-        } catch (IOException e) {
-            System.out.println("Something went wrong whilst switching screens");
-            e.printStackTrace();
-        }
+        UIManager.switchScreen("game-finish", new GameFinishController(game));
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize() {
         // TODO: Turn this into a something else.
         game = new TicTacToe();
         helper = new OfflineHelper(game);

@@ -124,14 +124,15 @@ public class MiniMax {
         // return the move if we are at the base call or the score if we are in a recursive call
         if (depth == 0) {
             return getBestOutcome(potentialOutcomes).getKey();
+        }
+
+        if (max <= alphaOriginal) {
+            entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.UPPER_BOUND);
+        } else if (max >= beta) {
+            entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.LOWER_BOUND);
         } else {
-            if (max <= alphaOriginal) {
-                entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.UPPER_BOUND);
-            } else if (max >= beta) {
-                entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.LOWER_BOUND);
-            } else {
-                entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.EXACT);
-            }
+            entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.EXACT);
+        }
 
         transpositionTable.put(game.getBoard(), entry);
         return max;

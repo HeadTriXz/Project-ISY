@@ -34,17 +34,17 @@ public class TournamentSettingController {
         }
     }
 
-    public void back() throws Exception {
+    public void back() {
         saveAndSwitch("home");
     }
 
-    public void playTicTacToe() throws Exception {
+    public void playTicTacToe() {
         connect();
-        //TODO: response when connected or not!
+        // TODO: response when connected or not!
         saveAndSwitch("tournament");
     }
 
-    public void playOthello() throws Exception {
+    public void playOthello() {
         connect();
         // TODO: response when connected or not!
         // saveAndSwitch("othello");
