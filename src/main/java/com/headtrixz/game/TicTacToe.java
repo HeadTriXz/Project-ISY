@@ -1,6 +1,5 @@
-package com.headtrixz.tictactoe;
+package com.headtrixz.game;
 
-import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
 
 import static com.headtrixz.game.GameBoard.PLAYER_ONE;
@@ -43,20 +42,24 @@ public class TicTacToe extends GameModel {
      * @return the score of the board
      */
     public int getScore(Player currentPlayer, int depth) {
-        if (getState() == GameState.DRAW || getState() == GameState.PLAYING) return 0;
-        if (hasPlayerWon(currentPlayer)) {
-            return 1000 / depth;
+        if (getState() == GameState.DRAW || getState() == GameState.PLAYING) {
+            return 0;
         }
-        return -1000 / depth; // player has lost
+
+        if (hasPlayerWon(currentPlayer)) {
+            return getMaxScore() / depth;
+        }
+
+        return getMinScore() / depth; // player has lost
     }
 
     public int getMaxScore() {
         return 1000;
     }
+
     public int getMinScore() {
         return -1000;
     }
-
 
     private boolean hasWon(int player) {
         return player == board.getMove(0, 0) && player == board.getMove(1, 0) && player == board.getMove(2, 0)

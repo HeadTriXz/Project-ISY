@@ -1,4 +1,4 @@
-package com.headtrixz.MiniMax;
+package com.headtrixz.minimax;
 
 import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameModel;
@@ -7,17 +7,15 @@ import com.headtrixz.game.players.Player;
 import java.util.*;
 
 public class MiniMax {
+    public final static int MAX_DEPTH = 8;
 
-    public static int maxDepth = 8;
-    public final GameModel game;
-
+    private final GameModel game;
     private final Map<GameBoard, TranspositionEntry> transpositionTable;
 
     public MiniMax(GameModel game) {
         this.game = game;
         this.transpositionTable = new HashMap<>();
     }
-
 
     /**
      * get the best next move for any given player based on the current game state.
@@ -28,8 +26,9 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMove() {
-        return getMove(maxDepth);
+        return getMove(MAX_DEPTH);
     }
+
     /**
      * get the best next move for any given player based on the current game state.
      * the game should be advanced to the next player for it to work correctly.
@@ -40,7 +39,7 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMove(int maxDepth) {
-        return minimax(0 , game.getCurrentPlayer(), maxDepth, 1, game.getMinScore(), game.getMaxScore());
+        return minimax(0, game.getCurrentPlayer(), maxDepth, 1, game.getMinScore(), game.getMaxScore());
     }
 
     public int getMoveIterative(int maxMillis) {
@@ -58,10 +57,9 @@ public class MiniMax {
         work.start();
         try {
             work.join(maxMillis);
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException ignored) {}
 
         return moves.getLast();
-
     }
 
 
@@ -77,13 +75,18 @@ public class MiniMax {
 
         TranspositionEntry entry = transpositionTable.get(game.getBoard());
         if (entry != null && entry.depth() > depth && depth > 0) {
+            switch (entry.flag()) {
+                case EXACT -> {
+                    return entry.value();
+                }
 
-            if (entry.flag() == TranspositionEntry.Flags.EXACT) {
-                return entry.value();
-            } else if(entry.flag() == TranspositionEntry.Flags.LOWER_BOUND) {
-                alpha = Math.max(entry.value(), alpha);
-            } else if(entry.flag() == TranspositionEntry.Flags.UPPER_BOUND) {
-                beta = Math.min(entry.value(), beta);
+                case LOWER_BOUND -> {
+                    alpha = Math.max(entry.value(), alpha);
+                }
+
+                case UPPER_BOUND -> {
+                    beta = Math.min(entry.value(), beta);
+                }
             }
 
             if (alpha >= beta) {
@@ -100,20 +103,20 @@ public class MiniMax {
 
         //get the opponent. the id of current player is +1 of the index in players array
         // so by passing the currentPlayers id we get the next player
-        Player opp = game.getPlayer(currentPlayer.getId());
+        Player opp = game.getOpponent();
 
         int max = Integer.MIN_VALUE;
         // iterate over all valid moves and calculate there score
         for (int move : game.cloneBoard().getValidMoves()) {
             game.getBoard().setMove(move, currentPlayer.getId());
 
-            int score = -minimax( depth + 1, opp, maxDepth, -color, -beta, -alpha);
+            int score = -minimax(depth + 1, opp, maxDepth, -color, -beta, -alpha);
             potentialOutcomes.put(move, score);
 
             game.getBoard().setMove(move, 0);
 
             // check if we already have a board with the max score.
-            alpha= Math.max(alpha, score);
+            alpha = Math.max(alpha, score);
             max = Math.max(max, score);
             if (alpha >= beta) break;
         }
@@ -121,19 +124,18 @@ public class MiniMax {
         // return the move if we are at the base call or the score if we are in a recursive call
         if (depth == 0) {
             return getBestOutcome(potentialOutcomes).getKey();
-        } else {
-            if (max <= alphaOriginal) {
-                entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.UPPER_BOUND);
-            } else if (max >= beta) {
-                entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.LOWER_BOUND);
-            } else {
-                entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.EXACT);
-            }
-
-            transpositionTable.put(game.getBoard(), entry);
-            return max;
         }
 
+        if (max <= alphaOriginal) {
+            entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.UPPER_BOUND);
+        } else if (max >= beta) {
+            entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.LOWER_BOUND);
+        } else {
+            entry = new TranspositionEntry(max, depth, TranspositionEntry.Flags.EXACT);
+        }
+
+        transpositionTable.put(game.getBoard(), entry);
+        return max;
     }
 
     /**
@@ -144,22 +146,5 @@ public class MiniMax {
      */
     private static Map.Entry<Integer, Integer> getBestOutcome(Map<Integer, Integer> boardScores) {
         return boardScores.entrySet().stream().max(Map.Entry.comparingByValue()).get();
-    }
-}
-
-
-
-/**
- * record to be stored in the transposition table
- *
- * @param value the score of the boarded used as key in the table
- * @param depth the depth the entry was created at
- * @param flag
- */
-record TranspositionEntry(int value, int depth,  Flags flag) {
-    enum Flags {
-        EXACT,
-        UPPER_BOUND,
-        LOWER_BOUND
     }
 }

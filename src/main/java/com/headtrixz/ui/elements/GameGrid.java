@@ -5,62 +5,50 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
-public class GameGrid extends GridPane {
-    private int size;
-    private double boardSize;
-    private Callback callback;
+import java.util.function.Consumer;
 
-    public GameGrid(int size, double boardSize) {
+public class GameGrid extends GridPane {
+    private Consumer<Integer> callback;
+
+    public GameGrid(int size, double gridSize, boolean renderCursor) {
         super();
 
-        this.size = size;
-        this.boardSize = boardSize;
-    }
+        setGridLinesVisible(true);
+        setMaxSize(gridSize, gridSize);
 
-    public void createBoardGrid() {
-        this.createBoardGrid(true);
-    }
-
-    public void createBoardGrid(boolean renderCursor) {
-        this.setGridLinesVisible(true);
-        this.setMaxSize(boardSize, boardSize);
-
-        final double paneSize = boardSize / size;
-
+        final double paneSize = gridSize / size;
         for (int i = 0; i < size * size; i++) {
             StackPane sp = new StackPane();
             sp.setMinSize(paneSize, paneSize);
             sp.setMaxSize(paneSize, paneSize);
 
-            final int row = i / size;
-            final int col = i % size;
-
             if (renderCursor) {
                 this.setCursor(Cursor.HAND);
             }
 
-            final int index = i; // because java is stupid
-            sp.setOnMouseClicked(a -> this.onClick(index));
-            this.add(sp, col, row);
+            final int index = i; // Java is stupid (╯°□°）╯︵ ┻━┻
+            sp.setOnMouseClicked(a -> onClick(index));
+
+            add(sp, i % size, i / size);
         }
     }
 
     public void setTile(int move, String player) {
-        Text t = new Text(player);
+        Text text = new Text(player);
         StackPane pane = (StackPane) this.getChildren().get(move + 1);
         pane.setCursor(Cursor.DEFAULT);
-        pane.getChildren().add(t);
+        pane.getChildren().add(text);
     }
 
     private void onClick(int index) {
-        if (this.callback == null) {
+        if (callback == null) {
             return;
         }
 
-        this.callback.cb(index);
+        callback.accept(index);
     }
 
-    public void setCallback(Callback callback) {
+    public void setCallback(Consumer<Integer> callback) {
         this.callback = callback;
     }
 }

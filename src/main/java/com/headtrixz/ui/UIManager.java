@@ -9,15 +9,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class UIManager extends Application {
-    private static Class<? extends UIManager> uiManagerClass;
     private static Stage mainStage;
-
     private static Preferences preferences;
 
     @Override
-    public void start(Stage stage) throws IOException {
-        UIManager.uiManagerClass = getClass();
-        UIManager.mainStage = stage;
+    public void start(Stage stage) {
+        mainStage = stage;
+
         stage.setTitle("ISY Project");
         UIManager.switchScreen("home");
         stage.show();
@@ -39,7 +37,19 @@ public class UIManager extends Application {
 
     public static void switchScreen(String name) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(uiManagerClass.getResource(name + ".fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(UIManager.class.getResource(name + ".fxml"));
+            mainStage.setScene(new Scene(fxmlLoader.load(), 600, 400));
+        } catch (IOException e) {
+            System.out.println("Something went wrong whilst switching screens");
+            e.printStackTrace();
+        }
+    }
+
+    public static void switchScreen(String name, Object controller) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(UIManager.class.getResource(name + ".fxml"));
+            fxmlLoader.setController(controller);
+
             mainStage.setScene(new Scene(fxmlLoader.load(), 600, 400));
         } catch (IOException e) {
             System.out.println("Something went wrong whilst switching screens");

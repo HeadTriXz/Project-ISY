@@ -1,7 +1,6 @@
 package com.headtrixz.game.players;
 
 import com.headtrixz.game.GameModel;
-import com.headtrixz.game.players.Player;
 
 public class HumanPlayer extends Player {
     private final GameModel game;
