@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import com.headtrixz.game.GameCommands;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.helpers.OnlineHelper;
+import com.headtrixz.game.players.Player;
 import com.headtrixz.game.players.RemotePlayer;
 import com.headtrixz.networking.Connection;
 import com.headtrixz.networking.ServerMessage;
@@ -111,8 +112,7 @@ public class TournamentController implements GameCommands {
     }
 
     @Override
-    public void update(int move, int playerId) {
-        String player = currentGame.getPlayer(playerId).getUsername();
-        addToLogs(String.format("%s was gezet door speler %s", move, player));
+    public void update(int move, Player player) {
+        addToLogs(String.format("%s was gezet door speler %s", move, player.getUsername()));
     }
 }
