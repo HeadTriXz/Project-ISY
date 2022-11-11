@@ -83,8 +83,8 @@ public class GameController implements Initializable, GameCommands {
     }
 
     @Override
-    public void update(int move, int player) {
+    public void update(int move, Player player) {
         String[] players = { "", "X", "O" }; // TODO: Do this differently
-        this.gameGrid.setTile(move, players[player]);
+        this.gameGrid.setTile(move, players[player.getId()]);
     }
 }

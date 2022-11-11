@@ -68,7 +68,7 @@ public class OnlineHelper implements GameModelHelper {
 
         game.getBoard().setMove(move, player.getId());
         Platform.runLater(() -> {
-            game.getController().update(move, player.getId());
+            game.getController().update(move, player);
         });
     };
 

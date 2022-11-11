@@ -35,7 +35,7 @@ public class OfflineHelper implements GameModelHelper {
 
             game.getBoard().setMove(m, player.getId());
             Platform.runLater(() -> {
-                game.getController().update(m, player.getId());
+                game.getController().update(m, player);
             });
 
             if (game.getState() == GameModel.GameState.PLAYING) {
