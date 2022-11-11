@@ -112,7 +112,7 @@ public class TournamentController implements GameCommands {
 
     @Override
     public void update(int move, int playerId) {
-        String player = currentGame.getPlayer(playerId).getUsername();
+        String player = currentGame.getPlayer(playerId - 1).getUsername();
         addToLogs(String.format("%s was gezet door speler %s", move, player));
     }
 }
