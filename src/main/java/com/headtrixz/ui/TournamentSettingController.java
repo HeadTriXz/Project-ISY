@@ -74,14 +74,18 @@ public class TournamentSettingController {
         UIManager.switchScreen(name);
     }
 
+    /**
+     * Validates the text-fields
+     */
     public void validate() {
         validator.validate();
     }
 
-    public void message(String message){
+    public void message(String message) {
         messageText.setText(message);
     }
-    public void messageFailure(String message){
+
+    public void messageFailure(String message) {
         messageText.setText(message);
         messageText.setStyle("-fx-text-fill: red;");
     }

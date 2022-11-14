@@ -32,19 +32,22 @@ public class HomeController {
         UIManager.switchScreen(name);
     }
 
-    public void playTicTacToe(){
+    public void playTicTacToe() {
         saveAndSwitch("game");
     }
 
-    public void playTournament(){
+    public void playTournament() {
         saveAndSwitch("tournament-setting");
     }
 
-    public void validate(){
+    /**
+     * Validates the text-fields
+     */
+    public void validate() {
         validator.validate();
     }
 
-    public void disableButtons(boolean disable){
+    public void disableButtons(boolean disable) {
         playTicTacToeButton.setDisable(!disable);
         playOthelloButton.setDisable(!disable);
         playTournamentButton.setDisable(!disable);

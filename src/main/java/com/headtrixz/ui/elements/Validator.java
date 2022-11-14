@@ -16,26 +16,46 @@ public class Validator {
 
     private Button[] buttons;
 
+    /**
+     *  The constructor of the Visitor class.
+     *  This wil be initialized the variables text-fields and patterns as an arraylist.
+     */
     public Validator() {
         textFields = new ArrayList<>();
         patterns = new ArrayList<>();
     }
 
+    /**
+     * Sets the fields and patterns in a var
+     *
+     * @param field the field what must be saved.
+     * @param pattern the field what must be saved.
+     */
     public void setField(TextField field, String pattern) {
         this.textFields.add(field);
         this.patterns.add(pattern);
     }
 
+    /**
+     *  This disables buttons on the frontend
+     */
     public void disableButtons(boolean bool) {
         for (Button button : buttons) {
             button.setDisable(bool);
         }
     }
 
+    /**
+     *  This attached the buttons so it can be used at validate
+     */
     public void attachButtons(Button... buttons) {
         this.buttons = buttons;
     }
 
+    /**
+     *  This method checks all text-fields for each pattern is given.
+     *  It also disable buttons if they are given.
+     */
     public void validate() {
         boolean bool = false;
 
