@@ -6,7 +6,15 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * Represents a message received from the server.
+ *
+ * @param message The raw message.
+ */
 public record ServerMessage(String message) {
+    /**
+     * @return The parsed array from the message.
+     */
     public String[] getArray() {
         String[] result = new String[]{};
         int start = message.indexOf('[');
@@ -24,6 +32,9 @@ public record ServerMessage(String message) {
         return result;
     }
 
+    /**
+     * @return The parsed message received from the server.
+     */
     public String getMessage() {
         ServerMessageType type = getType();
         if (type != null) {
@@ -36,6 +47,9 @@ public record ServerMessage(String message) {
         return message;
     }
 
+    /**
+     * @return The parsed object from the message.
+     */
     public HashMap<String, String> getObject() {
         HashMap<String, String> result = new HashMap<>();
         int start = message.indexOf('{');
@@ -56,6 +70,9 @@ public record ServerMessage(String message) {
         return result;
     }
 
+    /**
+     * @return The type of ServerMessage.
+     */
     public ServerMessageType getType() {
         for (ServerMessageType value : ServerMessageType.values()) {
             if (message.startsWith(value.toString())) {
@@ -66,6 +83,10 @@ public record ServerMessage(String message) {
         return null;
     }
 
+    /**
+     * @return The raw message received from the server.
+     */
+    @Override
     public String toString() {
         return message;
     }
