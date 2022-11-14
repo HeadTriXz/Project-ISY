@@ -21,7 +21,7 @@ public class TournamentSettingController {
     @FXML
     private Text messageText;
 
-    Validator validator;
+    private Validator validator;
 
     public void initialize() {
         usernameField.setText(UIManager.getSetting("username"));
@@ -30,11 +30,13 @@ public class TournamentSettingController {
 
         validator = new Validator();
 
-        validator.setField(usernameField, Validator.usernamePattern);
-        validator.setField(ipField, Validator.ipPattern);
-        validator.setField(portField, Validator.portPattern);
+        validator.setField(usernameField, Validator.USERNAME_PATTERN);
+        validator.setField(ipField, Validator.IP_PATTERN);
+        validator.setField(portField, Validator.PORT_PATTERN);
 
         validator.attachButtons(playTicTacToeButton, playOthelloButton);
+
+        validator.validate();
     }
 
     public void connect() throws NumberFormatException {

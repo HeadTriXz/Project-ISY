@@ -16,14 +16,15 @@ public class HomeController {
     @FXML
     private Button playTournamentButton;
 
-    Validator validator;
+    private Validator validator;
 
     public void initialize() {
         usernameField.setText(UIManager.getSetting("username"));
-        
+
         validator = new Validator();
-        validator.setField(usernameField, Validator.usernamePattern);
+        validator.setField(usernameField, Validator.USERNAME_PATTERN);
         validator.attachButtons(playTicTacToeButton, playOthelloButton, playTournamentButton);
+        validator.validate();
     }
 
     private void saveAndSwitch(String name) {
