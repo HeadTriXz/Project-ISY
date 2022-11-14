@@ -125,7 +125,7 @@ public class TournamentController implements GameMethods {
         currentGame.initialize(this, onlineHelper, aiPlayer, remotePlayer);
     };
 
-    /*
+    /**
      * Gets called when a set is done on the board by either players.
      * Puts a log message of the move.
      *
