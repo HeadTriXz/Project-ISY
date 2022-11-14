@@ -15,86 +15,86 @@
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.headtrixz.ui.TournamentSettingController">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="312.0" minWidth="10.0" prefWidth="299.0"/>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="206.0" minWidth="10.0" prefWidth="101.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="312.0" minWidth="10.0" prefWidth="299.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="206.0" minWidth="10.0" prefWidth="101.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="190.0" minHeight="10.0" prefHeight="105.0" vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="497.0" minHeight="10.0" prefHeight="328.0" vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="469.77389907836914" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="190.0" minHeight="10.0" prefHeight="105.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="497.0" minHeight="10.0" prefHeight="328.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="469.77389907836914" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
         <GridPane alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.611083984375" minWidth="10.0" prefWidth="299.08056640625"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.611083984375" minWidth="10.0" prefWidth="299.08056640625" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="46.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES"/>
-                <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="46.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Naam" GridPane.rowIndex="1">
             </Text>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
                 <children>
-                    <TextField fx:id="usernameField" prefHeight="25.0" prefWidth="314.0">
+                    <TextField fx:id="usernameField" onKeyTyped="#validate" prefHeight="25.0" prefWidth="314.0">
                         <padding>
-                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                         </padding>
                         <HBox.margin>
-                            <Insets/>
+                            <Insets />
                         </HBox.margin>
                     </TextField>
                 </children>
             </HBox>
             <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
                 <children>
-                    <Pane HBox.hgrow="ALWAYS"/>
-                    <TextField fx:id="ipField" prefHeight="25.0" prefWidth="314.0">
+                    <Pane HBox.hgrow="ALWAYS" />
+                    <TextField fx:id="ipField" onKeyTyped="#validate" prefHeight="25.0" prefWidth="314.0">
                         <padding>
-                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                         </padding>
                     </TextField>
                 </children>
                 <opaqueInsets>
-                    <Insets/>
+                    <Insets />
                 </opaqueInsets>
             </HBox>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP" GridPane.rowIndex="3">
             </Text>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Port" GridPane.rowIndex="5">
             </Text>
-            <TextField fx:id="portField" prefHeight="25.0" prefWidth="314.0" GridPane.rowIndex="6">
+            <TextField fx:id="portField" onKeyTyped="#validate" prefHeight="25.0" prefWidth="314.0" GridPane.rowIndex="6">
                 <padding>
-                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                 </padding>
             </TextField>
         </GridPane>
     </VBox>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
         <children>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#playTicTacToe" text="Speel Tic Tac Toe">
+            <Button fx:id="playTicTacToeButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#playTicTacToe" text="Speel Tic Tac Toe">
             </Button>
-            <Pane HBox.hgrow="SOMETIMES"/>
-            <Button alignment="CENTER" disable="true" contentDisplay="CENTER" mnemonicParsing="false" onAction="#playOthello" text="Speel Othello">
+            <Pane HBox.hgrow="SOMETIMES" />
+            <Button fx:id="playOthelloButton" alignment="CENTER" contentDisplay="CENTER" disable="true" mnemonicParsing="false" onAction="#playOthello" text="Speel Othello">
             </Button>
         </children>
     </HBox>
     <Button mnemonicParsing="false" onAction="#back" text="Terug">
         <GridPane.margin>
-            <Insets left="10.0"/>
+            <Insets left="10.0" />
         </GridPane.margin>
     </Button>
     <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
         <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tournooi">
                 <font>
-                    <Font name="System Bold" size="25.0"/>
+                    <Font name="System Bold" size="25.0" />
                 </font>
             </Text>
         </children>

@@ -1,7 +1,9 @@
 package com.headtrixz.ui;
 
 import com.headtrixz.networking.Connection;
+import com.headtrixz.ui.elements.Validator;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class TournamentSettingController {
@@ -11,11 +13,25 @@ public class TournamentSettingController {
     private TextField ipField;
     @FXML
     private TextField portField;
+    @FXML
+    private Button playTicTacToeButton;
+    @FXML
+    private Button playOthelloButton;
+
+    Validator validator;
 
     public void initialize() {
         usernameField.setText(UIManager.getSetting("username"));
         ipField.setText(UIManager.getSetting("ip"));
         portField.setText(UIManager.getSetting("port"));
+
+        validator = new Validator();
+
+        validator.setField(usernameField, Validator.usernamePattern);
+        validator.setField(ipField, Validator.ipPattern);
+        validator.setField(portField, Validator.portPattern);
+
+        validator.attachButtons(playTicTacToeButton, playOthelloButton);
     }
 
     private void save() {
@@ -58,8 +74,12 @@ public class TournamentSettingController {
         UIManager.switchScreen(name);
     }
 
-    private boolean validate() {
-        // TODO: validate fields of ui
-        return true;
+    public void validate() {
+        validator.validate();
+    }
+
+    public void disableButtons(boolean disable) {
+        playTicTacToeButton.setDisable(!disable);
+        playOthelloButton.setDisable(!disable);
     }
 }
