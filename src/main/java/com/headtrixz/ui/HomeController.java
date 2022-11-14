@@ -40,26 +40,7 @@ public class HomeController {
     }
 
     public void validate(){
-        String pattern = "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-z0-9._]+(?<![_.])$";
-        System.out.print(usernameField.getText().matches(pattern));
-        System.out.print(" " + usernameField.getText());
-        System.out.println();
-
-        /*
-        ^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$
-         └─────┬────┘└───┬──┘└─────┬─────┘└─────┬─────┘ └───┬───┘
-               │         │         │            │           no _ or . at the end
-               │         │         │            │
-               │         │         │            allowed characters
-               │         │         │
-               │         │         no __ or _. or ._ or .. inside
-               │         │
-               │         no _ or . at the beginning
-               │
-               username is 8-20 characters long
-         */
-
-        disableButtons(usernameField.getText().matches(pattern));
+        validator.validate();
     }
 
     public void disableButtons(boolean disable){

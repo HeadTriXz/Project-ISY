@@ -5,6 +5,7 @@ import com.headtrixz.ui.elements.Validator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 public class TournamentSettingController {
     @FXML
@@ -17,6 +18,8 @@ public class TournamentSettingController {
     private Button playTicTacToeButton;
     @FXML
     private Button playOthelloButton;
+    @FXML
+    private Text messageText;
 
     Validator validator;
 
@@ -34,42 +37,37 @@ public class TournamentSettingController {
         validator.attachButtons(playTicTacToeButton, playOthelloButton);
     }
 
-    private void save() {
-        UIManager.setSetting("username", usernameField.getText());
-        UIManager.setSetting("ip", ipField.getText());
-        UIManager.setSetting("port", portField.getText());
-    }
-
     public void connect() throws NumberFormatException {
         Connection conn = Connection.getInstance();
+        message("Connecting");
 
         try {
             conn.connect(UIManager.getSetting("ip"), Integer.parseInt(UIManager.getSetting("port")));
         } catch (Exception e) {
+            messageFailure("Whoops cannot connect.");
             e.printStackTrace();
         }
     }
 
     public void back() {
-        saveAndSwitch("home");
+        saveAndSwitch("home", false);
     }
 
     public void playTicTacToe() {
-        connect();
-        // TODO: response when connected or not!
-        saveAndSwitch("tournament");
+        saveAndSwitch("tournament", true);
     }
 
     public void playOthello() {
-        connect();
-        // TODO: response when connected or not!
-        // saveAndSwitch("othello");
+        // saveAndSwitch("othello", true);
     }
 
-    private void saveAndSwitch(String name) {
+    private void saveAndSwitch(String name, boolean connect) {
         UIManager.setSetting("username", usernameField.getText());
         UIManager.setSetting("ip", ipField.getText());
         UIManager.setSetting("port", portField.getText());
+
+        if (connect)
+            connect();
 
         UIManager.switchScreen(name);
     }
@@ -78,8 +76,11 @@ public class TournamentSettingController {
         validator.validate();
     }
 
-    public void disableButtons(boolean disable) {
-        playTicTacToeButton.setDisable(!disable);
-        playOthelloButton.setDisable(!disable);
+    public void message(String message){
+        messageText.setText(message);
+    }
+    public void messageFailure(String message){
+        messageText.setText(message);
+        messageText.setStyle("-fx-text-fill: red;");
     }
 }
