@@ -8,8 +8,8 @@ public class TicTacToeAI extends Player {
 
     /**
      * Create a new Tic Tac Toe AI.
-     * @param game
-     * @param username
+     * @param game The game the player is playing in.
+     * @param username The username of the player.
      */
     public TicTacToeAI(TicTacToe game, String username) {
         super(username);
