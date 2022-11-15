@@ -38,7 +38,6 @@ public class TournamentSettingController {
         validator = new Validator();
 
         validator.setField(usernameField, Validator.USERNAME_PATTERN, usernameLabel);
-        validator.setField(ipField, Validator.IP_PATTERN, ipLabel);
         validator.setField(portField, Validator.PORT_PATTERN, portLabel);
 
         validator.validate();
