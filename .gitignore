@@ -12,6 +12,9 @@ target/
 .idea/
 Project-ISY.iml
 
+# VScode files
+.vscode/
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
