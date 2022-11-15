@@ -1,6 +1,7 @@
 package com.headtrixz.game;
 
 import com.headtrixz.game.helpers.GameModelHelper;
+import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
 
 public abstract class GameModel {
@@ -94,6 +95,10 @@ public abstract class GameModel {
     }
 
     public void setGuiMove(int move) {
+        if (!(currentPlayer instanceof HumanPlayer)) {
+            return;
+        }
+
         if (move == -1 || board.isValidMove(move)) {
             guiMove = move;
         }

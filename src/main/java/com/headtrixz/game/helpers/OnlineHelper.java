@@ -56,9 +56,17 @@ public class OnlineHelper implements GameModelHelper {
 
     @Override
     public void nextTurn(Player player) {
-        player.onTurn(m -> {
-            connection.getOutputHandler().move(m);
-        });
+        game.setCurrentPlayer(player);
+
+        if (player == localPlayer) {
+            player.onTurn(m -> {
+                if (m == -1) {
+                    return;
+                }
+
+                connection.getOutputHandler().move(m);
+            });
+        }
     }
 
     private final Consumer<ServerMessage> onMove = message -> {
@@ -70,6 +78,10 @@ public class OnlineHelper implements GameModelHelper {
         Platform.runLater(() -> {
             game.getController().update(move, player);
         });
+
+        if (player == localPlayer) {
+            nextTurn(game.getOpponent());
+        }
     };
 
     private final Consumer<ServerMessage> onDraw = message -> {
