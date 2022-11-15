@@ -1,9 +1,10 @@
 package com.headtrixz.ui;
 
 import com.headtrixz.networking.Connection;
-import com.headtrixz.ui.elements.Validator;
+import com.headtrixz.ui.helpers.Validator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -19,7 +20,13 @@ public class TournamentSettingController {
     @FXML
     private Button playOthelloButton;
     @FXML
-    private Text messageText;
+    private Label usernameLabel;
+    @FXML
+    private Label ipLabel;
+    @FXML
+    private Label portLabel;
+    @FXML
+    private Label messageLabel;
 
     private Validator validator;
 
@@ -30,9 +37,9 @@ public class TournamentSettingController {
 
         validator = new Validator();
 
-        validator.setField(usernameField, Validator.USERNAME_PATTERN);
-        validator.setField(ipField, Validator.IP_PATTERN);
-        validator.setField(portField, Validator.PORT_PATTERN);
+        validator.setField(usernameField, Validator.USERNAME_PATTERN, usernameLabel);
+        validator.setField(ipField, Validator.IP_PATTERN, ipLabel);
+        validator.setField(portField, Validator.PORT_PATTERN, portLabel);
 
         validator.attachButtons(playTicTacToeButton, playOthelloButton);
 
@@ -40,13 +47,13 @@ public class TournamentSettingController {
     }
 
     public void connect() throws NumberFormatException {
+
         Connection conn = Connection.getInstance();
-        message("Connecting");
 
         try {
             conn.connect(UIManager.getSetting("ip"), Integer.parseInt(UIManager.getSetting("port")));
         } catch (Exception e) {
-            messageFailure("Whoops cannot connect.");
+            message("Whoops cannot connect.");
             e.printStackTrace();
         }
     }
@@ -81,12 +88,13 @@ public class TournamentSettingController {
         validator.validate();
     }
 
-    public void message(String message) {
-        messageText.setText(message);
+    public void message(String mess) {
+        message(mess, false);
     }
 
-    public void messageFailure(String message) {
-        messageText.setText(message);
-        messageText.setStyle("-fx-text-fill: red;");
+    public void message(String mess, boolean failure) {
+        messageLabel.setText(mess);
+        if (failure)
+            messageLabel.setStyle("-fx-text-fill: red;");
     }
 }

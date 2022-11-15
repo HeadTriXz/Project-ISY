@@ -1,13 +1,16 @@
 package com.headtrixz.ui;
 
-import com.headtrixz.ui.elements.Validator;
+import com.headtrixz.ui.helpers.Validator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class HomeController {
     @FXML
     private TextField usernameField;
+    @FXML
+    private Label usernameLabel;
 
     @FXML
     private Button playTicTacToeButton;
@@ -22,7 +25,7 @@ public class HomeController {
         usernameField.setText(UIManager.getSetting("username"));
 
         validator = new Validator();
-        validator.setField(usernameField, Validator.USERNAME_PATTERN);
+        validator.setField(usernameField, Validator.USERNAME_PATTERN, usernameLabel);
         validator.attachButtons(playTicTacToeButton, playOthelloButton, playTournamentButton);
         validator.validate();
     }
@@ -45,11 +48,5 @@ public class HomeController {
      */
     public void validate() {
         validator.validate();
-    }
-
-    public void disableButtons(boolean disable) {
-        playTicTacToeButton.setDisable(!disable);
-        playOthelloButton.setDisable(!disable);
-        playTournamentButton.setDisable(!disable);
     }
 }
