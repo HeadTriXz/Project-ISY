@@ -1,7 +1,10 @@
 package com.headtrixz.ui.elements;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
@@ -13,6 +16,7 @@ public class Validator {
 
     private final ArrayList<TextField> textFields;
     private final ArrayList<String> patterns;
+    private final ArrayList<Label> labels;
 
     private Button[] buttons;
 
@@ -23,6 +27,7 @@ public class Validator {
     public Validator() {
         textFields = new ArrayList<>();
         patterns = new ArrayList<>();
+        labels = new ArrayList<>();
     }
 
     /**
@@ -31,9 +36,10 @@ public class Validator {
      * @param field the field what must be saved.
      * @param pattern the field what must be saved.
      */
-    public void setField(TextField field, String pattern) {
+    public void setField(TextField field, String pattern, Label label) {
         this.textFields.add(field);
         this.patterns.add(pattern);
+        this.labels.add(label);
     }
 
     /**
