@@ -5,61 +5,58 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 public class TournamentSettingController {
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private TextField ipField;
-    @FXML
-    private TextField portField;
+  @FXML private TextField usernameField;
+  @FXML private TextField ipField;
+  @FXML private TextField portField;
 
-    public void initialize() {
-        usernameField.setText(UIManager.getSetting("username"));
-        ipField.setText(UIManager.getSetting("ip"));
-        portField.setText(UIManager.getSetting("port"));
+  public void initialize() {
+    usernameField.setText(UIManager.getSetting("username"));
+    ipField.setText(UIManager.getSetting("ip"));
+    portField.setText(UIManager.getSetting("port"));
+  }
+
+  private void save() {
+    UIManager.setSetting("username", usernameField.getText());
+    UIManager.setSetting("ip", ipField.getText());
+    UIManager.setSetting("port", portField.getText());
+  }
+
+  public void connect() throws NumberFormatException {
+    Connection conn = Connection.getInstance();
+
+    try {
+      conn.connect(UIManager.getSetting("ip"), Integer.parseInt(UIManager.getSetting("port")));
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 
-    private void save() {
-        UIManager.setSetting("username", usernameField.getText());
-        UIManager.setSetting("ip", ipField.getText());
-        UIManager.setSetting("port", portField.getText());
-    }
+  public void back() {
+    saveAndSwitch("home");
+  }
 
-    public void connect() throws NumberFormatException {
-        Connection conn = Connection.getInstance();
+  public void playTicTacToe() {
+    connect();
+    // TODO: response when connected or not!
+    saveAndSwitch("tournament");
+  }
 
-        try {
-            conn.connect(UIManager.getSetting("ip"), Integer.parseInt(UIManager.getSetting("port")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+  public void playOthello() {
+    connect();
+    // TODO: response when connected or not!
+    // saveAndSwitch("othello");
+  }
 
-    public void back() {
-        saveAndSwitch("home");
-    }
+  private void saveAndSwitch(String name) {
+    UIManager.setSetting("username", usernameField.getText());
+    UIManager.setSetting("ip", ipField.getText());
+    UIManager.setSetting("port", portField.getText());
 
-    public void playTicTacToe() {
-        connect();
-        // TODO: response when connected or not!
-        saveAndSwitch("tournament");
-    }
+    UIManager.switchScreen(name);
+  }
 
-    public void playOthello() {
-        connect();
-        // TODO: response when connected or not!
-        // saveAndSwitch("othello");
-    }
-
-    private void saveAndSwitch(String name) {
-        UIManager.setSetting("username", usernameField.getText());
-        UIManager.setSetting("ip", ipField.getText());
-        UIManager.setSetting("port", portField.getText());
-
-        UIManager.switchScreen(name);
-    }
-
-    private boolean validate() {
-        // TODO: validate fields of ui
-        return true;
-    }
+  private boolean validate() {
+    // TODO: validate fields of ui
+    return true;
+  }
 }
