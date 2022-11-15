@@ -41,19 +41,17 @@ public class TournamentSettingController {
         validator.setField(ipField, Validator.IP_PATTERN, ipLabel);
         validator.setField(portField, Validator.PORT_PATTERN, portLabel);
 
-        validator.attachButtons(playTicTacToeButton, playOthelloButton);
-
         validator.validate();
     }
 
     public void connect() throws NumberFormatException {
-
         Connection conn = Connection.getInstance();
 
+        message("connecting");
         try {
             conn.connect(UIManager.getSetting("ip"), Integer.parseInt(UIManager.getSetting("port")));
         } catch (Exception e) {
-            message("Whoops cannot connect.");
+            message("Whoops cannot connect.", true);
             e.printStackTrace();
         }
     }
@@ -85,7 +83,9 @@ public class TournamentSettingController {
      * Validates the text-fields
      */
     public void validate() {
-        validator.validate();
+        boolean bool = validator.validate();
+        playTicTacToeButton.setDisable(bool);
+//        playOthelloButton.setDisable(bool);
     }
 
     public void message(String mess) {
@@ -95,6 +95,6 @@ public class TournamentSettingController {
     public void message(String mess, boolean failure) {
         messageLabel.setText(mess);
         if (failure)
-            messageLabel.setStyle("-fx-text-fill: red;");
+            messageLabel.setStyle("-fx-text-fill: #ff0000");
     }
 }

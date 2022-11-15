@@ -26,7 +26,6 @@ public class HomeController {
 
         validator = new Validator();
         validator.setField(usernameField, Validator.USERNAME_PATTERN, usernameLabel);
-        validator.attachButtons(playTicTacToeButton, playOthelloButton, playTournamentButton);
         validator.validate();
     }
 
@@ -47,6 +46,9 @@ public class HomeController {
      * Validates the text-fields
      */
     public void validate() {
-        validator.validate();
+        boolean bool = validator.validate();
+        playTicTacToeButton.setDisable(bool);
+        playOthelloButton.setDisable(bool);
+        playTournamentButton.setDisable(bool);
     }
 }

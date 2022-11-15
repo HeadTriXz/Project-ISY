@@ -40,27 +40,12 @@ public class Validator {
         this.labels.add(label);
     }
 
-    /**
-     * This disables buttons on the frontend
-     */
-    public void disableButtons(boolean bool) {
-        for (Button button : buttons) {
-            button.setDisable(bool);
-        }
-    }
-
-    /**
-     * This attached the buttons so it can be used at validate
-     */
-    public void attachButtons(Button... buttons) {
-        this.buttons = buttons;
-    }
 
     /**
      * This method checks all text-fields for each pattern is given.
      * It also disable buttons if they are given.
      */
-    public void validate() {
+    public boolean validate() {
         boolean isInvalid = false;
         boolean bool;
 
@@ -73,8 +58,7 @@ public class Validator {
             labels.get(i).setVisible(bool);
         }
 
-        if (buttons != null)
-            disableButtons(isInvalid);
+        return isInvalid;
 
     }
 }
