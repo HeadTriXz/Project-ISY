@@ -70,7 +70,7 @@ public class MiniMax {
      * @param currentPlayer the player that is currently at play
      * @return best move to make if depth == 0, else the score of the board
      */
-    private int minimax(int depth, Player currentPlayer, int maxDepth, int color, int alpha, int beta) {
+    private int minimax(int depth, Player currentPlayer, int maxDepth, int color, int alpha, int beta) throws IllegalStateException {
         int alphaOriginal = alpha;
 
         TranspositionEntry entry = transpositionTable.get(game.getBoard());
@@ -80,13 +80,10 @@ public class MiniMax {
                     return entry.value();
                 }
 
-                case LOWER_BOUND -> {
-                    alpha = Math.max(entry.value(), alpha);
-                }
+                case LOWER_BOUND -> alpha = Math.max(entry.value(), alpha);
 
-                case UPPER_BOUND -> {
-                    beta = Math.min(entry.value(), beta);
-                }
+                case UPPER_BOUND -> beta = Math.min(entry.value(), beta);
+                default -> throw new IllegalStateException("Unexpected value: " + entry.flag());
             }
 
             if (alpha >= beta) {
@@ -96,7 +93,7 @@ public class MiniMax {
 
         // check if the game is finished or the max depth has been reached
         if (game.getState() != GameModel.GameState.PLAYING || depth >= maxDepth) {
-            return game.getScore(currentPlayer, depth) * color;
+            return game.getScore(currentPlayer, depth, color);
         }
 
         Map<Integer, Integer> potentialOutcomes = new HashMap<>();

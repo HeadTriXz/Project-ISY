@@ -105,7 +105,7 @@ public abstract class GameModel {
     }
 
     public abstract GameState getState();
-    public abstract int getScore(Player currentPlayer, int depth);
+    public abstract int getScore(Player currentPlayer, int depth, int colour);
     public abstract int getMinScore();
     public abstract int getMaxScore();
 }
