@@ -42,6 +42,12 @@ public class MiniMax {
         return minimax(0, game.getCurrentPlayer(), maxDepth, 1, game.getMinScore(), game.getMaxScore());
     }
 
+    /**
+     * get the best move for the current player given the current game state within the given time limit
+     *
+     * @param maxMillis the time limit in milliseconds
+     * @return the best move to make given the current game state
+     */
     public int getMoveIterative(int maxMillis) {
         final int maxIterations = game.getBoard().getValidMoves().size();
 
@@ -79,9 +85,7 @@ public class MiniMax {
                 case EXACT -> {
                     return entry.value();
                 }
-
                 case LOWER_BOUND -> alpha = Math.max(entry.value(), alpha);
-
                 case UPPER_BOUND -> beta = Math.min(entry.value(), beta);
                 default -> throw new IllegalStateException("Unexpected value: " + entry.flag());
             }
