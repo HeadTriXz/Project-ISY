@@ -76,7 +76,7 @@ public class GameController implements GameMethods {
         game.setGuiMove(index);
     }
 
-    /*
+    /**
      * Gets called when a set is done on the board by either players.
      * Updates the tile on the board to show which player has set which move.
      *
