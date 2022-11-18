@@ -1,5 +1,7 @@
 package com.headtrixz.ui;
 
+import com.headtrixz.game.GameType;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -18,7 +20,7 @@ public class HomeController {
 
     public void playTicTacToe(){
         UIManager.setSetting("username", usernameField.getText());
-        GameController controller = new GameControllerFactory().createGameController("tic-tac-toe");
+        GameController controller = GameControllerFactory.createGameController(GameType.TicTacToe);
         UIManager.switchScreen("game", controller);
     }
 
