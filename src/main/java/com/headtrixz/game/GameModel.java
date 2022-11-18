@@ -3,7 +3,13 @@ package com.headtrixz.game;
 import com.headtrixz.game.helpers.GameModelHelper;
 import com.headtrixz.game.players.Player;
 
+/**
+ * The base for all games.
+ */
 public abstract class GameModel {
+    /**
+     * The state of the game.
+     */
     public enum GameState {
         PLAYING,
         PLAYER_ONE_WON,
@@ -20,35 +26,68 @@ public abstract class GameModel {
 
     protected volatile int guiMove = -1;
 
+    /**
+     * The base for all games.
+     *
+     * @param name The name of the game.
+     * @param boardSize The size of the board.
+     */
     public GameModel(String name, int boardSize) {
         this.name = name;
         this.board = new GameBoard(boardSize);
     }
 
+    /**
+     * @return A copy of the board.
+     */
     public GameBoard cloneBoard() {
         return board.clone();
     }
 
+    /**
+     * @return The original board.
+     */
     public GameBoard getBoard() {
         return board;
     }
 
+    /**
+     * @return The game controller.
+     */
     public GameMethods getController() {
         return controller;
     }
 
+    /**
+     * @return The player whose turn it currently is.
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * @return The move a human player has set. Will return -1 if none is set.
+     */
     public int getGuiMove() {
         return guiMove;
     }
 
+    /**
+     * Returns the player at the given index.
+     *
+     * @param i The index of the player you want to get.
+     * @return The player at the index i.
+     */
     public Player getPlayer(int i) {
         return players[i];
     }
 
+    /**
+     * Returns the player with the given username.
+     *
+     * @param username The username of the player to get.
+     * @return A player object.
+     */
     public Player getPlayer(String username) {
         for (Player player : players) {
             if (player.getUsername().equals(username)) {
@@ -59,6 +98,9 @@ public abstract class GameModel {
         throw new RuntimeException("Unknown player: " + username);
     }
 
+    /**
+     * @return The opponent of the current player.
+     */
     public Player getOpponent() {
         return currentPlayer.getId() == players.length
                 ? players[0]
@@ -76,6 +118,12 @@ public abstract class GameModel {
         return GameState.values()[player.getId() + 1] == getState();
     }
 
+    /**
+     * Initializes the game.
+     *
+     * @param controller The game controller.
+     * @param helper A helper class for either an offline or online game.
+     */
     public void initialize(GameMethods controller, GameModelHelper helper, Player... players) {
         this.controller = controller;
         this.currentPlayer = players[0];
@@ -89,18 +137,47 @@ public abstract class GameModel {
         helper.initialize();
     }
 
+    /**
+     * Sets the current player to the given player.
+     *
+     * @param player The player whose turn it is.
+     */
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
     }
 
+    /**
+     * If the move is valid, set the guiMove variable to the move.
+     *
+     * @param move The move that the player wants to make.
+     */
     public void setGuiMove(int move) {
         if (move == -1 || board.isValidMove(move)) {
             guiMove = move;
         }
     }
 
-    public abstract GameState getState();
-    public abstract int getScore(Player currentPlayer, int depth);
-    public abstract int getMinScore();
+    /**
+     * @return The maximum score.
+     */
     public abstract int getMaxScore();
+
+    /**
+     * @return The minimum score.
+     */
+    public abstract int getMinScore();
+
+    /**
+     * Returns the score of the current player at the current depth
+     *
+     * @param currentPlayer The player whose turn it is to move.
+     * @param depth The depth of the current node in the tree.
+     * @return The score of the current player.
+     */
+    public abstract int getScore(Player currentPlayer, int depth);
+
+    /**
+     * @return The current state of the game.
+     */
+    public abstract GameState getState();
 }
