@@ -182,7 +182,7 @@ public abstract class GameModel {
     public abstract int getMinScore();
 
     /**
-     * Returns the score of the current player at the current depth
+     * Returns the score of the current player at the current depth.
      *
      * @param currentPlayer The player whose turn it is to move.
      * @param depth The depth of the current node in the tree.
