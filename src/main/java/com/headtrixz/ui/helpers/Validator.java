@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Validator {
 
-    public static final String USERNAME_PATTERN = "^[a-zA-Z](?=.{3,15}$)[a-z0-9]+(?<![_.])$";
+    public static final String USERNAME_PATTERN = "^[a-zA-Z][a-zA-Z0-9]{0,15}$";
     public static final String IP_PATTERN = "^([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})$";
     public static final String PORT_PATTERN = "^[0-9]+$";
 
