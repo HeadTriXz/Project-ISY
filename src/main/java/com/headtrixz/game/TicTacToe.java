@@ -5,14 +5,25 @@ import com.headtrixz.game.players.Player;
 import static com.headtrixz.game.GameBoard.PLAYER_ONE;
 import static com.headtrixz.game.GameBoard.PLAYER_TWO;
 
+/**
+ * Represents a game of Tic Tac Toe.
+ */
 public class TicTacToe extends GameModel {
     private static final int BOARD_SIZE = 3;
     private static final String NAME = "Tic-Tac-Toe";
 
+    /**
+     * Represents a game of Tic Tac Toe.
+     */
     public TicTacToe() {
         super(NAME, BOARD_SIZE);
     }
 
+    /**
+     * Returns the current state of the game.
+     *
+     * @return The current state of the game.
+     */
     @Override
     public GameState getState() {
         GameState state = helper.getState();
@@ -53,14 +64,30 @@ public class TicTacToe extends GameModel {
         return getMinScore() / depth; // player has lost
     }
 
+    /**
+     * Returns the maximum score used for MiniMax.
+     *
+     * @return The maximum score.
+     */
     public int getMaxScore() {
         return 1000;
     }
 
+    /**
+     * Returns the minimum score used for MiniMax.
+     *
+     * @return The minimum score.
+     */
     public int getMinScore() {
         return -1000;
     }
 
+    /**
+     * If the player has three of their moves in a row, column, or diagonal, then they have won.
+     *
+     * @param player The player who is being checked for a win.
+     * @return Whether the player has won.
+     */
     private boolean hasWon(int player) {
         return player == board.getMove(0, 0) && player == board.getMove(1, 0) && player == board.getMove(2, 0)
                 || player == board.getMove(0, 1) && player == board.getMove(1, 1) && player == board.getMove(2, 1)
