@@ -37,7 +37,8 @@ public class InputHandler implements Runnable {
     }
 
     /**
-     * If there are any listeners for the given event, then for each listener, call the listener with the given message.
+     * If there are any listeners for the given event, then for each listener, call the listener
+     * with the given message.
      *
      * @param event The event to emit.
      * @param message The message that was received from the server.

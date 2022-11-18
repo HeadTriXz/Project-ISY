@@ -15,13 +15,6 @@ public class Connection {
     private Socket socket;
 
     /**
-     * @return Whether the socket is connected to the server.
-     */
-    public boolean isConnected() {
-        return socket != null && socket.isConnected();
-    }
-
-    /**
      * Closes the connection to the server.
      */
     public void close() throws IOException {
@@ -51,6 +44,8 @@ public class Connection {
     }
 
     /**
+     * Returns an instance of {@link InputHandler}.
+     *
      * @return The inputHandler object.
      */
     public InputHandler getInputHandler() {
@@ -58,8 +53,8 @@ public class Connection {
     }
 
     /**
-     * If the instance is null, create a new instance and return it. If the instance is not null, return the existing
-     * instance.
+     * If the instance is null, create a new instance and return it. If the instance is not null,
+     * return the existing instance.
      *
      * @return The instance of the Connection class.
      */
@@ -72,6 +67,8 @@ public class Connection {
     }
 
     /**
+     * Returns an instance of {@link OutputHandler}.
+     *
      * @return The outputHandler object.
      */
     public OutputHandler getOutputHandler() {

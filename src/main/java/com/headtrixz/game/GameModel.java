@@ -38,6 +38,8 @@ public abstract class GameModel {
     }
 
     /**
+     * Returns a copy of the board.
+     *
      * @return A copy of the board.
      */
     public GameBoard cloneBoard() {
@@ -45,6 +47,8 @@ public abstract class GameModel {
     }
 
     /**
+     * Returns the original board. WARNING: Do NOT modify the board.
+     *
      * @return The original board.
      */
     public GameBoard getBoard() {
@@ -52,6 +56,8 @@ public abstract class GameModel {
     }
 
     /**
+     * Returns the game controller.
+     *
      * @return The game controller.
      */
     public GameMethods getController() {
@@ -59,14 +65,18 @@ public abstract class GameModel {
     }
 
     /**
-     * @return The player whose turn it currently is.
+     * Returns the player whose turn it currently is.
+     *
+     * @return The current player.
      */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
     /**
-     * @return The move a human player has set. Will return -1 if none is set.
+     * Returns the move a human player has set. Will return -1 if none is set.
+     *
+     * @return The move a human player has set.
      */
     public int getGuiMove() {
         return guiMove;
@@ -99,12 +109,12 @@ public abstract class GameModel {
     }
 
     /**
+     * Return the next player.
+     *
      * @return The opponent of the current player.
      */
     public Player getOpponent() {
-        return currentPlayer.getId() == players.length
-                ? players[0]
-                : players[currentPlayer.getId()];
+        return players[currentPlayer.getId() % players.length];
     }
 
     /**
@@ -158,11 +168,15 @@ public abstract class GameModel {
     }
 
     /**
+     * Returns the maximum score used for MiniMax.
+     *
      * @return The maximum score.
      */
     public abstract int getMaxScore();
 
     /**
+     * Returns the minimum score used for MiniMax.
+     *
      * @return The minimum score.
      */
     public abstract int getMinScore();
@@ -177,6 +191,8 @@ public abstract class GameModel {
     public abstract int getScore(Player currentPlayer, int depth);
 
     /**
+     * Returns the current state of the game.
+     *
      * @return The current state of the game.
      */
     public abstract GameState getState();

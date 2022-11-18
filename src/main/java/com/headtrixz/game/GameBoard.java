@@ -33,6 +33,8 @@ public class GameBoard {
     }
 
     /**
+     * Returns a copy of the current game board.
+     *
      * @return A copy of the current GameBoard object.
      */
     @Override
@@ -44,6 +46,8 @@ public class GameBoard {
     }
 
     /**
+     * Returns the number of cells.
+     *
      * @return The number of cells.
      */
     public int getCellCount() {
@@ -72,6 +76,8 @@ public class GameBoard {
     }
 
     /**
+     * Returns the size of the game board.
+     *
      * @return The size of the game board.
      */
     public int getSize() {
@@ -79,7 +85,9 @@ public class GameBoard {
     }
 
     /**
-     * @return A list of all the available cells in the board.
+     * Returns a list of all available cells on the board.
+     *
+     * @return A list of all available cells on the board.
      */
     public ArrayList<Integer> getValidMoves() {
         ArrayList<Integer> list = new ArrayList<>();
@@ -93,6 +101,8 @@ public class GameBoard {
     }
 
     /**
+     * Returns whether the board has no empty cells left.
+     *
      * @return Whether the board has no empty cells left.
      */
     public boolean isFull() {

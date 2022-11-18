@@ -14,7 +14,7 @@ public class RemotePlayer extends Player {
     }
 
     /**
-     * Gets the move of remote player,
+     * Gets the move of remote player.
      *
      * @return -1, just -1.
      */

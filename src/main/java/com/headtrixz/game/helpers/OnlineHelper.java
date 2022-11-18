@@ -50,6 +50,8 @@ public class OnlineHelper implements GameModelHelper {
     }
 
     /**
+     * Returns the current state of the game.
+     *
      * @return The current state of the game.
      */
     @Override

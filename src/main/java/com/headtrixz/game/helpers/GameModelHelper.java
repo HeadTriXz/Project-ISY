@@ -13,6 +13,8 @@ public interface GameModelHelper {
     void forfeit();
 
     /**
+     * Returns the current state of the game.
+     *
      * @return The current state of the game.
      */
     GameModel.GameState getState();

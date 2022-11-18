@@ -62,6 +62,7 @@ public class TournamentSettingController {
 
     /**
      * Saves all the settings and switches from screen.
+     *
      * @param name The screen to switch to.
      */
     private void saveAndSwitch(String name) {
@@ -74,7 +75,8 @@ public class TournamentSettingController {
 
     /**
      * Validates all the input fields.
-     * @return true when the values seem all right, false when they don't
+     *
+     * @return true when the values seem all right, false when they don't.
      */
     private boolean validate() {
         // TODO: validate fields of ui

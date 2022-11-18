@@ -13,10 +13,12 @@ import java.util.Iterator;
  */
 public record ServerMessage(String message) {
     /**
+     * Parses the provided array from the raw message and returns it.
+     *
      * @return The parsed array from the message.
      */
     public String[] getArray() {
-        String[] result = new String[]{};
+        String[] result = new String[0];
         int start = message.indexOf('[');
         int end = message.indexOf(']');
 
@@ -33,6 +35,8 @@ public record ServerMessage(String message) {
     }
 
     /**
+     * Returns the message content received from the server.
+     *
      * @return The parsed message received from the server.
      */
     public String getMessage() {
@@ -48,6 +52,8 @@ public record ServerMessage(String message) {
     }
 
     /**
+     * Parses the provided object from the raw message and returns it as a HashMap.
+     *
      * @return The parsed object from the message.
      */
     public HashMap<String, String> getObject() {
@@ -71,6 +77,8 @@ public record ServerMessage(String message) {
     }
 
     /**
+     * Returns the type of ServerMessage.
+     *
      * @return The type of ServerMessage.
      */
     public ServerMessageType getType() {
@@ -84,6 +92,8 @@ public record ServerMessage(String message) {
     }
 
     /**
+     * Returns the raw message received from the server.
+     *
      * @return The raw message received from the server.
      */
     @Override

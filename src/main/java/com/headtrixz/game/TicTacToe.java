@@ -20,6 +20,8 @@ public class TicTacToe extends GameModel {
     }
 
     /**
+     * Returns the current state of the game.
+     *
      * @return The current state of the game.
      */
     @Override
@@ -63,6 +65,8 @@ public class TicTacToe extends GameModel {
     }
 
     /**
+     * Returns the maximum score used for MiniMax.
+     *
      * @return The maximum score.
      */
     public int getMaxScore() {
@@ -70,6 +74,8 @@ public class TicTacToe extends GameModel {
     }
 
     /**
+     * Returns the minimum score used for MiniMax.
+     *
      * @return The minimum score.
      */
     public int getMinScore() {

@@ -6,7 +6,7 @@ public class HumanPlayer extends Player {
     private final GameModel game;
 
     /**
-     * A new human player!
+     * A new human player.
      *
      * @param game The game the player is playing at.
      * @param username The name of the player.

@@ -11,27 +11,27 @@ public abstract class Player {
     protected final String username;
 
     /**
-     * Create a new player
+     * Create a new player.
      *
-     * @param username the name of the player
+     * @param username the name of the player.
      */
     public Player(String username) {
         this.username = username;
     }
 
     /**
-     * Get the id of the player
+     * Get the id of the player.
      *
-     * @return id of the player
+     * @return id of the player.
      */
     public int getId() {
         return id;
     }
 
     /**
-     * Get the username of the player
+     * Get the username of the player.
      *
-     * @return the username
+     * @return the username.
      */
     public String getUsername() {
         return username;
@@ -40,7 +40,7 @@ public abstract class Player {
     /**
      * Send the next player a message that it is their turn to play.
      *
-     * @param callback
+     * @param callback The callback to be called when the player calculated it's move.
      */
     public void onTurn(Consumer<Integer> callback) {
         EXECUTOR.execute(() -> callback.accept(getMove()));

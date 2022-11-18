@@ -13,7 +13,7 @@ public class UIManager extends Application {
     private static Preferences preferences;
 
     /**
-     * Start the GUI!
+     * Start the GUI.
      *
      * @param stage the main stage.
      */
@@ -38,9 +38,9 @@ public class UIManager extends Application {
     }
 
     /**
-     * A wrapper to get a saved setting from this class
+     * A wrapper to get a saved setting from this class.
      *
-     * @param key The key under which the setting was saved
+     * @param key The key under which the setting was saved.
      * @param def A default value for when the key is not found.
      * @return The value of the setting, or a empty string when not found.
      */
@@ -52,7 +52,7 @@ public class UIManager extends Application {
     /**
      * A wrapper to get a saved setting from this class.
      *
-     * @param key The key under which the setting was saved
+     * @param key The key under which the setting was saved.
      * @return The value of the setting, or a empty string when not found.
      */
     public static String getSetting(String key) {
