@@ -3,11 +3,7 @@ package com.headtrixz.ui;
 import com.headtrixz.ui.elements.GameGrid;
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
-import com.headtrixz.game.helpers.OfflineHelper;
-import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
-import com.headtrixz.game.TicTacToe;
-import com.headtrixz.game.players.TicTacToeAI;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
@@ -17,7 +13,6 @@ public class GameController implements GameMethods {
     private static final double PANE_SIZE = 300.0;
 
     private GameModel game;
-    private OfflineHelper helper;
     private GameGrid gameGrid;
 
     @FXML
@@ -27,8 +22,17 @@ public class GameController implements GameMethods {
     @FXML
     private StackPane container;
 
+    /**
+     * Create a new controller
+     *
+     * @param game the game this controller will host
+     */
+    public GameController(GameModel game) {
+        this.game = game;
+    }
+
     public void displayHome() {
-        helper.forfeit();
+        game.getHelper().forfeit();
         UIManager.switchScreen("home");
     }
 
@@ -38,22 +42,13 @@ public class GameController implements GameMethods {
     }
 
     public void initialize() {
-        // TODO: Turn this into a something else.
-        game = new TicTacToe();
-        helper = new OfflineHelper(game);
-
-        Player playerOne = new HumanPlayer(game, "Humon");
-        Player playerTwo = new TicTacToeAI((TicTacToe) game, "Compuper");
-
-        game.initialize(this, helper, playerOne, playerTwo);
-
         gameGrid = new GameGrid(game.getBoard().getSize(), PANE_SIZE, true);
         gameGrid.setCallback(this::onMouseClick);
         container.getChildren().add(gameGrid);
 
         // Set visible usernames.
-        playerOneName.setText(playerOne.getUsername());
-        playerTwoName.setText(playerTwo.getUsername());
+        playerOneName.setText(game.getPlayer(0).getUsername());
+        playerTwoName.setText(game.getPlayer(1).getUsername());
     }
 
     private void onMouseClick(int index) {

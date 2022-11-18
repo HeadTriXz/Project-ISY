@@ -108,4 +108,13 @@ public abstract class GameModel {
     public abstract int getScore(Player currentPlayer, int depth);
     public abstract int getMinScore();
     public abstract int getMaxScore();
+
+    /**
+     * Get the helper.
+     *
+     * @return the helper.
+     */
+    public GameModelHelper getHelper() {
+        return helper;
+    }
 }

@@ -17,7 +17,9 @@ public class HomeController {
     }
 
     public void playTicTacToe(){
-        saveAndSwitch("game");
+        UIManager.setSetting("username", usernameField.getText());
+        GameController controller = new GameControllerFactory().createGameController("tic-tac-toe");
+        UIManager.switchScreen("game", controller);
     }
 
     public void playTournament(){
