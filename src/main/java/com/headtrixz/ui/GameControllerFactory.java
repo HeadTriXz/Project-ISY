@@ -1,11 +1,11 @@
 package com.headtrixz.ui;
 
-import com.headtrixz.game.GameType;
 import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.helpers.OfflineHelper;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
-import com.headtrixz.game.players.TicTacToeAI;
+import com.headtrixz.game.players.AiPlayer;
+import com.headtrixz.ui.util.GameType;
 
 public class GameControllerFactory {
 
@@ -24,10 +24,22 @@ public class GameControllerFactory {
                 TicTacToe gameModel = new TicTacToe();
                 OfflineHelper helper = new OfflineHelper(gameModel);
                 Player humanPlayer = new HumanPlayer(gameModel, username);
-                Player aiPlayer = new TicTacToeAI(gameModel, aiName);
+                Player aiPlayer = new AiPlayer(gameModel, aiName);
                 GameController controller = new GameController(gameModel);
-                gameModel.initialize(controller, helper, humanPlayer, aiPlayer);
 
+                gameModel.initialize(controller, helper, humanPlayer, aiPlayer);
+                return controller;
+            }
+
+            case Othello -> {
+                // TODO: Waiting for othello impl.
+                TicTacToe gameModel = new TicTacToe();
+                OfflineHelper helper = new OfflineHelper(gameModel);
+                Player humanPlayer = new HumanPlayer(gameModel, username);
+                Player aiPlayer = new AiPlayer(gameModel, aiName);
+                GameController controller = new GameController(gameModel);
+
+                gameModel.initialize(controller, helper, humanPlayer, aiPlayer);
                 return controller;
             }
         }
