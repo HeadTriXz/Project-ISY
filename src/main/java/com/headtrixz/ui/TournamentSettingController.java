@@ -51,7 +51,7 @@ public class TournamentSettingController {
     public void connect() throws NumberFormatException {
         Connection conn = Connection.getInstance();
 
-        message("connecting");
+        this.message("connecting");
         try {
             conn.connect(UIManager.getSetting("ip"), Integer.parseInt(UIManager.getSetting("port")));
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class TournamentSettingController {
         UIManager.setSetting("port", portField.getText());
 
         if (connect) {
-            connect();
+            this.connect();
         }
 
         UIManager.switchScreen(name);
@@ -98,7 +98,7 @@ public class TournamentSettingController {
      * @param mess is a string.
      */
     public void message(String mess) {
-        message(mess, false);
+        this.message(mess, false);
     }
     /**
      * Displays a message on the GUI
