@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -14,67 +15,75 @@
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="530.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.headtrixz.ui.HomeController">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="190.0" minHeight="10.0" prefHeight="105.0" vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="497.0" minHeight="10.0" prefHeight="328.0" vgrow="SOMETIMES"/>
-        <RowConstraints maxHeight="469.77389907836914" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="190.0" minHeight="10.0" prefHeight="105.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="497.0" minHeight="10.0" prefHeight="328.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="469.77389907836914" minHeight="10.0" prefHeight="104.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Project ISY" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
         <font>
-            <Font name="Roboto Bold" size="33.0"/>
+            <Font name="Roboto Bold" size="33.0" />
         </font>
     </Text>
     <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
         <GridPane alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.611083984375" minWidth="10.0" prefWidth="299.08056640625"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.611083984375" minWidth="10.0" prefWidth="299.08056640625" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Naam" GridPane.rowIndex="1">
-
-            </Text>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
                 <children>
-                    <TextField fx:id="usernameField" prefHeight="25.0" prefWidth="314.0">
+                    <TextField fx:id="usernameField" onKeyTyped="#validate" prefHeight="25.0" prefWidth="314.0">
                         <padding>
-                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                         </padding>
                     </TextField>
                 </children>
             </HBox>
             <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
                 <children>
-                    <Button mnemonicParsing="false" onAction="#playTicTacToe" text="Speel Tic Tac Toe">
+                    <Button fx:id="playTicTacToeButton" mnemonicParsing="false" onAction="#playTicTacToe" text="Speel Tic Tac Toe">
                         <padding>
-                            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0"/>
+                            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                         </padding>
                     </Button>
-                    <Pane HBox.hgrow="ALWAYS"/>
-                    <Button alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" text="Speel Othello">
+                    <Pane HBox.hgrow="ALWAYS" />
+                    <Button fx:id="playOthelloButton" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" text="Speel Othello">
                         <padding>
-                            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0"/>
+                            <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                         </padding>
                     </Button>
                 </children>
                 <opaqueInsets>
-                    <Insets/>
+                    <Insets />
                 </opaqueInsets>
             </HBox>
+         <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Naam">
+            </Text>
+               <Label fx:id="usernameLabel" visible="false" textFill="RED">
+                  <padding>
+                     <Insets left="10.0" />
+                  </padding>
+               </Label>
+            </children>
+         </HBox>
         </GridPane>
     </VBox>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
         <children>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#playTournament" text="Tournooi modus">
+            <Button fx:id="playTournamentButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#playTournament" text="Tournooi modus">
                 <padding>
-                    <Insets bottom="7.0" left="7.0" right="7.0" top="7.0"/>
+                    <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                 </padding>
             </Button>
         </children>

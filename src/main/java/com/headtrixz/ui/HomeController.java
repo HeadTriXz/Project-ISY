@@ -1,11 +1,25 @@
 package com.headtrixz.ui;
 
+import com.headtrixz.ui.helpers.Validator;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class HomeController {
     @FXML
     private TextField usernameField;
+    @FXML
+    private Label usernameLabel;
+
+    @FXML
+    private Button playTicTacToeButton;
+    @FXML
+    private Button playOthelloButton;
+    @FXML
+    private Button playTournamentButton;
+
+    private Validator validator;
 
     /**
      * FXML init method. Gets called when the screen has loaded.
@@ -13,6 +27,12 @@ public class HomeController {
      */
     public void initialize() {
         usernameField.setText(UIManager.getSetting("username"));
+
+        validator = new Validator();
+        validator.setField(usernameField, Validator.USERNAME_PATTERN, usernameLabel);
+        validator.validate();
+
+        usernameLabel.setText("Maximaal 16 karakters minimaal 1 en geen . , _");
     }
 
     /**
@@ -37,5 +57,15 @@ public class HomeController {
      */
     public void playTournament(){
         saveAndSwitch("tournament-setting");
+    }
+
+    /**
+     * Validates the text-fields.
+     */
+    public void validate() {
+        boolean isValid = validator.validate();
+        playTicTacToeButton.setDisable(isValid);
+        playOthelloButton.setDisable(isValid);
+        playTournamentButton.setDisable(isValid);
     }
 }

@@ -68,6 +68,7 @@ public class UIManager extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(UIManager.class.getResource(name + ".fxml"));
             mainStage.setScene(new Scene(fxmlLoader.load(), 600, 400));
+            mainStage.setResizable(false);
         } catch (IOException e) {
             System.out.println("Something went wrong whilst switching screens");
             e.printStackTrace();
@@ -86,6 +87,7 @@ public class UIManager extends Application {
             fxmlLoader.setController(controller);
 
             mainStage.setScene(new Scene(fxmlLoader.load(), 600, 400));
+            mainStage.setResizable(false);
         } catch (IOException e) {
             System.out.println("Something went wrong whilst switching screens");
             e.printStackTrace();
