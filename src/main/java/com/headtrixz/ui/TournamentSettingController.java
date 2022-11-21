@@ -94,7 +94,7 @@ public class TournamentSettingController {
     }
 
     /**
-     * Displays a message on the GUI
+     * Displays a message on the GUI.
      *
      * @param mess the message that must be displayed as a string.
      */
@@ -102,8 +102,8 @@ public class TournamentSettingController {
         this.message(mess, false);
     }
     /**
-     * Displays a message on the GUI
-     * 
+     * Displays a message on the GUI.
+     *
      * @param mess the message that must be displayed as a string.
      * @param failure is boolean set is to true when the text must be red.
      */
