@@ -30,6 +30,10 @@ public class TournamentSettingController {
 
     private Validator validator;
 
+    /**
+     * FXML init method. Makes sure that the settings are persistence between
+     * launches.
+     */
     public void initialize() {
         usernameField.setText(UIManager.getSetting("username"));
         ipField.setText(UIManager.getSetting("ip"));
@@ -48,7 +52,11 @@ public class TournamentSettingController {
 
     }
 
-    public void connect() throws NumberFormatException {
+
+    /**
+     * Makes the connection the the server.
+     */
+    private void connect() {
         Connection conn = Connection.getInstance();
 
         this.message("connecting");
@@ -60,18 +68,32 @@ public class TournamentSettingController {
         }
     }
 
+    /**
+     * On click event for when the back home button is pressed.
+     */
     public void back() {
         saveAndSwitch("home", false);
     }
 
+    /**
+     * On click event for when the TTT button is pressed.
+     */
     public void playTicTacToe() {
         saveAndSwitch("tournament", true);
     }
 
+    /**
+     * On click event for when the Othello button is pressed.
+     */
     public void playOthello() {
         // saveAndSwitch("othello", true);
     }
 
+    /**
+     * Saves all the settings and switches from screen.
+     *
+     * @param name The screen to switch to.
+     */
     private void saveAndSwitch(String name, boolean connect) {
         UIManager.setSetting("username", usernameField.getText());
         UIManager.setSetting("ip", ipField.getText());
@@ -101,6 +123,7 @@ public class TournamentSettingController {
     public void message(String mess) {
         this.message(mess, false);
     }
+    
     /**
      * Displays a message on the GUI.
      *

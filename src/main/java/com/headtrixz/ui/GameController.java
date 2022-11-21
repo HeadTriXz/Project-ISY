@@ -27,16 +27,27 @@ public class GameController implements GameMethods {
     @FXML
     private StackPane container;
 
+    /**
+     * Stop the game and go back to the home screen.
+     */
     public void displayHome() {
         helper.forfeit();
         UIManager.switchScreen("home");
     }
 
+    /**
+     * Gets called when the game ends comes to a natural ending.
+     * Switches to the Game Finish screen with the current game data.
+     */
     @Override
     public void endGame() {
         UIManager.switchScreen("game-finish", new GameFinishController(game));
     }
 
+    /**
+     * FXML init method. Gets called when the screen has loaded.
+     * Sets up the players and game.
+     */
     public void initialize() {
         // TODO: Turn this into a something else.
         game = new TicTacToe();
@@ -56,10 +67,22 @@ public class GameController implements GameMethods {
         playerTwoName.setText(playerTwo.getUsername());
     }
 
+    /**
+     * Gets called whenever a square on the board gets clicked.
+     *
+     * @param index The number which relates to the position on the board.
+     */
     private void onMouseClick(int index) {
         game.setGuiMove(index);
     }
 
+    /**
+     * Gets called when a set is done on the board by either players.
+     * Updates the tile on the board to show which player has set which move.
+     *
+     * @param move the index of the move the player has done.
+     * @param player the player who has set the move.
+     */
     @Override
     public void update(int move, Player player) {
         String[] players = { "", "X", "O" }; // TODO: Do this differently
