@@ -14,6 +14,10 @@ public class GameBoard {
     private int[] cells;
     private final int size;
 
+    public void setCells(int[] cells ) {
+        this.cells = cells;
+    }
+
     /**
      * Represents a game board.
      *

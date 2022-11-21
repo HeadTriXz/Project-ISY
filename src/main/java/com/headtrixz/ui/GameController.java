@@ -35,6 +35,10 @@ public class GameController implements GameMethods {
         UIManager.switchScreen("home");
     }
 
+    public GameModel getGame() {
+        return game;
+    }
+
     /**
      * Gets called when the game ends comes to a natural ending.
      * Switches to the Game Finish screen with the current game data.
