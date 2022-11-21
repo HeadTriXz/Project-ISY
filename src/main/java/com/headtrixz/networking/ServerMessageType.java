@@ -1,30 +1,28 @@
 package com.headtrixz.networking;
 
-/**
- * Represents the type of {@link ServerMessage}s.
- */
+/** Represents the type of {@link ServerMessage}s. */
 public enum ServerMessageType {
-    OK("OK"),
-    ERROR("ERR"),
-    GAMELIST("SVR GAMELIST"),
-    PLAYERLIST("SVR PLAYERLIST"),
-    CHALLENGE_CANCELLED("SVR GAME CHALLENGE CANCELLED"),
-    CHALLENGE("SVR GAME CHALLENGE"),
-    DRAW("SVR GAME DRAW"),
-    LOSS("SVR GAME LOSS"),
-    MATCH("SVR GAME MATCH"),
-    MOVE("SVR GAME MOVE"),
-    WIN("SVR GAME WIN"),
-    YOURTURN("SVR GAME YOURTURN");
+  OK("OK"),
+  ERROR("ERR"),
+  GAMELIST("SVR GAMELIST"),
+  PLAYERLIST("SVR PLAYERLIST"),
+  CHALLENGE_CANCELLED("SVR GAME CHALLENGE CANCELLED"),
+  CHALLENGE("SVR GAME CHALLENGE"),
+  DRAW("SVR GAME DRAW"),
+  LOSS("SVR GAME LOSS"),
+  MATCH("SVR GAME MATCH"),
+  MOVE("SVR GAME MOVE"),
+  WIN("SVR GAME WIN"),
+  YOURTURN("SVR GAME YOURTURN");
 
-    private final String message;
+  private final String message;
 
-    ServerMessageType(String message) {
-        this.message = message;
-    }
+  ServerMessageType(String message) {
+    this.message = message;
+  }
 
-    @Override
-    public String toString() {
-        return this.message;
-    }
+  @Override
+  public String toString() {
+    return this.message;
+  }
 }
