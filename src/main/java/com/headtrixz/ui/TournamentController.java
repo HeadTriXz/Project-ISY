@@ -38,11 +38,20 @@ public class TournamentController implements GameMethods {
     int winCount;
     int loseCount;
 
+    /**
+     * Appends text to the log text field and scrolls down the latest message.
+     *
+     * @param message the message to append.
+     */
     public void addToLogs(String message) {
         logs.appendText(String.format("%s\n", message));
         logs.setScrollTop(Double.MAX_VALUE);
     }
 
+    /**
+     * On click event for the disconnect button.
+     * Forfeits the current match and logs out of the server.
+     */
     public void disconnect() {
         if (currentGame != null) {
             onlineHelper.forfeit();
@@ -54,6 +63,10 @@ public class TournamentController implements GameMethods {
         UIManager.switchScreen("home");
     }
 
+    /**
+     * Gets called when a game has ended. Shows a message in the log for what
+     * the result was and increments the appropriate counter.
+     */
     @Override
     public void endGame() {
         String logText = "Ja dit is een apparte situatie, maar je hebt iets gedaan tegen";
@@ -83,6 +96,9 @@ public class TournamentController implements GameMethods {
         currentGame = null;
     }
 
+    /**
+     * FXML init method. Logs into the server when the screen has loaded.
+     */
     public void initialize() {
         username = UIManager.getSetting("username");
         loggedInAs.setText(String.format("Ingelogd als: %s", username));
@@ -92,6 +108,10 @@ public class TournamentController implements GameMethods {
         connection.getInputHandler().on(ServerMessageType.MATCH, onMatch);
     }
 
+    /**
+     * A listener that listens to the network connecting and starts a local game
+     * to mirror the online game.
+     */
     private final Consumer<ServerMessage> onMatch = message -> {
         HashMap<String, String> obj = message.getObject();
         String oppenent = obj.get("OPPONENT");
@@ -105,6 +125,13 @@ public class TournamentController implements GameMethods {
         currentGame.initialize(this, onlineHelper, aiPlayer, remotePlayer);
     };
 
+    /**
+     * Gets called when a set is done on the board by either players.
+     * Puts a log message of the move.
+     *
+     * @param move the index of the move the player has done.
+     * @param player the player who has set the move.
+     */
     @Override
     public void update(int move, Player player) {
         addToLogs(String.format("%s was gezet door speler %s", move, player.getUsername()));

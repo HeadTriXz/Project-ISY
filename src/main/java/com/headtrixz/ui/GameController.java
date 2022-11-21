@@ -31,16 +31,27 @@ public class GameController implements GameMethods {
         this.game = game;
     }
 
+    /**
+     * Stop the game and go back to the home screen.
+     */
     public void displayHome() {
         game.getHelper().forfeit();
         UIManager.switchScreen("home");
     }
 
+    /**
+     * Gets called when the game ends comes to a natural ending.
+     * Switches to the Game Finish screen with the current game data.
+     */
     @Override
     public void endGame() {
         UIManager.switchScreen("game-finish", new GameFinishController(game));
     }
 
+    /**
+     * FXML init method. Gets called when the screen has loaded.
+     * Sets up the players and game.
+     */
     public void initialize() {
         gameGrid = new GameGrid(game.getBoard().getSize(), PANE_SIZE, true);
         gameGrid.setCallback(this::onMouseClick);
@@ -51,10 +62,22 @@ public class GameController implements GameMethods {
         playerTwoName.setText(game.getPlayer(1).getUsername());
     }
 
+    /**
+     * Gets called whenever a square on the board gets clicked.
+     *
+     * @param index The number which relates to the position on the board.
+     */
     private void onMouseClick(int index) {
         game.setGuiMove(index);
     }
 
+    /**
+     * Gets called when a set is done on the board by either players.
+     * Updates the tile on the board to show which player has set which move.
+     *
+     * @param move the index of the move the player has done.
+     * @param player the player who has set the move.
+     */
     @Override
     public void update(int move, Player player) {
         String[] players = { "", "X", "O" }; // TODO: Do this differently
