@@ -95,14 +95,16 @@ public class TournamentSettingController {
 
     /**
      * Displays a message on the GUI
-     * @param mess is a string.
+     *
+     * @param mess the message that must be displayed as a string.
      */
     public void message(String mess) {
         this.message(mess, false);
     }
     /**
      * Displays a message on the GUI
-     * @param mess is a string.
+     * 
+     * @param mess the message that must be displayed as a string.
      * @param failure is boolean set is to true when the text must be red.
      */
     public void message(String mess, boolean failure) {
