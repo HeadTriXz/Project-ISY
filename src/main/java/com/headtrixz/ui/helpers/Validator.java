@@ -24,10 +24,11 @@ public class Validator {
     }
 
     /**
-     * Sets the fields and patterns in a var
+     * Sets the fields and patterns in a var.
      *
      * @param field   the field what must be saved.
-     * @param pattern the field what must be saved.
+     * @param pattern regex pattern for the validation.
+     * @param label the label what must be shown when it is invalid.
      */
     public void setField(TextField field, String pattern, Label label) {
         this.textFields.add(field);
