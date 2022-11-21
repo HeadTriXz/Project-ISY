@@ -1,6 +1,6 @@
 package com.headtrixz.ui;
 
-import com.headtrixz.game.GameType;
+import com.headtrixz.ui.util.GameType;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -30,9 +30,18 @@ public class HomeController {
     /**
      * On click event for the play tic tac toe button.
      */
-    public void playTicTacToe(){
+    public void playTicTacToe() {
         UIManager.setSetting("username", usernameField.getText());
         GameController controller = GameControllerFactory.createGameController(GameType.TicTacToe);
+        UIManager.switchScreen("game", controller);
+    }
+
+    /**
+     * On click event for the play othello button.
+     */
+    public void playOthello() {
+        UIManager.setSetting("username", usernameField.getText());
+        GameController controller = GameControllerFactory.createGameController(GameType.Othello);
         UIManager.switchScreen("game", controller);
     }
 
