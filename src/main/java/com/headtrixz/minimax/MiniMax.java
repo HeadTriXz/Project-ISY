@@ -39,7 +39,7 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMove(int maxDepth) {
-        return minimax(0, game.getCurrentPlayer(), maxDepth, 1, game.getMinScore(), game.getMaxScore());
+        return minimax(0, game.getCurrentPlayer(), maxDepth, game.getMinScore(), game.getMaxScore());
     }
 
     /**
@@ -76,7 +76,7 @@ public class MiniMax {
      * @param currentPlayer the player that is currently at play
      * @return best move to make if depth == 0, else the score of the board
      */
-    private int minimax(int depth, Player currentPlayer, int maxDepth, int color, int alpha, int beta) throws IllegalStateException {
+    private int minimax(int depth, Player currentPlayer, int maxDepth, int alpha, int beta) throws IllegalStateException {
         int alphaOriginal = alpha;
 
         TranspositionEntry entry = transpositionTable.get(game.getBoard());
@@ -97,21 +97,21 @@ public class MiniMax {
 
         // check if the game is finished or the max depth has been reached
         if (game.getState() != GameModel.GameState.PLAYING || depth >= maxDepth) {
-            return game.getScore(currentPlayer, depth, color);
+            return game.getScore(currentPlayer, depth);
         }
 
         Map<Integer, Integer> potentialOutcomes = new HashMap<>();
 
         //get the opponent. the id of current player is +1 of the index in players array
         // so by passing the currentPlayers id we get the next player
-        Player opp = game.getOpponent();
+        Player opp = game.getPlayer(currentPlayer.getId() % 2);
 
         int max = Integer.MIN_VALUE;
         // iterate over all valid moves and calculate there score
         for (int move : game.cloneBoard().getValidMoves()) {
             game.getBoard().setMove(move, currentPlayer.getId());
 
-            int score = -minimax(depth + 1, opp, maxDepth, -color, -beta, -alpha);
+            int score = -minimax(depth + 1, opp, maxDepth, -beta, -alpha);
             potentialOutcomes.put(move, score);
 
             game.getBoard().setMove(move, 0);

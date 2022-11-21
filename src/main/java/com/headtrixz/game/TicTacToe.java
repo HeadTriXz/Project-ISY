@@ -52,16 +52,11 @@ public class TicTacToe extends GameModel {
      *
      * @return the score of the board
      */
-    public int getScore(Player currentPlayer, int depth, int colour) {
-        if (getState() != GameModel.GameState.PLAYING) {
-            // check if the current player has won in 1 move
-            if (hasPlayerWon(currentPlayer) && depth == 1) {
-                return -2;
-            }
-            return -1;
-        }
+    public int getScore(Player currentPlayer, int depth) {
 
-        return 0;
+        if (getState() == GameState.DRAW) return 0;
+        if (hasPlayerWon(currentPlayer)) return 1000 / depth;
+        return -1000 / depth;
     }
 
     /**
