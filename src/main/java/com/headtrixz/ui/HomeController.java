@@ -27,6 +27,8 @@ public class HomeController {
         validator = new Validator();
         validator.setField(usernameField, Validator.USERNAME_PATTERN, usernameLabel);
         validator.validate();
+
+        usernameLabel.setText("Maximaal 16 karakters minimaal 4 en geen . , _");
     }
 
     private void saveAndSwitch(String name) {
@@ -43,12 +45,12 @@ public class HomeController {
     }
 
     /**
-     * Validates the text-fields
+     * Validates the text-fields.
      */
     public void validate() {
-        boolean bool = validator.validate();
-        playTicTacToeButton.setDisable(bool);
-        playOthelloButton.setDisable(bool);
-        playTournamentButton.setDisable(bool);
+        boolean isValid = validator.validate();
+        playTicTacToeButton.setDisable(isValid);
+        playOthelloButton.setDisable(isValid);
+        playTournamentButton.setDisable(isValid);
     }
 }

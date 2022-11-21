@@ -41,6 +41,11 @@ public class TournamentSettingController {
         validator.setField(portField, Validator.PORT_PATTERN, portLabel);
 
         validator.validate();
+
+        usernameLabel.setText("Maximaal 16 karakters minimaal 4 en geen . , _");
+        ipLabel.setText("Alleen een IP");
+        portLabel.setText("Alleen cijfers van 0 - 65535");
+
     }
 
     public void connect() throws NumberFormatException {
@@ -72,28 +77,38 @@ public class TournamentSettingController {
         UIManager.setSetting("ip", ipField.getText());
         UIManager.setSetting("port", portField.getText());
 
-        if (connect)
+        if (connect) {
             connect();
+        }
 
         UIManager.switchScreen(name);
     }
 
     /**
-     * Validates the text-fields
+     * Validates the text-fields.
      */
     public void validate() {
-        boolean bool = validator.validate();
-        playTicTacToeButton.setDisable(bool);
-//        playOthelloButton.setDisable(bool);
+        boolean isValid = validator.validate();
+        playTicTacToeButton.setDisable(isValid);
+//        playOthelloButton.setDisable(isValid);
     }
 
+    /**
+     * Displays a message on the GUI
+     * @param mess is a string.
+     */
     public void message(String mess) {
         message(mess, false);
     }
-
+    /**
+     * Displays a message on the GUI
+     * @param mess is a string.
+     * @param failure is boolean set is to true when the text must be red.
+     */
     public void message(String mess, boolean failure) {
         messageLabel.setText(mess);
-        if (failure)
+        if (failure) {
             messageLabel.setStyle("-fx-text-fill: #ff0000");
+        }
     }
 }

@@ -74,7 +74,7 @@
             <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP/Hostname">
             </Text>
-               <Label fx:id="ipLabel" text="Alleen een IP" textFill="RED" visible="false">
+               <Label fx:id="ipLabel" textFill="RED" visible="false">
                   <padding>
                      <Insets left="10.0" />
                   </padding>
@@ -85,7 +85,7 @@
             <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Port">
             </Text>
-               <Label fx:id="portLabel" text="Alleen cijfers" textFill="RED" visible="false">
+               <Label fx:id="portLabel" textFill="RED" visible="false">
                   <padding>
                      <Insets left="10.0" />
                   </padding>
@@ -96,7 +96,7 @@
             <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Naam">
             </Text>
-               <Label fx:id="usernameLabel" text="Maximaal 16 karakters minimaal 4 en geen . , _" textFill="RED" visible="false">
+               <Label fx:id="usernameLabel" textFill="RED" visible="false">
                   <padding>
                      <Insets left="10.0" />
                   </padding>

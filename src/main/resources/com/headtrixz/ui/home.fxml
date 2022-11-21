@@ -69,9 +69,8 @@
          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
             <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Naam">
-
             </Text>
-               <Label fx:id="usernameLabel" visible="false" text="Maximaal 16 karakters minimaal 4 en geen . , _" textFill="RED">
+               <Label fx:id="usernameLabel" visible="false" textFill="RED">
                   <padding>
                      <Insets left="10.0" />
                   </padding>

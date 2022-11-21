@@ -1,6 +1,4 @@
 package com.headtrixz.ui.helpers;
-
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -9,14 +7,11 @@ import java.util.ArrayList;
 public class Validator {
 
     public static final String USERNAME_PATTERN = "^[a-zA-Z][a-zA-Z0-9]{0,15}$";
-    public static final String IP_PATTERN = "^([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})\\.([0-9]{1,3})$";
-    public static final String PORT_PATTERN = "^[0-9]+$";
+    public static final String PORT_PATTERN = "^((6553[0-5])|(655[0-2][0-9])|(65[0-4][0-9]{2})|(6[0-4][0-9]{3})|([1-5][0-9]{4})|([0-5]{0,5})|([0-9]{1,4}))$";
 
     private final ArrayList<TextField> textFields;
     private final ArrayList<String> patterns;
     private final ArrayList<Label> labels;
-
-    private Button[] buttons;
 
     /**
      * The constructor of the Visitor class.
@@ -43,19 +38,18 @@ public class Validator {
 
     /**
      * This method checks all text-fields for each pattern is given.
-     * It also disable buttons if they are given.
      */
     public boolean validate() {
         boolean isInvalid = false;
-        boolean bool;
+        boolean isValidLoop;
 
         for (int i = 0; i < textFields.size(); i++) {
-            bool = !textFields.get(i).getText().matches(patterns.get(i));
+            isValidLoop = !textFields.get(i).getText().matches(patterns.get(i));
 
-            if (bool)
+            if (isValidLoop)
                 isInvalid = true;
 
-            labels.get(i).setVisible(bool);
+            labels.get(i).setVisible(isValidLoop);
         }
 
         return isInvalid;
