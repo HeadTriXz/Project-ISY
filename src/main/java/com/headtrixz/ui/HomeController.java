@@ -28,7 +28,7 @@ public class HomeController {
         validator.setField(usernameField, Validator.USERNAME_PATTERN, usernameLabel);
         validator.validate();
 
-        usernameLabel.setText("Maximaal 16 karakters minimaal 4 en geen . , _");
+        usernameLabel.setText("Maximaal 16 karakters minimaal 1 en geen . , _");
     }
 
     private void saveAndSwitch(String name) {

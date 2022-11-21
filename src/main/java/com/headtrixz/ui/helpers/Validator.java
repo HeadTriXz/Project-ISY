@@ -47,8 +47,9 @@ public class Validator {
         for (int i = 0; i < textFields.size(); i++) {
             isValidLoop = !textFields.get(i).getText().matches(patterns.get(i));
 
-            if (isValidLoop)
+            if (isValidLoop) {
                 isInvalid = true;
+            }
 
             labels.get(i).setVisible(isValidLoop);
         }

@@ -42,7 +42,7 @@ public class TournamentSettingController {
 
         validator.validate();
 
-        usernameLabel.setText("Maximaal 16 karakters minimaal 4 en geen . , _");
+        usernameLabel.setText("Maximaal 16 karakters minimaal 1 en geen . , _");
         ipLabel.setText("Alleen een IP");
         portLabel.setText("Alleen cijfers van 0 - 65535");
 
@@ -55,7 +55,7 @@ public class TournamentSettingController {
         try {
             conn.connect(UIManager.getSetting("ip"), Integer.parseInt(UIManager.getSetting("port")));
         } catch (Exception e) {
-            message("Whoops cannot connect.", true);
+            this.message("Whoops cannot connect.", true);
             e.printStackTrace();
         }
     }
