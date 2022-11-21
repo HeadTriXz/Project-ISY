@@ -1,7 +1,7 @@
 package com.headtrixz.game;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class OthelloBoard extends GameBoard {
   /**
