@@ -1,5 +1,8 @@
 package com.headtrixz.networking;
 
+/**
+ * Represents the type of {@link ServerMessage}s.
+ */
 public enum ServerMessageType {
     OK("OK"),
     ERROR("ERR"),
