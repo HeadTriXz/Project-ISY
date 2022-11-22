@@ -18,17 +18,23 @@ import com.headtrixz.networking.ServerMessageType;
 import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.players.TicTacToeAI;
 
+import com.headtrixz.ui.elements.GameGrid;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 public class TournamentController implements GameMethods {
-    @FXML
-    TextArea logsTextArea;
+
+    private static final double PANE_SIZE = 264.0;
+
     @FXML
     ListView<String> playersListView;
+    @FXML
+    Text title;
     @FXML
     Text wins;
     @FXML
@@ -38,15 +44,56 @@ public class TournamentController implements GameMethods {
     @FXML
     Text onlineText;
     @FXML
+    Text playerOneText;
+    @FXML
+    Text playerTwoText;
+    @FXML
     Text loggedInAs;
+    @FXML
+    StackPane gameContainer;
 
     String username;
     GameModel currentGame;
     OnlineHelper onlineHelper;
 
+    GameGrid gameGrid;
+
+
     int drawCount;
     int winCount;
     int loseCount;
+
+    /**
+     * FXML init method. Logs into the server when the screen has loaded.
+     */
+    public void initialize() {
+        username = UIManager.getSetting("username");
+        loggedInAs.setText(String.format("Ingelogd als: %s", username));
+
+        Connection connection = Connection.getInstance();
+        connection.getOutputHandler().login(username);
+        connection.getInputHandler().on(ServerMessageType.MATCH, onMatch);
+
+        connection.getInputHandler().on(ServerMessageType.PLAYERLIST, onPlayerList);
+
+        Thread work = new Thread(() -> {
+            while (true) {
+                try {
+                    this.getPlayerList();
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        });
+
+        work.start();
+
+        title.setText("Tournooi modes voor Tic Tac Toe");
+        playerOneText.setText(username + " - X");
+    }
+
 
     /**
      * Appends text to the log text field and scrolls down the latest message.
@@ -55,8 +102,6 @@ public class TournamentController implements GameMethods {
      */
     public void addToLogs(String message) {
         System.out.println(message);
-//        logsTextArea.appendText(String.format("%s\n", message));
-//        logsTextArea.setScrollTop(Double.MAX_VALUE);
     }
 
     public void getPlayerList() {
@@ -114,34 +159,6 @@ public class TournamentController implements GameMethods {
     }
 
     /**
-     * FXML init method. Logs into the server when the screen has loaded.
-     */
-    public void initialize() {
-        username = UIManager.getSetting("username");
-        loggedInAs.setText(String.format("Ingelogd als: %s", username));
-
-        Connection connection = Connection.getInstance();
-        connection.getOutputHandler().login(username);
-        connection.getInputHandler().on(ServerMessageType.MATCH, onMatch);
-
-        connection.getInputHandler().on(ServerMessageType.PLAYERLIST, onPlayerList);
-
-        Thread work = new Thread(() -> {
-            while (true){
-                try {
-                    this.getPlayerList();
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        });
-
-        work.start();
-    }
-
-    /**
      * A listener that listens to the network connecting and starts a local game
      * to mirror the online game.
      */
@@ -156,21 +173,30 @@ public class TournamentController implements GameMethods {
         TicTacToeAI aiPlayer = new TicTacToeAI((TicTacToe) currentGame, username);
         onlineHelper = new OnlineHelper(currentGame);
         currentGame.initialize(this, onlineHelper, aiPlayer, remotePlayer);
+
+        Platform.runLater(() -> {
+            gameContainer.getChildren().remove(gameGrid);
+            gameGrid = new GameGrid(currentGame.getBoard().getSize(), gameContainer.getHeight(), false);
+            gameContainer.getChildren().add(gameGrid);
+
+            playerTwoText.setText("O - " + oppenent);
+        });
     };
 
-
+    /**
+     * A listener that listens to the user playlist and sets that visible in the GUI
+     */
     private final Consumer<ServerMessage> onPlayerList = message -> {
         List<String> playersList = new ArrayList<String>(Arrays.asList(message.getArray()));
 
         onlineText.setText(String.format("Online: %d", playersList.size()));
-
-        System.out.println(playersList);
 
         playersList.remove(username);
 
         playersListView.setItems(FXCollections.observableArrayList(playersList));
         playersListView.refresh();
     };
+
     /**
      * Gets called when a set is done on the board by either players.
      * Puts a log message of the move.
@@ -181,5 +207,8 @@ public class TournamentController implements GameMethods {
     @Override
     public void update(int move, Player player) {
         addToLogs(String.format("%s was gezet door speler %s", move, player.getUsername()));
+
+        String[] players = {"X", "O"}; // TODO: Do this differently
+        gameGrid.setTile(move, players[player.getId() - 1]);
     }
 }
