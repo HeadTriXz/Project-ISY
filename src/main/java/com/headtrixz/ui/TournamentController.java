@@ -1,8 +1,12 @@
 package com.headtrixz.ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Consumer;
 
+import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.helpers.OnlineHelper;
@@ -14,19 +18,25 @@ import com.headtrixz.networking.ServerMessageType;
 import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.players.TicTacToeAI;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 
 public class TournamentController implements GameMethods {
     @FXML
-    TextArea logs;
+    TextArea logsTextArea;
+    @FXML
+    ListView<String> playersListView;
     @FXML
     Text wins;
     @FXML
     Text loses;
     @FXML
     Text draws;
+    @FXML
+    Text onlineText;
     @FXML
     Text loggedInAs;
 
@@ -44,8 +54,14 @@ public class TournamentController implements GameMethods {
      * @param message the message to append.
      */
     public void addToLogs(String message) {
-        logs.appendText(String.format("%s\n", message));
-        logs.setScrollTop(Double.MAX_VALUE);
+        System.out.println(message);
+//        logsTextArea.appendText(String.format("%s\n", message));
+//        logsTextArea.setScrollTop(Double.MAX_VALUE);
+    }
+
+    public void getPlayerList() {
+        Connection connection = Connection.getInstance();
+        connection.getOutputHandler().getPlayerList();
     }
 
     /**
@@ -59,6 +75,7 @@ public class TournamentController implements GameMethods {
 
         Connection connection = Connection.getInstance();
         connection.getInputHandler().off(ServerMessageType.MATCH, onMatch);
+        connection.getInputHandler().off(ServerMessageType.PLAYERLIST, onPlayerList);
         connection.getOutputHandler().logout();
         UIManager.switchScreen("home");
     }
@@ -106,6 +123,22 @@ public class TournamentController implements GameMethods {
         Connection connection = Connection.getInstance();
         connection.getOutputHandler().login(username);
         connection.getInputHandler().on(ServerMessageType.MATCH, onMatch);
+
+        connection.getInputHandler().on(ServerMessageType.PLAYERLIST, onPlayerList);
+
+        Thread work = new Thread(() -> {
+            while (true){
+                try {
+                    this.getPlayerList();
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        });
+
+        work.start();
     }
 
     /**
@@ -125,6 +158,19 @@ public class TournamentController implements GameMethods {
         currentGame.initialize(this, onlineHelper, aiPlayer, remotePlayer);
     };
 
+
+    private final Consumer<ServerMessage> onPlayerList = message -> {
+        List<String> playersList = new ArrayList<String>(Arrays.asList(message.getArray()));
+
+        onlineText.setText(String.format("Online: %d", playersList.size()));
+
+        System.out.println(playersList);
+
+        playersList.remove(username);
+
+        playersListView.setItems(FXCollections.observableArrayList(playersList));
+        playersListView.refresh();
+    };
     /**
      * Gets called when a set is done on the board by either players.
      * Puts a log message of the move.
