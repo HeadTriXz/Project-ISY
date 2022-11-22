@@ -1,5 +1,8 @@
 package com.headtrixz.networking;
 
+/**
+ * Represents an input listener.
+ */
 @FunctionalInterface
 public interface InputListener {
     /**

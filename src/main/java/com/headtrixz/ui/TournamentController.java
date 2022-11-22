@@ -1,7 +1,5 @@
 package com.headtrixz.ui;
 
-import java.util.HashMap;
-
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.helpers.OnlineHelper;
@@ -12,7 +10,7 @@ import com.headtrixz.networking.InputListener;
 import com.headtrixz.networking.ServerMessageType;
 import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.players.TicTacToeAI;
-
+import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
@@ -112,7 +110,7 @@ public class TournamentController implements GameMethods {
      * to mirror the online game.
      */
     private final InputListener onMatch = message -> {
-        HashMap<String, String> obj = message.getObject();
+        Map<String, String> obj = message.getObject();
         String oppenent = obj.get("OPPONENT");
         addToLogs("Start een match met: " + oppenent);
 

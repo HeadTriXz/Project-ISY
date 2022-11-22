@@ -3,10 +3,13 @@ package com.headtrixz.game.helpers;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.game.players.RemotePlayer;
-import com.headtrixz.networking.*;
+import com.headtrixz.networking.Connection;
+import com.headtrixz.networking.InputHandler;
+import com.headtrixz.networking.InputListener;
+import com.headtrixz.networking.ServerMessageType;
+import java.util.Map;
 import javafx.application.Platform;
 
-import java.util.HashMap;
 
 /**
  * Represents a helper class that handles the game logic for an online game.
@@ -97,7 +100,7 @@ public class OnlineHelper implements GameModelHelper {
      * A listener for the "SVR GAME MOVE" event.
      */
     private final InputListener onMove = message -> {
-        HashMap<String, String> obj = message.getObject();
+        Map<String, String> obj = message.getObject();
         Player player = game.getPlayer(obj.get("PLAYER"));
         int move = Integer.parseInt(obj.get("MOVE"));
 
