@@ -8,9 +8,9 @@ package com.headtrixz.minimax;
  * @param flag
  */
 record TranspositionEntry(int value, int depth, Flags flag) {
-  enum Flags {
-    EXACT,
-    UPPER_BOUND,
-    LOWER_BOUND
-  }
+    enum Flags {
+        EXACT,
+        UPPER_BOUND,
+        LOWER_BOUND
+    }
 }
