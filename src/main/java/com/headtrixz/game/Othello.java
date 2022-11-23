@@ -155,6 +155,9 @@ public class Othello extends GameModel {
       if (cells[i] == player && otherStoneFound) {
         return true;
       }
+      if (cells[i] == player) {
+        break;
+      }
     }
     otherStoneFound = false;
     for (int i = move, j = 0; i % 8 != 0 && i > 0; i--, j++) {
@@ -166,6 +169,9 @@ public class Othello extends GameModel {
       }
       if (cells[i] == player && otherStoneFound) {
         return true;
+      }
+      if (cells[i] == player) {
+        break;
       }
     }
     otherStoneFound = false;
@@ -179,6 +185,9 @@ public class Othello extends GameModel {
       if (cells[i] == player && otherStoneFound) {
         return true;
       }
+      if (cells[i] == player) {
+        break;
+      }
     }
     otherStoneFound = false;
     for (int i = move, j = 0; i % 8 != 0 && i > 0; i++, j++) {
@@ -190,6 +199,9 @@ public class Othello extends GameModel {
       }
       if (cells[i] == player && otherStoneFound) {
         return true;
+      }
+      if (cells[i] == player) {
+        break;
       }
     }
     otherStoneFound = false;
@@ -203,6 +215,9 @@ public class Othello extends GameModel {
       if (cells[i] == player && otherStoneFound) {
         return true;
       }
+      if (cells[i] == player) {
+        break;
+      }
     }
     otherStoneFound = false;
     for (int i = move, j = 0; i + 1 % 8 != 0 && i <= 54; i += 9, j++) {
@@ -214,6 +229,9 @@ public class Othello extends GameModel {
       }
       if (cells[i] == player && otherStoneFound) {
         return true;
+      }
+      if (cells[i] == player) {
+        break;
       }
     }
     otherStoneFound = false;
@@ -227,6 +245,9 @@ public class Othello extends GameModel {
       if (cells[i] == player && otherStoneFound) {
         return true;
       }
+      if (cells[i] == player) {
+        break;
+      }
     }
     otherStoneFound = false;
     for (int i = move, j = 0; i % 8 != 0 && i > 7; i -= 7, j++) {
@@ -238,6 +259,9 @@ public class Othello extends GameModel {
       }
       if (cells[i] == player && otherStoneFound) {
         return true;
+      }
+      if (cells[i] == player) {
+        break;
       }
     }
     return false;
@@ -253,55 +277,49 @@ public class Othello extends GameModel {
         break;
       }
       if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
         movesList.add(i);
       }
-      if (cells[i] == player && otherStoneFound) {
+      if (cells[i] == player) {
         for (int currentMove : movesList) {
           board.setMove(currentMove, player);
         }
-        movesList.clear();
         board.setMove(move, player);
         break;
       }
     }
-    otherStoneFound = false;
+    movesList.clear();
     for (int i = move, j = 0; i % 8 != 0 && i > 0; i--, j++) {
       if (cells[i] == EMPTY_CELL && j > 0) {
         break;
       }
       if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
         movesList.add(i);
       }
-      if (cells[i] == player && otherStoneFound) {
+      if (cells[i] == player) {
         for (int currentMove : movesList) {
           board.setMove(currentMove, player);
         }
-        movesList.clear();
         board.setMove(move, player);
         break;
       }
     }
-    otherStoneFound = false;
+    movesList.clear();
     for (int i = move, j = 0; i <= 55; i += 8, j++) {
       if (cells[i] == EMPTY_CELL && j > 0) {
         break;
       }
       if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
         movesList.add(i);
       }
-      if (cells[i] == player && otherStoneFound) {
+      if (cells[i] == player) {
         for (int currentMove : movesList) {
           board.setMove(currentMove, player);
         }
-        movesList.clear();
         board.setMove(move, player);
         break;
       }
     }
-    otherStoneFound = false;
+    movesList.clear();
     for (int i = move, j = 0; i % 8 != 0 && i > 0; i++, j++) {
       if (cells[i] == EMPTY_CELL && j > 0) {
         break;
@@ -310,16 +328,15 @@ public class Othello extends GameModel {
         otherStoneFound = true;
         movesList.add(i);
       }
-      if (cells[i] == player && otherStoneFound) {
+      if (cells[i] == player) {
         for (int currentMove : movesList) {
           board.setMove(currentMove, player);
         }
-        movesList.clear();
         board.setMove(move, player);
         break;
       }
     }
-    otherStoneFound = false;
+    movesList.clear();
     for (int i = move, j = 0; i % 8 != 0 && i > 8; i -= 9, j++) {
       if (cells[i] == EMPTY_CELL && j > 0) {
         break;
@@ -328,16 +345,15 @@ public class Othello extends GameModel {
         otherStoneFound = true;
         movesList.add(i);
       }
-      if (cells[i] == player && otherStoneFound) {
+      if (cells[i] == player) {
         for (int currentMove : movesList) {
           board.setMove(currentMove, player);
         }
-        movesList.clear();
         board.setMove(move, player);
         break;
       }
     }
-    otherStoneFound = false;
+    movesList.clear();
     for (int i = move, j = 0; i + 1 % 8 != 0 && i <= 54; i += 9, j++) {
       if (cells[i] == EMPTY_CELL && j > 0) {
         break;
@@ -346,16 +362,15 @@ public class Othello extends GameModel {
         otherStoneFound = true;
         movesList.add(i);
       }
-      if (cells[i] == player && otherStoneFound) {
+      if (cells[i] == player) {
         for (int currentMove : movesList) {
           board.setMove(currentMove, player);
         }
-        movesList.clear();
         board.setMove(move, player);
         break;
       }
     }
-    otherStoneFound = false;
+    movesList.clear();
     for (int i = move, j = 0; i + 1 % 8 != 0 && i <= 55; i += 7, j++) {
       if (cells[i] == EMPTY_CELL && j > 0) {
         break;
@@ -364,16 +379,15 @@ public class Othello extends GameModel {
         otherStoneFound = true;
         movesList.add(i);
       }
-      if (cells[i] == player && otherStoneFound) {
+      if (cells[i] == player) {
         for (int currentMove : movesList) {
           board.setMove(currentMove, player);
         }
-        movesList.clear();
         board.setMove(move, player);
         break;
       }
     }
-    otherStoneFound = false;
+    movesList.clear();
     for (int i = move, j = 0; i % 8 != 0 && i > 7; i -= 7, j++) {
       if (cells[i] == EMPTY_CELL && j > 0) {
         break;
@@ -382,15 +396,15 @@ public class Othello extends GameModel {
         otherStoneFound = true;
         movesList.add(i);
       }
-      if (cells[i] == player && otherStoneFound) {
+      if (cells[i] == player) {
         for (int currentMove : movesList) {
           board.setMove(currentMove, player);
         }
-        movesList.clear();
         board.setMove(move, player);
         break;
       }
     }
+    movesList.clear();
     board.setMove(move, player);
   }
 
