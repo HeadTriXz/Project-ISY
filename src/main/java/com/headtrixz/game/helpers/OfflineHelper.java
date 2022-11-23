@@ -55,7 +55,7 @@ public class OfflineHelper implements GameModelHelper {
     @Override
     public void nextTurn(Player player) {
         player.onTurn(m -> {
-            if (!game.getBoard().isValidMove(m)) {
+            if (!game.isValidMove(m)) {
                 return;
             }
 
