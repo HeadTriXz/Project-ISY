@@ -6,6 +6,7 @@ import com.headtrixz.game.helpers.OfflineHelper;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.game.players.AiPlayer;
+import com.headtrixz.game.players.HackyAIPlayer;
 import com.headtrixz.ui.util.GameType;
 
 public class GameControllerFactory {
@@ -36,7 +37,7 @@ public class GameControllerFactory {
                 Othello gameModel = new Othello();
                 OfflineHelper helper = new OfflineHelper(gameModel);
                 Player humanPlayer = new HumanPlayer(gameModel, username);
-                Player aiPlayer = new AiPlayer(gameModel, aiName);
+                Player aiPlayer = new HackyAIPlayer(gameModel, aiName);
                 GameController controller = new GameController(gameModel);
 
                 gameModel.initialize(controller, helper, humanPlayer, aiPlayer);

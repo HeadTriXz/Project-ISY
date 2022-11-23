@@ -41,7 +41,8 @@ public class Othello extends GameModel {
   }
 
   /**
-   * get the score of the game in its current state. the scoring is -2 if current player has won, -1
+   * get the score of the game in its current state. the scoring is -2 if current
+   * player has won, -1
    * if current player has lost, 0 if game is still going or ended in draw
    *
    * @return the score of the board
