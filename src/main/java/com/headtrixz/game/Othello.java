@@ -261,6 +261,7 @@ public class Othello extends GameModel {
           board.setMove(currentMove, player);
         }
         movesList.clear();
+        board.setMove(move, player);
         return;
       }
     }
@@ -278,6 +279,7 @@ public class Othello extends GameModel {
           board.setMove(currentMove, player);
         }
         movesList.clear();
+        board.setMove(move, player);
         return;
       }
     }
@@ -295,6 +297,7 @@ public class Othello extends GameModel {
           board.setMove(currentMove, player);
         }
         movesList.clear();
+        board.setMove(move, player);
         return;
       }
     }
@@ -312,6 +315,7 @@ public class Othello extends GameModel {
           board.setMove(currentMove, player);
         }
         movesList.clear();
+        board.setMove(move, player);
         return;
       }
     }
@@ -329,6 +333,7 @@ public class Othello extends GameModel {
           board.setMove(currentMove, player);
         }
         movesList.clear();
+        board.setMove(move, player);
         return;
       }
     }
@@ -346,6 +351,7 @@ public class Othello extends GameModel {
           board.setMove(currentMove, player);
         }
         movesList.clear();
+        board.setMove(move, player);
         return;
       }
     }
@@ -363,6 +369,7 @@ public class Othello extends GameModel {
           board.setMove(currentMove, player);
         }
         movesList.clear();
+        board.setMove(move, player);
         return;
       }
     }
@@ -380,6 +387,7 @@ public class Othello extends GameModel {
           board.setMove(currentMove, player);
         }
         movesList.clear();
+        board.setMove(move, player);
         return;
       }
     }
