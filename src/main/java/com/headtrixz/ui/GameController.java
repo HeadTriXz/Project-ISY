@@ -64,7 +64,7 @@ public class GameController implements GameMethods {
         playerOneName.setText(game.getPlayer(0).getUsername());
         playerTwoName.setText(game.getPlayer(1).getUsername());
 
-        update(0, null);
+        update(-1, null);
     }
 
     /**
@@ -97,5 +97,9 @@ public class GameController implements GameMethods {
 
         List<Integer> moves = game.getValidMoves();
         gameGrid.setSuggestions(moves);
+
+        if (move != -1) {
+            gameGrid.makeRed(move);
+        }
     }
 }

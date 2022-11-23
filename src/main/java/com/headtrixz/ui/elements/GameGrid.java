@@ -5,6 +5,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.util.List;
@@ -95,5 +96,11 @@ public class GameGrid extends GridPane {
             pane.setCursor(Cursor.DEFAULT);
             pane.getChildren().add(text);
         }
+    }
+
+    public void makeRed(int cell) {
+        StackPane pane = (StackPane) this.getChildren().get(cell + 1);
+        Text t = (Text) pane.getChildren().get(0);
+        t.setFill(Color.RED);
     }
 }
