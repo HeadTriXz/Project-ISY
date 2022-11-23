@@ -191,6 +191,24 @@ public class Othello extends GameModel {
         return true;
       }
     }
+    otherStoneFound = false;
+    for (int i = move; i + 1 % 8 != 0 && i <= 55; i += 7) {
+      if (cells[i] != EMPTY_CELL && cells[i] != player) {
+        otherStoneFound = true;
+      }
+      if (cells[i] == player && otherStoneFound) {
+        return true;
+      }
+    }
+    otherStoneFound = false;
+    for (int i = move; i % 8 != 0 && i > 7; i -= 7) {
+      if (cells[i] != EMPTY_CELL && cells[i] != player) {
+        otherStoneFound = true;
+      }
+      if (cells[i] == player && otherStoneFound) {
+        return true;
+      }
+    }
     return false;
   }
 
