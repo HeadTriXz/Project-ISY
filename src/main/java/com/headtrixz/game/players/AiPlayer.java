@@ -1,18 +1,18 @@
 package com.headtrixz.game.players;
 
 import com.headtrixz.minimax.MiniMax;
-import com.headtrixz.game.TicTacToe;
+import com.headtrixz.game.GameModel;
 
-public class TicTacToeAI extends Player {
+public class AiPlayer extends Player {
     private final MiniMax miniMax;
 
     /**
-     * Create a new Tic Tac Toe AI.
+     * Create a new AI player.
      *
      * @param game The game the player is playing in.
      * @param username The username of the player.
      */
-    public TicTacToeAI(TicTacToe game, String username) {
+    public AiPlayer(GameModel game, String username) {
         super(username);
         this.miniMax = new MiniMax(game);
     }

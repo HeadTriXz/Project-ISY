@@ -12,7 +12,7 @@ import com.headtrixz.networking.Connection;
 import com.headtrixz.networking.ServerMessage;
 import com.headtrixz.networking.ServerMessageType;
 import com.headtrixz.game.TicTacToe;
-import com.headtrixz.game.players.TicTacToeAI;
+import com.headtrixz.game.players.AiPlayer;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -120,7 +120,7 @@ public class TournamentController implements GameMethods {
         // TODO: Set this to a helper/util class
         currentGame = new TicTacToe();
         RemotePlayer remotePlayer = new RemotePlayer(oppenent);
-        TicTacToeAI aiPlayer = new TicTacToeAI((TicTacToe) currentGame, username);
+        AiPlayer aiPlayer = new AiPlayer(currentGame, username);
         onlineHelper = new OnlineHelper(currentGame);
         currentGame.initialize(this, onlineHelper, aiPlayer, remotePlayer);
     };

@@ -32,7 +32,7 @@ public abstract class GameModel {
     /**
      * The base for all games.
      *
-     * @param name The name of the game.
+     * @param name      The name of the game.
      * @param boardSize The size of the board.
      */
     public GameModel(String name, int boardSize) {
@@ -135,7 +135,7 @@ public abstract class GameModel {
      * Initializes the game.
      *
      * @param controller The game controller.
-     * @param helper A helper class for either an offline or online game.
+     * @param helper     A helper class for either an offline or online game.
      */
     public void initialize(GameMethods controller, GameModelHelper helper, Player... players) {
         this.controller = controller;
@@ -192,7 +192,7 @@ public abstract class GameModel {
      * Returns the score of the current player at the current depth.
      *
      * @param currentPlayer The player whose turn it is to move.
-     * @param depth The depth of the current node in the tree.
+     * @param depth         The depth of the current node in the tree.
      * @return The score of the current player.
      */
     public abstract int getScore(Player currentPlayer, int depth);
@@ -229,8 +229,17 @@ public abstract class GameModel {
     /**
      * Sets the move for a specific player.
      *
-     * @param move The move that the player wants to make.
+     * @param move   The move that the player wants to make.
      * @param player The player who is making the move.
      */
     public abstract void setMove(int move, int player);
+
+    /**
+     * Get the helper.
+     *
+     * @return the helper.
+     */
+    public GameModelHelper getHelper() {
+        return helper;
+    }
 }

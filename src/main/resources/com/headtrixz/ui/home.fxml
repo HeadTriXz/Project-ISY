@@ -56,7 +56,7 @@
                         </padding>
                     </Button>
                     <Pane HBox.hgrow="ALWAYS" />
-                    <Button fx:id="playOthelloButton" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" text="Speel Othello">
+                    <Button fx:id="playOthelloButton" alignment="CENTER" contentDisplay="RIGHT" onAction="#playOthello" mnemonicParsing="false" text="Speel Othello">
                         <padding>
                             <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                         </padding>
