@@ -146,7 +146,6 @@ public abstract class GameModel {
             players[i].setId(i + 1);
         }
 
-        board.clear();
         helper.initialize();
     }
 

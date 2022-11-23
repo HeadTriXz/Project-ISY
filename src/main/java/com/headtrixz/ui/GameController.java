@@ -60,6 +60,13 @@ public class GameController implements GameMethods {
         // Set visible usernames.
         playerOneName.setText(game.getPlayer(0).getUsername());
         playerTwoName.setText(game.getPlayer(1).getUsername());
+
+        int[] board = game.getBoard().getCells();
+        for (int i = 0; i < board.length; i++) {
+            if (board[i] != 0) {
+                update(i, game.getPlayer(board[i] - 1));
+            }
+        }
     }
 
     /**
@@ -75,7 +82,7 @@ public class GameController implements GameMethods {
      * Gets called when a set is done on the board by either players.
      * Updates the tile on the board to show which player has set which move.
      *
-     * @param move the index of the move the player has done.
+     * @param move   the index of the move the player has done.
      * @param player the player who has set the move.
      */
     @Override
