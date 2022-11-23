@@ -29,8 +29,6 @@ import javafx.scene.text.Text;
 
 public class TournamentController implements GameMethods {
 
-    private static final double PANE_SIZE = 264.0;
-
     @FXML
     ListView<String> playersListView;
     @FXML
