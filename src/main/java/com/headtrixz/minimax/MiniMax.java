@@ -43,7 +43,7 @@ public class MiniMax {
     }
 
     public int getMoveIterative(int maxMillis) {
-        final int maxIterations = game.getBoard().getValidMoves().size();
+        final int maxIterations = game.getValidMoves().size();
 
         final LinkedList<Integer> moves = new LinkedList<>();
         moves.addLast(getMove(0));
@@ -107,7 +107,7 @@ public class MiniMax {
 
         int max = Integer.MIN_VALUE;
         // iterate over all valid moves and calculate there score
-        for (int move : game.cloneBoard().getValidMoves()) {
+        for (int move : game.getValidMoves()) {
             game.getBoard().setMove(move, currentPlayer.getId());
 
             int score = -minimax(depth + 1, opp, maxDepth, -color, -beta, -alpha);
