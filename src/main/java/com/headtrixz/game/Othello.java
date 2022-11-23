@@ -14,6 +14,10 @@ public class Othello extends GameModel {
   /** Represents a game of Othello. */
   public Othello() {
     super(NAME, BOARD_SIZE);
+    board.setMove(27, PLAYER_ONE);
+    board.setMove(28, PLAYER_TWO);
+    board.setMove(35, PLAYER_TWO);
+    board.setMove(36, PLAYER_ONE);
   }
 
   /**
@@ -91,9 +95,9 @@ public class Othello extends GameModel {
   private boolean hasWon(int player) {
     int checkPlayer = getCurrentPlayer().getId() == 1 ? 2 : 1;
     for (int i = 0; i < board.getCellCount(); i++) {
-        if (isValidMove(i, checkPlayer)) {
-            return false;
-        }
+      if (isValidMove(i, checkPlayer)) {
+        return false;
+      }
     }
     return true;
   }
@@ -117,21 +121,48 @@ public class Othello extends GameModel {
       return false;
     }
     int[] cells = board.getCells();
-    int leftCell = move > 1 ? cells[move - 1] : -1;
-    int rightCell = (move + 1) % 8 > 0 ? cells[move + 1] : -1;
-    int diagLeft = (move % 8 > 0 && move > 8) ? cells[move - 9] : -1;
-    int diagRight = (move % 7 > 0 && move <= 54) ? cells[move + 9] : -1;
-    if (leftCell != -1 && leftCell != getCurrentPlayer().getId()) {
-      return true;
+    // int leftCell = move > 1 ? cells[move - 1] : -1;
+    // int rightCell = (move + 1) % 8 > 0 ? cells[move + 1] : -1;
+    // int diagLeft = (move % 8 > 0 && move > 8) ? cells[move - 9] : -1;
+    // int diagRight = (move % 7 > 0 && move <= 54) ? cells[move + 9] : -1;
+    // if (leftCell != -1 && leftCell != EMPTY_CELL && leftCell != getCurrentPlayer().getId()) {
+    //   return true;
+    // }
+    // if (leftCell != -1 && rightCell != EMPTY_CELL && rightCell != getCurrentPlayer().getId()) {
+    //   return true;
+    // }
+    // if (leftCell != -1 && diagLeft != EMPTY_CELL && diagLeft != getCurrentPlayer().getId()) {
+    //   return true;
+    // }
+    // if (leftCell != -1 && diagRight != EMPTY_CELL && diagRight != getCurrentPlayer().getId()) {
+    //   return true;
+    // }
+    boolean otherStoneFound = false;
+    for (int i = move; i > 7; i -= 8) {
+      if (cells[i] != EMPTY_CELL && cells[i] != player) {
+        otherStoneFound = true;
+      }
+      if (cells[i] == player && otherStoneFound) {
+        return true;
+      }
     }
-    if (rightCell != -1 && rightCell != getCurrentPlayer().getId()) {
-      return true;
+    otherStoneFound = false;
+    for (int i = move; move % 8 != 0 && move > 0; i--) {
+      if (cells[i] != EMPTY_CELL && cells[i] != player) {
+        otherStoneFound = true;
+      }
+      if (cells[i] == player && otherStoneFound) {
+        return true;
+      }
     }
-    if (diagLeft != -1 && diagLeft != getCurrentPlayer().getId()) {
-      return true;
-    }
-    if (diagRight != -1 && diagRight != getCurrentPlayer().getId()) {
-      return true;
+    otherStoneFound = false;
+    for (int i = move; i <= 55; i += 8) {
+      if (cells[i] != EMPTY_CELL && cells[i] != player) {
+        otherStoneFound = true;
+      }
+      if (cells[i] == player && otherStoneFound) {
+        return true;
+      }
     }
     return false;
   }
