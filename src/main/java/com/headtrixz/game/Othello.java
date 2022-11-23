@@ -143,6 +143,9 @@ public class Othello extends GameModel {
     // return true;
     // }
     boolean otherStoneFound = false;
+    if (cells[move] != EMPTY_CELL ) {
+        return false;
+    }
     for (int i = move, j = 0; i > 7; i -= 8, j++) {
       if (cells[i] == EMPTY_CELL && j > 0) {
         break;
