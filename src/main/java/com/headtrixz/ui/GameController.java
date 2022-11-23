@@ -61,12 +61,7 @@ public class GameController implements GameMethods {
         playerOneName.setText(game.getPlayer(0).getUsername());
         playerTwoName.setText(game.getPlayer(1).getUsername());
 
-        int[] board = game.getBoard().getCells();
-        for (int i = 0; i < board.length; i++) {
-            if (board[i] != 0) {
-                update(i, game.getPlayer(board[i] - 1));
-            }
-        }
+        update(0, null);
     }
 
     /**
@@ -88,6 +83,12 @@ public class GameController implements GameMethods {
     @Override
     public void update(int move, Player player) {
         String[] players = { "", "X", "O" }; // TODO: Do this differently
-        gameGrid.setTile(move, players[player.getId()]);
+        int[] board = game.getBoard().getCells();
+        gameGrid.clearBoard(board.length);
+        for (int i = 0; i < board.length; i++) {
+            if (board[i] != 0) {
+                gameGrid.setTile(i, players[board[i]]);
+            }
+        }
     }
 }
