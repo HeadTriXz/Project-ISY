@@ -84,7 +84,7 @@ public class Othello extends GameModel {
   public List<Integer> getValidMoves() {
     List<Integer> list = new ArrayList<>();
     for (int i = 0; i < board.getCellCount(); i++) {
-      if (board.getMove(i) == EMPTY_CELL) {
+      if (isValidMove(i, getCurrentPlayer().getId())) {
         list.add(i);
       }
     }
