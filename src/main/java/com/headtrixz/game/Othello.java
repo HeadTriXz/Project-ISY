@@ -262,7 +262,7 @@ public class Othello extends GameModel {
         }
         movesList.clear();
         board.setMove(move, player);
-        return;
+        break;
       }
     }
     otherStoneFound = false;
@@ -280,7 +280,7 @@ public class Othello extends GameModel {
         }
         movesList.clear();
         board.setMove(move, player);
-        return;
+        break;
       }
     }
     otherStoneFound = false;
@@ -298,7 +298,7 @@ public class Othello extends GameModel {
         }
         movesList.clear();
         board.setMove(move, player);
-        return;
+        break;
       }
     }
     otherStoneFound = false;
@@ -316,7 +316,7 @@ public class Othello extends GameModel {
         }
         movesList.clear();
         board.setMove(move, player);
-        return;
+        break;
       }
     }
     otherStoneFound = false;
@@ -334,7 +334,7 @@ public class Othello extends GameModel {
         }
         movesList.clear();
         board.setMove(move, player);
-        return;
+        break;
       }
     }
     otherStoneFound = false;
@@ -352,7 +352,7 @@ public class Othello extends GameModel {
         }
         movesList.clear();
         board.setMove(move, player);
-        return;
+        break;
       }
     }
     otherStoneFound = false;
@@ -370,7 +370,7 @@ public class Othello extends GameModel {
         }
         movesList.clear();
         board.setMove(move, player);
-        return;
+        break;
       }
     }
     otherStoneFound = false;
@@ -388,7 +388,7 @@ public class Othello extends GameModel {
         }
         movesList.clear();
         board.setMove(move, player);
-        return;
+        break;
       }
     }
     board.setMove(move, player);
