@@ -1,11 +1,13 @@
 package com.headtrixz.ui.elements;
 
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class GameGrid extends GridPane {
@@ -81,6 +83,17 @@ public class GameGrid extends GridPane {
         for (int i = 0; i < len; i++) {
             StackPane pane = (StackPane) this.getChildren().get(i + 1);
             pane.getChildren().clear();
+        }
+    }
+
+    public void setSuggestions(List<Integer> suggestions) {
+        for (int move : suggestions) {
+            Text text = new Text("s");
+            text.setOpacity(0.3);
+            StackPane.setAlignment(text, Pos.BOTTOM_RIGHT);
+            StackPane pane = (StackPane) this.getChildren().get(move + 1);
+            pane.setCursor(Cursor.DEFAULT);
+            pane.getChildren().add(text);
         }
     }
 }

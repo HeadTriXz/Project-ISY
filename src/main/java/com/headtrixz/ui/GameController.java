@@ -1,6 +1,9 @@
 package com.headtrixz.ui;
 
 import com.headtrixz.ui.elements.GameGrid;
+
+import java.util.List;
+
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
@@ -85,10 +88,14 @@ public class GameController implements GameMethods {
         String[] players = { "", "X", "O" }; // TODO: Do this differently
         int[] board = game.getBoard().getCells();
         gameGrid.clearBoard(board.length);
+
         for (int i = 0; i < board.length; i++) {
             if (board[i] != 0) {
                 gameGrid.setTile(i, players[board[i]]);
             }
         }
+
+        List<Integer> moves = game.getValidMoves();
+        gameGrid.setSuggestions(moves);
     }
 }
