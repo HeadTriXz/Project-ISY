@@ -2,7 +2,6 @@ package com.headtrixz.ui.elements;
 
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -93,7 +92,6 @@ public class GameGrid extends GridPane {
             text.setOpacity(0.3);
             StackPane.setAlignment(text, Pos.BOTTOM_RIGHT);
             StackPane pane = (StackPane) this.getChildren().get(move + 1);
-            pane.setCursor(Cursor.DEFAULT);
             pane.getChildren().add(text);
         }
     }

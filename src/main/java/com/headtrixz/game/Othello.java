@@ -6,12 +6,16 @@ import com.headtrixz.game.players.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Represents a game of Othello. */
+/**
+ * Represents a game of Othello.
+ */
 public class Othello extends GameModel {
   private static final int BOARD_SIZE = 8;
   private static final String NAME = "OTHELLO";
 
-  /** Represents a game of Othello. */
+  /**
+   * Represents a game of Othello.
+   */
   public Othello() {
     super(NAME, BOARD_SIZE);
     board.setMove(27, PLAYER_ONE);
@@ -41,7 +45,8 @@ public class Othello extends GameModel {
   }
 
   /**
-   * get the score of the game in its current state. the scoring is -2 if current player has won, -1
+   * get the score of the game in its current state. the scoring is -2 if current
+   * player has won, -1
    * if current player has lost, 0 if game is still going or ended in draw
    *
    * @return the score of the board
@@ -92,6 +97,12 @@ public class Othello extends GameModel {
     return list;
   }
 
+  /**
+   * Check whether player has won.
+   *
+   * @param player the player to check.
+   * @return has player won.
+   */
   private boolean hasWon(int player) {
     int checkPlayer = getCurrentPlayer().getId() == 1 ? 2 : 1;
     for (int i = 0; i < board.getCellCount(); i++) {
@@ -108,306 +119,142 @@ public class Othello extends GameModel {
    * @param move The move to be checked
    * @return Whether the move is valid.
    */
+  @Override
   public boolean isValidMove(int move) {
-    return validMoveLogic(move, getCurrentPlayer().getId());
+    return isValidMove(move, getCurrentPlayer().getId());
   }
 
+  /**
+   * Returns whether the move flips a stone of another player.
+   *
+   * @param move   The move to be checked.
+   * @param player The player in question.
+   * @return Whether the move is valid.
+   */
   public boolean isValidMove(int move, int player) {
-    return validMoveLogic(move, player);
-  }
-
-  private boolean validMoveLogic(int move, int player) {
     if (move < 0) {
       return false;
     }
-    int[] cells = board.getCells();
-    // int leftCell = move > 1 ? cells[move - 1] : -1;
-    // int rightCell = (move + 1) % 8 > 0 ? cells[move + 1] : -1;
-    // int diagLeft = (move % 8 > 0 && move > 8) ? cells[move - 9] : -1;
-    // int diagRight = (move % 7 > 0 && move <= 54) ? cells[move + 9] : -1;
-    // if (leftCell != -1 && leftCell != EMPTY_CELL && leftCell !=
-    // getCurrentPlayer().getId()) {
-    // return true;
-    // }
-    // if (leftCell != -1 && rightCell != EMPTY_CELL && rightCell !=
-    // getCurrentPlayer().getId()) {
-    // return true;
-    // }
-    // if (leftCell != -1 && diagLeft != EMPTY_CELL && diagLeft !=
-    // getCurrentPlayer().getId()) {
-    // return true;
-    // }
-    // if (leftCell != -1 && diagRight != EMPTY_CELL && diagRight !=
-    // getCurrentPlayer().getId()) {
-    // return true;
-    // }
-    boolean otherStoneFound = false;
-    if (cells[move] != EMPTY_CELL) {
+
+    if (board.getMove(move) != EMPTY_CELL) {
       return false;
     }
-    for (int i = move, j = 0; i > 7; i -= 8, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-      }
-      if (cells[i] == player && otherStoneFound) {
-        return true;
-      }
-      if (cells[i] == player) {
-        break;
-      }
-    }
-    otherStoneFound = false;
-    for (int i = move, j = 0; i % 8 != 0 && i > 0; i--, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-      }
-      if (cells[i] == player && otherStoneFound) {
-        return true;
-      }
-      if (cells[i] == player) {
-        break;
-      }
-    }
-    otherStoneFound = false;
-    for (int i = move, j = 0; i <= 55; i += 8, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-      }
-      if (cells[i] == player && otherStoneFound) {
-        return true;
-      }
-      if (cells[i] == player) {
-        break;
-      }
-    }
-    otherStoneFound = false;
-    for (int i = move, j = 0; i % 8 != 0 && i > 0; i++, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-      }
-      if (cells[i] == player && otherStoneFound) {
-        return true;
-      }
-      if (cells[i] == player) {
-        break;
-      }
-    }
-    otherStoneFound = false;
-    for (int i = move, j = 0; i % 8 != 0 && i > 8; i -= 9, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-      }
-      if (cells[i] == player && otherStoneFound) {
-        return true;
-      }
-      if (cells[i] == player) {
-        break;
-      }
-    }
-    otherStoneFound = false;
-    for (int i = move, j = 0; i + 1 % 8 != 0 && i <= 54; i += 9, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-      }
-      if (cells[i] == player && otherStoneFound) {
-        return true;
-      }
-      if (cells[i] == player) {
-        break;
-      }
-    }
-    otherStoneFound = false;
-    for (int i = move, j = 0; i + 1 % 8 != 0 && i <= 55; i += 7, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-      }
-      if (cells[i] == player && otherStoneFound) {
-        return true;
-      }
-      if (cells[i] == player) {
-        break;
-      }
-    }
-    otherStoneFound = false;
-    for (int i = move, j = 0; i % 8 != 0 && i > 7; i -= 7, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-      }
-      if (cells[i] == player && otherStoneFound) {
-        return true;
-      }
-      if (cells[i] == player) {
-        break;
-      }
-    }
-    return false;
+
+    List<Integer> flips = getFlips(move, player);
+    return flips.size() > 0;
   }
 
+  /**
+   * Updates the board to show the move that was just played.
+   *
+   * @param move   the possition on the board
+   * @param player the player who is setting the set.
+   */
+  @Override
   public void setMove(int move, int player) {
-    int[] cells = board.getCells();
-    boolean otherStoneFound = false;
-    List<Integer> movesList = new ArrayList<>();
-    System.out.println("Set move");
-    for (int i = move, j = 0; i > 7; i -= 8, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        movesList.add(i);
-      }
-      if (cells[i] == player) {
-        for (int currentMove : movesList) {
-          board.setMove(currentMove, player);
-        }
-        board.setMove(move, player);
-        break;
-      }
-    }
-    movesList.clear();
-    for (int i = move, j = 0; i % 8 != 0 && i > 0; i--, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        movesList.add(i);
-      }
-      if (cells[i] == player) {
-        for (int currentMove : movesList) {
-          board.setMove(currentMove, player);
-        }
-        board.setMove(move, player);
-        break;
-      }
-    }
-    movesList.clear();
-    for (int i = move, j = 0; i <= 55; i += 8, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        movesList.add(i);
-      }
-      if (cells[i] == player) {
-        for (int currentMove : movesList) {
-          board.setMove(currentMove, player);
-        }
-        board.setMove(move, player);
-        break;
-      }
-    }
-    movesList.clear();
-    for (int i = move, j = 0; i % 8 != 0 && i > 0; i++, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-        movesList.add(i);
-      }
-      if (cells[i] == player) {
-        for (int currentMove : movesList) {
-          board.setMove(currentMove, player);
-        }
-        board.setMove(move, player);
-        break;
-      }
-    }
-    movesList.clear();
-    for (int i = move, j = 0; i % 8 != 0 && i > 8; i -= 9, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-        movesList.add(i);
-      }
-      if (cells[i] == player) {
-        for (int currentMove : movesList) {
-          board.setMove(currentMove, player);
-        }
-        board.setMove(move, player);
-        break;
-      }
-    }
-    movesList.clear();
-    for (int i = move, j = 0; i + 1 % 8 != 0 && i <= 54; i += 9, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-        movesList.add(i);
-      }
-      if (cells[i] == player) {
-        for (int currentMove : movesList) {
-          board.setMove(currentMove, player);
-        }
-        board.setMove(move, player);
-        break;
-      }
-    }
-    movesList.clear();
-    for (int i = move, j = 0; i + 1 % 8 != 0 && i <= 55; i += 7, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-        movesList.add(i);
-      }
-      if (cells[i] == player) {
-        for (int currentMove : movesList) {
-          board.setMove(currentMove, player);
-        }
-        board.setMove(move, player);
-        break;
-      }
-    }
-    movesList.clear();
-    for (int i = move, j = 0; i % 8 != 0 && i > 7; i -= 7, j++) {
-      if (cells[i] == EMPTY_CELL && j > 0) {
-        break;
-      }
-      if (cells[i] != EMPTY_CELL && cells[i] != player) {
-        otherStoneFound = true;
-        movesList.add(i);
-      }
-      if (cells[i] == player) {
-        for (int currentMove : movesList) {
-          board.setMove(currentMove, player);
-        }
-        board.setMove(move, player);
-        break;
-      }
-    }
-    movesList.clear();
+    List<Integer> flips = getFlips(move, player);
     board.setMove(move, player);
+
+    for (int cell : flips) {
+      board.setMove(cell, player);
+    }
   }
 
+  /**
+   * Show the tiles that will get fliped to the player when a stone is placed.
+   *
+   * @param move   the possition on the board.
+   * @param player the player who's turn it is.
+   * @return
+   */
+  public List<Integer> getFlips(int move, int player) {
+    List<List<Integer>> directions = new ArrayList<>();
+
+    List<Integer> ls = new ArrayList<>();
+    for (int i = move; i > 7; i -= 8) {
+      ls.add(i);
+    }
+    directions.add(new ArrayList<>(ls));
+    ls.clear();
+
+    for (int i = move; i % 8 != 0 && i > 0; i--) {
+      ls.add(i);
+    }
+    directions.add(new ArrayList<>(ls));
+    ls.clear();
+
+    for (int i = move; i <= 55; i += 8) {
+      ls.add(i);
+    }
+    directions.add(new ArrayList<>(ls));
+    ls.clear();
+
+    for (int i = move; i % 8 != 0 && i > 0; i++) {
+      ls.add(i);
+    }
+    directions.add(new ArrayList<>(ls));
+    ls.clear();
+
+    for (int i = move; i % 8 != 0 && i > 8; i -= 9) {
+      ls.add(i);
+    }
+    directions.add(new ArrayList<>(ls));
+    ls.clear();
+
+    for (int i = move; i + 1 % 8 != 0 && i <= 54; i += 9) {
+      ls.add(i);
+    }
+    directions.add(new ArrayList<>(ls));
+    ls.clear();
+
+    for (int i = move; i + 1 % 8 != 0 && i <= 55; i += 7) {
+      ls.add(i);
+    }
+    directions.add(new ArrayList<>(ls));
+    ls.clear();
+
+    for (int i = move; i % 8 != 0 && i > 7; i -= 7) {
+      ls.add(i);
+    }
+    directions.add(new ArrayList<>(ls));
+    ls.clear();
+
+    int[] cells = board.getCells();
+    List<Integer> flips = new ArrayList<>();
+    for (List<Integer> direction : directions) {
+      if (direction.size() == 0) {
+        continue;
+      }
+      direction.remove(0);
+
+      // When it comes across a other value that isn't player, remove
+      List<Integer> flipsRow = new ArrayList<>();
+
+      for (int set : direction) {
+        if (cells[set] == EMPTY_CELL) {
+          break;
+        }
+
+        if (cells[set] != player) {
+          flipsRow.add(set);
+        }
+
+        if (cells[set] == player) {
+          flips.addAll(flipsRow);
+          break;
+        }
+      }
+    }
+
+    return flips;
+  }
+
+  /**
+   * Check wether the board is full.
+   *
+   * @return if the board is full or not.
+   */
+  @Override
   public boolean isFull() {
     for (int cell : board.getCells()) {
       if (cell == EMPTY_CELL) {
