@@ -7,13 +7,14 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.headtrixz.game.GameBoard;
+
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.helpers.OnlineHelper;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.game.players.RemotePlayer;
 import com.headtrixz.networking.Connection;
-import com.headtrixz.networking.ServerMessage;
+import com.headtrixz.networking.InputListener;
 import com.headtrixz.networking.ServerMessageType;
 import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.players.TicTacToeAI;
@@ -21,6 +22,7 @@ import com.headtrixz.game.players.TicTacToeAI;
 import com.headtrixz.ui.elements.GameGrid;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -119,6 +121,7 @@ public class TournamentController implements GameMethods {
         Connection connection = Connection.getInstance();
         connection.getInputHandler().off(ServerMessageType.MATCH, onMatch);
         connection.getInputHandler().off(ServerMessageType.PLAYERLIST, onPlayerList);
+
         connection.getOutputHandler().logout();
         UIManager.switchScreen("home");
     }
@@ -160,8 +163,8 @@ public class TournamentController implements GameMethods {
      * A listener that listens to the network connecting and starts a local game
      * to mirror the online game.
      */
-    private final Consumer<ServerMessage> onMatch = message -> {
-        HashMap<String, String> obj = message.getObject();
+    private final InputListener onMatch = message -> {
+        Map<String, String> obj = message.getObject();
         String oppenent = obj.get("OPPONENT");
         addToLogs("Start een match met: " + oppenent);
 
