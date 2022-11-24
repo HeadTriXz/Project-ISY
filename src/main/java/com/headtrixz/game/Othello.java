@@ -171,48 +171,56 @@ public class Othello extends GameModel {
     List<List<Integer>> directions = new ArrayList<>();
 
     List<Integer> ls = new ArrayList<>();
+    // up
     for (int i = move; i > 7; i -= 8) {
       ls.add(i);
     }
     directions.add(new ArrayList<>(ls));
     ls.clear();
 
+    // left
     for (int i = move; i % 8 != 0 && i > 0; i--) {
       ls.add(i);
     }
     directions.add(new ArrayList<>(ls));
     ls.clear();
 
+    // down
     for (int i = move; i <= 55; i += 8) {
       ls.add(i);
     }
     directions.add(new ArrayList<>(ls));
     ls.clear();
 
+    // right
     for (int i = move; i % 8 != 0 && i > 0; i++) {
       ls.add(i);
     }
     directions.add(new ArrayList<>(ls));
     ls.clear();
 
+    // left up
     for (int i = move; i % 8 != 0 && i > 8; i -= 9) {
       ls.add(i);
     }
     directions.add(new ArrayList<>(ls));
     ls.clear();
 
+    // right down
     for (int i = move; i + 1 % 8 != 0 && i <= 54; i += 9) {
       ls.add(i);
     }
     directions.add(new ArrayList<>(ls));
     ls.clear();
 
+    // left down
     for (int i = move; i + 1 % 8 != 0 && i <= 55; i += 7) {
       ls.add(i);
     }
     directions.add(new ArrayList<>(ls));
     ls.clear();
 
+    // left up
     for (int i = move; i % 8 != 0 && i > 7; i -= 7) {
       ls.add(i);
     }
