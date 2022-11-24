@@ -18,8 +18,10 @@ public class HackyAIPlayer extends Player {
     @Override
     public int getMove() {
         List<Integer> moves = game.getValidMoves();
-        int move = moves.get(rand.nextInt(moves.size()));
-        // System.out.println(move);
-        return move;
+        if (moves.size() == 0) {
+            return -1;
+        }
+
+        return moves.get(rand.nextInt(moves.size()));
     }
 }

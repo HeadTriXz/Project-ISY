@@ -11,7 +11,17 @@ import java.util.List;
  */
 public class Othello extends GameModel {
   private static final int BOARD_SIZE = 8;
-  private static final String NAME = "OTHELLO";
+  private static final int[][] DIRECTIONS = {
+          {0, -1},  // UP
+          {0, 1},   // DOWN
+          {1, 0},   // RIGHT
+          {-1, 0},  // LEFT
+          {1, -1},  // UP RIGHT
+          {-1, -1}, // UP LEFT
+          {1, 1},   // DOWN RIGHT
+          {-1, 1}   // DOWN LEFT
+  };
+  private static final String NAME = "Othello";
 
   /**
    * Represents a game of Othello.
@@ -22,6 +32,95 @@ public class Othello extends GameModel {
     board.setMove(28, PLAYER_TWO);
     board.setMove(35, PLAYER_TWO);
     board.setMove(36, PLAYER_ONE);
+  }
+
+  /**
+   * Show the tiles that will get fliped to the player when a stone is placed.
+   *
+   * @param move   the possition on the board.
+   * @param player the player who's turn it is.
+   * @return A list with the tiles that will be flipped when a move is set.
+   */
+  public List<Integer> getFlips(int move, int player) {
+    final int finalX = move % BOARD_SIZE;
+    final int finalY = move / BOARD_SIZE;
+
+    List<Integer> flips = new ArrayList<>();
+    for (int[] direction : DIRECTIONS) {
+      int x = finalX + direction[0];
+      int y = finalY + direction[1];
+
+      while (inBounds(x, y) && board.getMove(x, y) != EMPTY_CELL) {
+        if (board.getMove(x, y) == player) {
+          while (x - direction[0] != finalX || y - direction[1] != finalY) {
+            x -= direction[0];
+            y -= direction[1];
+
+            flips.add(x + y * BOARD_SIZE);
+          }
+
+          break;
+        }
+
+        x += direction[0];
+        y += direction[1];
+      }
+    }
+
+    return flips;
+  }
+
+  /**
+   * Returns the maximum score used for MiniMax.
+   *
+   * @return The maximum score.
+   */
+  public int getMaxScore() {
+    return 1000;
+  }
+
+  /**
+   * Returns the minimum score used for MiniMax.
+   *
+   * @return The minimum score.
+   */
+  public int getMinScore() {
+    return -1000;
+  }
+
+  /**
+   * Get the score for a player by counting the number of cells that are owned by that player.
+   *
+   * @param player The player to get the score for.
+   * @return The number of cells that the player has taken.
+   */
+  private int getPlayerScore(int player) {
+    int score = 0;
+    for (int cell : board.getCells()) {
+      if (cell == player) {
+        score++;
+      }
+    }
+    return score;
+  }
+
+  /**
+   * get the score of the game in its current state. the scoring is -2 if current
+   * player has won, -1
+   * if current player has lost, 0 if game is still going or ended in draw
+   *
+   * @return the score of the board
+   */
+  public int getScore(Player currentPlayer, int depth) {
+    if (getState() == GameState.DRAW || getState() == GameState.PLAYING) {
+      return 0;
+    }
+
+    if (hasPlayerWon(currentPlayer)) {
+      return getMaxScore() / depth;
+    }
+
+    return getMinScore() / depth; // player has lost
   }
 
   /**
@@ -54,22 +153,6 @@ public class Othello extends GameModel {
     return GameState.DRAW;
   }
 
-  private int getPlayerScore(int player) {
-    int score = 0;
-    for (int cell : board.getCells()) {
-      if (cell == player) {
-        score++;
-      }
-    }
-    return score;
-  }
-
-  private boolean isPlaying() {
-    List<Integer> playerOneMoves = getValidMoves(1);
-    List<Integer> playerTWoMoves = getValidMoves(2);
-    return playerOneMoves.size() + playerTWoMoves.size() > 1;
-  }
-
   /**
    * Returns a list of all available cells on the board.
    *
@@ -79,6 +162,12 @@ public class Othello extends GameModel {
     return getValidMoves(getCurrentPlayer().getId());
   }
 
+  /**
+   * Returns a list of all available cells on the board.
+   *
+   * @param player The player to get the valid moves for.
+   * @return A list of all available cells on the board.
+   */
   public List<Integer> getValidMoves(int player) {
     List<Integer> list = new ArrayList<>();
     for (int i = 0; i < board.getCellCount(); i++) {
@@ -88,6 +177,29 @@ public class Othello extends GameModel {
     }
 
     return list;
+  }
+
+  /**
+   * Returns true if the given move is within the bounds of the board.
+   *
+   * @param x The x coordinate of the tile to check.
+   * @param y The y coordinate of the tile to check.
+   * @return Whether the move is in bounds.
+   */
+  private boolean inBounds(int x, int y) {
+    return x >= 0 && x < board.getSize() && y >= 0 && y < board.getSize();
+  }
+
+  /**
+   * If there are more than one valid moves, the game is still playing.
+   *
+   * @return Whether the players are still playing.
+   */
+  private boolean isPlaying() {
+    List<Integer> playerOneMoves = getValidMoves(PLAYER_ONE);
+    List<Integer> playerTwoMoves = getValidMoves(PLAYER_TWO);
+
+    return playerOneMoves.size() + playerTwoMoves.size() > 0;
   }
 
   /**
@@ -136,153 +248,4 @@ public class Othello extends GameModel {
       board.setMove(cell, player);
     }
   }
-
-  /**
-   * Show the tiles that will get fliped to the player when a stone is placed.
-   *
-   * @param move   the possition on the board.
-   * @param player the player who's turn it is.
-   * @return
-   */
-  public List<Integer> getFlips(int move, int player) {
-    List<List<Integer>> directions = new ArrayList<>();
-
-    List<Integer> ls = new ArrayList<>();
-    // up
-    for (int i = move; i > 7; i -= 8) {
-      ls.add(i);
-    }
-    directions.add(new ArrayList<>(ls));
-    ls.clear();
-
-    // left
-    for (int i = move; i % 8 != 0 && i > 0; i--) {
-      ls.add(i);
-    }
-    directions.add(new ArrayList<>(ls));
-    ls.clear();
-
-    // down
-    for (int i = move; i <= 55; i += 8) {
-      ls.add(i);
-    }
-    directions.add(new ArrayList<>(ls));
-    ls.clear();
-
-    // right
-    for (int i = move; (i + 1) % 8 != 0 && i > 0; i++) {
-      ls.add(i);
-    }
-    directions.add(new ArrayList<>(ls));
-    ls.clear();
-
-    // left up
-    for (int i = move; i % 8 != 0 && i > 8; i -= 9) {
-      ls.add(i);
-    }
-    directions.add(new ArrayList<>(ls));
-    ls.clear();
-
-    // right down
-    for (int i = move; (i + 1) % 8 != 0 && i <= 54; i += 9) {
-      ls.add(i);
-    }
-    directions.add(new ArrayList<>(ls));
-    ls.clear();
-
-    // left down
-    for (int i = move; i % 8 != 0 && i <= 55; i += 7) {
-      ls.add(i);
-    }
-    directions.add(new ArrayList<>(ls));
-    ls.clear();
-
-    // right up
-    for (int i = move; (i + 1) % 8 != 0 && i > 7; i -= 7) {
-      ls.add(i);
-    }
-    directions.add(new ArrayList<>(ls));
-    ls.clear();
-
-    int[] cells = board.getCells();
-    List<Integer> flips = new ArrayList<>();
-    for (List<Integer> direction : directions) {
-      if (direction.size() == 0) {
-        continue;
-      }
-      direction.remove(0);
-
-      // When it comes across a other value that isn't player, remove
-      List<Integer> flipsRow = new ArrayList<>();
-
-      for (int set : direction) {
-        if (cells[set] == EMPTY_CELL) {
-          break;
-        }
-
-        if (cells[set] != player) {
-          flipsRow.add(set);
-        }
-
-        if (cells[set] == player) {
-          flips.addAll(flipsRow);
-          break;
-        }
-      }
-    }
-
-    return flips;
-  }
-
-  /**
-   * Check wether the board is full.
-   *
-   * @return if the board is full or not.
-   */
-  public boolean isFull() {
-    for (int cell : board.getCells()) {
-      if (cell == EMPTY_CELL) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * get the score of the game in its current state. the scoring is -2 if current
-   * player has won, -1 if current player has lost, 0 if game is still going or
-   * ended in draw
-   *
-   * @return the score of the board
-   */
-  public int getScore(Player currentPlayer, int depth) {
-    if (getState() == GameState.DRAW || getState() == GameState.PLAYING) {
-      return 0;
-    }
-
-    if (hasPlayerWon(currentPlayer)) {
-      return getMaxScore() / depth;
-    }
-
-    return getMinScore() / depth; // player has lost
-  }
-
-  /**
-   * Returns the maximum score used for MiniMax.
-   *
-   * @return The maximum score.
-   */
-  public int getMaxScore() {
-    return 1000;
-  }
-
-  /**
-   * Returns the minimum score used for MiniMax.
-   *
-   * @return The minimum score.
-   */
-  public int getMinScore() {
-    return -1000;
-  }
-
 }

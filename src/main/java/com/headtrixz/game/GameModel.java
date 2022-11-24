@@ -86,6 +86,15 @@ public abstract class GameModel {
     }
 
     /**
+     * Get the helper.
+     *
+     * @return the helper.
+     */
+    public GameModelHelper getHelper() {
+        return helper;
+    }
+
+    /**
      * Returns the player at the given index.
      *
      * @param i The index of the player you want to get.
@@ -225,13 +234,4 @@ public abstract class GameModel {
      * @param player The player who is making the move.
      */
     public abstract void setMove(int move, int player);
-
-    /**
-     * Get the helper.
-     *
-     * @return the helper.
-     */
-    public GameModelHelper getHelper() {
-        return helper;
-    }
 }
