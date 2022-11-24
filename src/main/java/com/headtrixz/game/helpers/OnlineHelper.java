@@ -5,12 +5,11 @@ import com.headtrixz.game.players.Player;
 import com.headtrixz.game.players.RemotePlayer;
 import com.headtrixz.networking.Connection;
 import com.headtrixz.networking.InputHandler;
-import com.headtrixz.networking.ServerMessage;
+import com.headtrixz.networking.InputListener;
 import com.headtrixz.networking.ServerMessageType;
+import java.util.Map;
 import javafx.application.Platform;
 
-import java.util.HashMap;
-import java.util.function.Consumer;
 
 /**
  * Represents a helper class that handles the game logic for an online game.
@@ -70,11 +69,11 @@ public class OnlineHelper implements GameModelHelper {
                 : game.getPlayer(0);
 
         InputHandler input = connection.getInputHandler();
-        input.on(ServerMessageType.MOVE, onMove);
-        input.on(ServerMessageType.DRAW, onDraw);
-        input.on(ServerMessageType.LOSS, onLoss);
-        input.on(ServerMessageType.WIN, onWin);
-        input.on(ServerMessageType.YOURTURN, onYourTurn);
+        input.subscribe(ServerMessageType.MOVE, onMove);
+        input.subscribe(ServerMessageType.DRAW, onDraw);
+        input.subscribe(ServerMessageType.LOSS, onLoss);
+        input.subscribe(ServerMessageType.WIN, onWin);
+        input.subscribe(ServerMessageType.YOURTURN, onYourTurn);
     }
 
     /**
@@ -100,8 +99,8 @@ public class OnlineHelper implements GameModelHelper {
     /**
      * A listener for the "SVR GAME MOVE" event.
      */
-    private final Consumer<ServerMessage> onMove = message -> {
-        HashMap<String, String> obj = message.getObject();
+    private final InputListener onMove = message -> {
+        Map<String, String> obj = message.getObject();
         Player player = game.getPlayer(obj.get("PLAYER"));
         int move = Integer.parseInt(obj.get("MOVE"));
 
@@ -118,7 +117,7 @@ public class OnlineHelper implements GameModelHelper {
     /**
      * A listener for the "SVR GAME DRAW" event.
      */
-    private final Consumer<ServerMessage> onDraw = message -> {
+    private final InputListener onDraw = message -> {
         state = GameModel.GameState.DRAW;
         endGame();
     };
@@ -126,7 +125,7 @@ public class OnlineHelper implements GameModelHelper {
     /**
      * A listener for the "SVR GAME LOSS" event.
      */
-    private final Consumer<ServerMessage> onLoss = message -> {
+    private final InputListener onLoss = message -> {
         state = localPlayer.getId() == 1
                 ? GameModel.GameState.PLAYER_TWO_WON
                 : GameModel.GameState.PLAYER_ONE_WON;
@@ -137,7 +136,7 @@ public class OnlineHelper implements GameModelHelper {
     /**
      * A listener for the "SVR GAME WIN" event.
      */
-    private final Consumer<ServerMessage> onWin = message -> {
+    private final InputListener onWin = message -> {
         state = localPlayer.getId() == 1
                 ? GameModel.GameState.PLAYER_ONE_WON
                 : GameModel.GameState.PLAYER_TWO_WON;
@@ -148,7 +147,7 @@ public class OnlineHelper implements GameModelHelper {
     /**
      * A listener for the "SVR GAME YOURTURN" event.
      */
-    private final Consumer<ServerMessage> onYourTurn = message -> {
+    private final InputListener onYourTurn = message -> {
         nextTurn(localPlayer);
     };
 
@@ -157,10 +156,10 @@ public class OnlineHelper implements GameModelHelper {
      */
     private void unsubscribeAll() {
         InputHandler input = connection.getInputHandler();
-        input.off(ServerMessageType.MOVE, onMove);
-        input.off(ServerMessageType.DRAW, onDraw);
-        input.off(ServerMessageType.LOSS, onLoss);
-        input.off(ServerMessageType.WIN, onWin);
-        input.off(ServerMessageType.YOURTURN, onYourTurn);
+        input.unsubscribe(ServerMessageType.MOVE, onMove);
+        input.unsubscribe(ServerMessageType.DRAW, onDraw);
+        input.unsubscribe(ServerMessageType.LOSS, onLoss);
+        input.unsubscribe(ServerMessageType.WIN, onWin);
+        input.unsubscribe(ServerMessageType.YOURTURN, onYourTurn);
     }
 }
