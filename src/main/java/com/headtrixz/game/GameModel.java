@@ -211,13 +211,6 @@ public abstract class GameModel {
     public abstract List<Integer> getValidMoves();
 
     /**
-     * Returns whether the board is full.
-     *
-     * @return Whether the board has no empty cells left.
-     */
-    public abstract boolean isFull();
-
-    /**
      * Returns whether the move is allowed to be set.
      *
      * @param move The move to be checked.

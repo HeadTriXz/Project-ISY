@@ -35,50 +35,39 @@ public class Othello extends GameModel {
     if (state != null) {
       return state;
     }
-    if (hasWon(PLAYER_ONE)) {
+
+    if (isPlaying()) {
+      return GameState.PLAYING;
+    }
+
+    int p1 = getPlayerScore(PLAYER_ONE);
+    int p2 = getPlayerScore(PLAYER_TWO);
+
+    if (p1 > p2) {
       return GameState.PLAYER_ONE_WON;
     }
-    if (hasWon(PLAYER_TWO)) {
+
+    if (p2 > p1) {
       return GameState.PLAYER_TWO_WON;
     }
-    return GameState.PLAYING;
+
+    return GameState.DRAW;
   }
 
-  /**
-   * get the score of the game in its current state. the scoring is -2 if current
-   * player has won, -1
-   * if current player has lost, 0 if game is still going or ended in draw
-   *
-   * @return the score of the board
-   */
-  public int getScore(Player currentPlayer, int depth) {
-    if (getState() == GameState.DRAW || getState() == GameState.PLAYING) {
-      return 0;
+  private int getPlayerScore(int player) {
+    int score = 0;
+    for (int cell : board.getCells()) {
+      if (cell == player) {
+        score++;
+      }
     }
-
-    if (hasPlayerWon(currentPlayer)) {
-      return getMaxScore() / depth;
-    }
-
-    return getMinScore() / depth; // player has lost
+    return score;
   }
 
-  /**
-   * Returns the maximum score used for MiniMax.
-   *
-   * @return The maximum score.
-   */
-  public int getMaxScore() {
-    return 1000;
-  }
-
-  /**
-   * Returns the minimum score used for MiniMax.
-   *
-   * @return The minimum score.
-   */
-  public int getMinScore() {
-    return -1000;
+  private boolean isPlaying() {
+    List<Integer> playerOneMoves = getValidMoves(1);
+    List<Integer> playerTWoMoves = getValidMoves(2);
+    return playerOneMoves.size() + playerTWoMoves.size() > 1;
   }
 
   /**
@@ -87,30 +76,18 @@ public class Othello extends GameModel {
    * @return A list of all available cells on the board.
    */
   public List<Integer> getValidMoves() {
+    return getValidMoves(getCurrentPlayer().getId());
+  }
+
+  public List<Integer> getValidMoves(int player) {
     List<Integer> list = new ArrayList<>();
     for (int i = 0; i < board.getCellCount(); i++) {
-      if (isValidMove(i, getCurrentPlayer().getId())) {
+      if (isValidMove(i, player)) {
         list.add(i);
       }
     }
 
     return list;
-  }
-
-  /**
-   * Check whether player has won.
-   *
-   * @param player the player to check.
-   * @return has player won.
-   */
-  private boolean hasWon(int player) {
-    int checkPlayer = getCurrentPlayer().getId() == 1 ? 2 : 1;
-    for (int i = 0; i < board.getCellCount(); i++) {
-      if (isValidMove(i, checkPlayer)) {
-        return false;
-      }
-    }
-    return true;
   }
 
   /**
@@ -262,7 +239,6 @@ public class Othello extends GameModel {
    *
    * @return if the board is full or not.
    */
-  @Override
   public boolean isFull() {
     for (int cell : board.getCells()) {
       if (cell == EMPTY_CELL) {
@@ -271,4 +247,42 @@ public class Othello extends GameModel {
     }
     return true;
   }
+
+  /**
+   * get the score of the game in its current state. the scoring is -2 if current
+   * player has won, -1 if current player has lost, 0 if game is still going or
+   * ended in draw
+   *
+   * @return the score of the board
+   */
+  public int getScore(Player currentPlayer, int depth) {
+    if (getState() == GameState.DRAW || getState() == GameState.PLAYING) {
+      return 0;
+    }
+
+    if (hasPlayerWon(currentPlayer)) {
+      return getMaxScore() / depth;
+    }
+
+    return getMinScore() / depth; // player has lost
+  }
+
+  /**
+   * Returns the maximum score used for MiniMax.
+   *
+   * @return The maximum score.
+   */
+  public int getMaxScore() {
+    return 1000;
+  }
+
+  /**
+   * Returns the minimum score used for MiniMax.
+   *
+   * @return The minimum score.
+   */
+  public int getMinScore() {
+    return -1000;
+  }
+
 }
