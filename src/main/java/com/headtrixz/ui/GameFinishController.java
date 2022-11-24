@@ -17,10 +17,19 @@ public class GameFinishController {
 
     private final GameModel game;
 
+    /**
+     * Inits the game finish controller with data.
+     *
+     * @param game the state of the game whenever it finished.
+     */
     public GameFinishController(GameModel game) {
         this.game = game;
     }
 
+    /**
+     * FXML init method. Gets called when the screen has loaded.
+     * Shows the board with who has won.
+     */
     public void initialize() {
         String opponentName = game.getPlayer(1).getUsername();
         String text = switch (game.getState()) {
@@ -44,6 +53,9 @@ public class GameFinishController {
         container.getChildren().add(grid);
     }
 
+    /**
+     * OnClick event to go back to the home screen.
+     */
     public void goHome() {
         UIManager.switchScreen("home");
     }

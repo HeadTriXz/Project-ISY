@@ -1,8 +1,10 @@
 package com.headtrixz.game;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Represents a game board.
+ */
 public class GameBoard {
     public static final int EMPTY_CELL = 0;
     public static final int PLAYER_ONE = 1;
@@ -11,16 +13,29 @@ public class GameBoard {
     private int[] cells;
     private final int size;
 
+    /**
+     * Represents a game board.
+     *
+     * @param size The size of the game board.
+     */
     public GameBoard(int size) {
         this.size = size;
         this.cells = new int[size * size];
         clear();
     }
 
+    /**
+     * Clears the game board.
+     */
     public void clear() {
         Arrays.fill(cells, EMPTY_CELL);
     }
 
+    /**
+     * Returns a copy of the current game board.
+     *
+     * @return A copy of the current GameBoard object.
+     */
     @Override
     public GameBoard clone() {
         GameBoard board = new GameBoard(size);
@@ -29,64 +44,60 @@ public class GameBoard {
         return board;
     }
 
+    /**
+     * Returns the number of cells.
+     *
+     * @return The number of cells.
+     */
     public int getCellCount() {
         return cells.length;
     }
 
+    /**
+     * Returns the cells of the board.
+     *
+     * @return The cells of the board.
+     */
+    public int[] getCells() {
+        return cells;
+    }
+
+    /**
+     * Given an x and y coordinate, return the value of the cell at that coordinate.
+     *
+     * @param x The x coordinate of the cell
+     * @param y The y coordinate of the cell
+     * @return The value of the cell at the given coordinates.
+     */
     public int getMove(int x, int y) {
         return cells[y * size + x];
     }
 
+    /**
+     * Returns the value of the cell at the index.
+     *
+     * @param move The index of the move.
+     * @return The value of the cell at the index.
+     */
     public int getMove(int move) {
         return cells[move];
     }
 
-    public int getScore(int player) {
-        int score = 0;
-        for (int cell : cells) {
-            if (cell == player) {
-                score++;
-            }
-        }
-
-        return score;
-    }
-
+    /**
+     * Returns the size of the game board.
+     *
+     * @return The size of the game board.
+     */
     public int getSize() {
         return size;
     }
 
-    public ArrayList<Integer> getValidMoves() {
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 0; i < cells.length; i++) {
-            if (cells[i] == EMPTY_CELL) {
-                list.add(i);
-            }
-        }
-
-        return list;
-    }
-
-    public boolean isFull() {
-        for (int cell : cells) {
-            if (cell == EMPTY_CELL) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean isValidMove(int move) {
-        return move >= 0
-                && move < cells.length
-                && cells[move] == EMPTY_CELL;
-    }
-
-    public void setMove(int x, int y, int player) {
-        cells[y * size + x] = player;
-    }
-
+    /**
+     * Sets the value of the cell at the given index to the given player.
+     *
+     * @param move The move that the player wants to make.
+     * @param player The player who is making the move.
+     */
     public void setMove(int move, int player) {
         cells[move] = player;
     }
@@ -97,8 +108,6 @@ public class GameBoard {
         if (o == null || getClass() != o.getClass()) return false;
 
         GameBoard gameBoard = (GameBoard) o;
-
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
         return Arrays.equals(cells, gameBoard.cells);
     }
 
