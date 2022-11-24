@@ -72,9 +72,9 @@ public class TournamentController implements GameMethods {
 
         Connection connection = Connection.getInstance();
         connection.getOutputHandler().login(username);
-        connection.getInputHandler().on(ServerMessageType.MATCH, onMatch);
+        connection.getInputHandler().subscribe(ServerMessageType.MATCH, onMatch);
 
-        connection.getInputHandler().on(ServerMessageType.PLAYERLIST, onPlayerList);
+        connection.getInputHandler().subscribe(ServerMessageType.PLAYERLIST, onPlayerList);
 
         Thread work = new Thread(() -> {
             while (true) {
@@ -119,8 +119,8 @@ public class TournamentController implements GameMethods {
         }
 
         Connection connection = Connection.getInstance();
-        connection.getInputHandler().off(ServerMessageType.MATCH, onMatch);
-        connection.getInputHandler().off(ServerMessageType.PLAYERLIST, onPlayerList);
+        connection.getInputHandler().unsubscribe(ServerMessageType.MATCH, onMatch);
+        connection.getInputHandler().unsubscribe(ServerMessageType.PLAYERLIST, onPlayerList);
 
         connection.getOutputHandler().logout();
         UIManager.switchScreen("home");
@@ -187,7 +187,7 @@ public class TournamentController implements GameMethods {
     /**
      * A listener that listens to the user playlist and sets that visible in the GUI
      */
-    private final Consumer<ServerMessage> onPlayerList = message -> {
+    private final InputListener onPlayerList = message -> {
         List<String> playersList = new ArrayList<String>(Arrays.asList(message.getArray()));
 
         onlineText.setText(String.format("Online: %d", playersList.size()));
