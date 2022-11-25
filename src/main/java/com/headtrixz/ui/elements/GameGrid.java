@@ -1,5 +1,7 @@
 package com.headtrixz.ui.elements;
 
+import java.util.List;
+import java.util.function.Consumer;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.layout.GridPane;
@@ -7,19 +9,18 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-import java.util.List;
-import java.util.function.Consumer;
-
+/**
+ * The GameGrid component/element.
+ */
 public class GameGrid extends GridPane {
     private Consumer<Integer> callback;
 
     /**
      * Create a fancy new board! With some options.
      *
-     * @param size         The amount of the squares it has each direction.
-     * @param gridSize     The size that the grid is allowed to be.
-     * @param renderCursor Render a pointy cursor when someone hover over a open
-     *                     square.
+     * @param size The amount of the squares it has each direction.
+     * @param gridSize The size that the grid is allowed to be.
+     * @param renderCursor Render a pointy cursor when someone hover over a open square.
      */
     public GameGrid(int size, double gridSize, boolean renderCursor) {
         super();
@@ -47,7 +48,7 @@ public class GameGrid extends GridPane {
     /**
      * Set a symbol in a square and disable the cursor.
      *
-     * @param move   The index to fill in.
+     * @param move The index to fill in.
      * @param player The symbol to put into the square.
      */
     public void setTile(int move, String player) {
@@ -79,6 +80,11 @@ public class GameGrid extends GridPane {
         this.callback = callback;
     }
 
+    /**
+     * Clear the complete board.
+     *
+     * @param len the length of the board.
+     */
     public void clearBoard(int len) {
         for (int i = 0; i < len; i++) {
             StackPane pane = (StackPane) this.getChildren().get(i + 1);
@@ -86,6 +92,11 @@ public class GameGrid extends GridPane {
         }
     }
 
+    /**
+     * Set suggestion tiles.
+     *
+     * @param suggestions the suggestions.
+     */
     public void setSuggestions(List<Integer> suggestions) {
         for (int move : suggestions) {
             Text text = new Text("s");
@@ -96,6 +107,11 @@ public class GameGrid extends GridPane {
         }
     }
 
+    /**
+     * Mark a tile with the red color.
+     *
+     * @param cell the index on the board.
+     */
     public void makeRed(int cell) {
         StackPane pane = (StackPane) this.getChildren().get(cell + 1);
         Text t = (Text) pane.getChildren().get(0);

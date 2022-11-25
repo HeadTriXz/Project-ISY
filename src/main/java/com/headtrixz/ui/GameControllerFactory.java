@@ -3,12 +3,15 @@ package com.headtrixz.ui;
 import com.headtrixz.game.Othello;
 import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.helpers.OfflineHelper;
-import com.headtrixz.game.players.HumanPlayer;
-import com.headtrixz.game.players.Player;
 import com.headtrixz.game.players.AiPlayer;
 import com.headtrixz.game.players.HackyAIPlayer;
+import com.headtrixz.game.players.HumanPlayer;
+import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.util.GameType;
 
+/**
+ * Create a new game controller fresh from the factory.
+ */
 public class GameControllerFactory {
 
     /**
@@ -43,8 +46,10 @@ public class GameControllerFactory {
                 gameModel.initialize(controller, helper, humanPlayer, aiPlayer);
                 return controller;
             }
-        }
 
-        return null;
+            default -> {
+                return null;
+            }
+        }
     }
 }

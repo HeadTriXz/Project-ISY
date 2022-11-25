@@ -1,31 +1,24 @@
 package com.headtrixz.ui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.function.Consumer;
-
-import com.headtrixz.game.GameBoard;
-
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
+import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.helpers.OnlineHelper;
+import com.headtrixz.game.players.AiPlayer;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.game.players.RemotePlayer;
 import com.headtrixz.networking.Connection;
 import com.headtrixz.networking.InputListener;
 import com.headtrixz.networking.ServerMessageType;
-import com.headtrixz.game.TicTacToe;
-import com.headtrixz.game.players.AiPlayer;
-
 import com.headtrixz.ui.elements.GameGrid;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 

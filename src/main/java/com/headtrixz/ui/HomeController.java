@@ -2,12 +2,14 @@ package com.headtrixz.ui;
 
 import com.headtrixz.ui.helpers.Validator;
 import com.headtrixz.ui.util.GameType;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/**
+ * A FXML controller for the home screen.
+ */
 public class HomeController {
     @FXML
     private TextField usernameField;
@@ -24,8 +26,8 @@ public class HomeController {
     private Validator validator;
 
     /**
-     * FXML init method. Gets called when the screen has loaded.
-     * Sets the saved username to the text field.
+     * FXML init method. Gets called when the screen has loaded. Sets the saved username to the text
+     * field.
      */
     public void initialize() {
         usernameField.setText(UIManager.getSetting("username"));
