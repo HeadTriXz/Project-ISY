@@ -46,4 +46,15 @@ class GameModelTest {
         assertEquals(game.getOpponent(playerOne), playerTwo); //player one test
         assertEquals(game.getOpponent(playerTwo), playerOne); // player two test
     }
+
+    @Test
+    void CurrentPlayerWonTest() {
+        int[] controllBoard = {1, 2, 1, 2, 1, 1, 2, 0, 1};
+        game.getBoard().setCells(controllBoard);
+
+        assertTrue(game.hasPlayerWon(game.getPlayer(0)));
+        assertFalse(game.hasPlayerWon(game.getPlayer(1)));
+
+
+    }
 }
