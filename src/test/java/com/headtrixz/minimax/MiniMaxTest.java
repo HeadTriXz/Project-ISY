@@ -12,26 +12,25 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class TestMiniMaxTestTicTacToe {
-    private final MiniMax miniMax;
-    private final GameModel game;
+    private MiniMax miniMax;
+    private GameModel game;
 
-    public TestMiniMaxTestTicTacToe() {
-
+    @BeforeEach
+    void setUp() {
         TicTacToe game = new TicTacToe();
         OfflineHelper helper = new OfflineHelper(game);
 
         Player playerOne = new HumanPlayer(game, "Humon");
         Player playerTwo = new HumanPlayer(game, "Compuper");
 
-
         GameController controller = new GameController();
         game.initialize(controller, helper, playerOne, playerTwo);
-
 
         this.game = game;
         this.miniMax = new MiniMax(game);
@@ -47,16 +46,24 @@ class TestMiniMaxTestTicTacToe {
 
             String[] testCaseSplit = testCase.split(":");
             // parse string from Arrays.toString() to int array
-            JSONArray jsonArray = new JSONArray(testCaseSplit[0]);
-            int[] board = jsonArray.toList().stream().mapToInt(i -> (int)i).toArray();
+            JSONArray jsonArray;
+            try {
+                jsonArray = new JSONArray(testCaseSplit[0]);
+            } catch (Exception e) {
+                System.out.println("Error parsing test case on line " + ++testCaseCounter);
+                System.out.println(--testCaseCounter + " tests completed successfully.");
+                return;
+            }
+            int[] board = jsonArray.toList().stream().mapToInt(i -> (int) i).toArray();
 
             game.getBoard().setCells(board);
             int expectedMove = Integer.parseInt(testCaseSplit[2]);
             int currentPlayerID = Integer.parseInt(testCaseSplit[1]);
 
-            game.setCurrentPlayer(game.getPlayer(currentPlayerID-1));
+            game.setCurrentPlayer(game.getPlayer(currentPlayerID - 1));
 
-            assertEquals(expectedMove, miniMax.getMove(), "Test case("+testCaseCounter+") failed");
+            assertEquals(expectedMove, miniMax.getMove(),
+                    "Test case(" + testCaseCounter + ") failed");
             testCaseCounter++;
         }
     }
@@ -71,7 +78,7 @@ class TestMiniMaxTestTicTacToe {
             }
             scanner.close();
             return lines;
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             fail("Test cases file not found: " + filePath);
             return null;
         }
