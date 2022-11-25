@@ -48,6 +48,7 @@ class TestMiniMaxTestTicTacToe {
             game.getBoard().setCells(testCase.board);
             game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerID - 1));
             int move = miniMax.getMove();
+
             if (move != testCase.expectedMove) {
                 miniMax.getMove();
             }
@@ -67,6 +68,7 @@ class TestMiniMaxTestTicTacToe {
         for (TestCase testCase : testCases) {
             game.getBoard().setCells(testCase.board);
             game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerID - 1));
+
 
             assertEquals(testCase.expectedMove, miniMax.getMoveIterative(1000),
                     "Test case(" + testCaseCounter + ") failed");
@@ -90,12 +92,24 @@ class TestMiniMaxTestTicTacToe {
         }
     }
 
-    static ArrayList<TestCase> generateTestCases(String textFile) {
-        ArrayList<String> fileLInes = readFile(textFile);
 
-        ArrayList<TestCase> testCases = new ArrayList<>();
-        for (String line : fileLInes) {
-            String[] testCaseSplit = line.split(":");
+    /**
+     * Generate test cases from a file.
+     * @param textFile The file to read from.
+     * @return An arrayList of test cases.
+     */
+    static ArrayList<TestCase> generateTestCases(String textFile) {
+        ArrayList<String> fileLines = readFile(textFile);
+
+        ArrayList<TestCase> testCases = new ArrayList<>(fileLines.size());
+        for (String line : fileLines) {
+            if (!line.startsWith("[")) {
+                continue;
+            }
+            String[] lineParts = line.split("//");
+            String comment = lineParts.length > 1 ? lineParts[1].trim() : "";
+
+            String[] testCaseSplit = lineParts[0].trim().split(":");
             // parse string from Arrays.toString() to int array
             JSONArray jsonArray;
             try {
@@ -104,11 +118,12 @@ class TestMiniMaxTestTicTacToe {
                 fail("Test case file is not in the correct format");
                 return null;
             }
+            // parse the actual test case.
             int[] board = jsonArray.toList().stream().mapToInt(i -> (int) i).toArray();
             int expectedMove = Integer.parseInt(testCaseSplit[2]);
             int currentPlayerID = Integer.parseInt(testCaseSplit[1]);
 
-            testCases.add(new TestCase(board, currentPlayerID, expectedMove));
+            testCases.add(new TestCase(board, currentPlayerID, expectedMove, comment));
         }
 
         return testCases;
@@ -118,11 +133,13 @@ class TestMiniMaxTestTicTacToe {
         int[] board;
         int currentPlayerID;
         int expectedMove;
+        String comment;
 
-        public TestCase( int[] board, int currentPlayerID, int expectedMove){
+        public TestCase(int[] board, int currentPlayerID, int expectedMove, String comment) {
             this.board = board;
             this.currentPlayerID = currentPlayerID;
             this.expectedMove = expectedMove;
-        }
+            this.comment = comment;
         }
     }
+}

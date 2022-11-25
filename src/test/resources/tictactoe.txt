@@ -23,3 +23,8 @@
 [1, 2, 1, 2, 0, 2, 0, 2, 0]:1:4
 [1, 2, 1, 2, 0, 2, 0, 0, 2]:1:4
 [1, 2, 1, 2, 0, 2, 0, 0, 0]:2:4
+[1, 2, 2, 0, 1, 0, 0, 0, 0]:2:8
+[1, 2, 0, 0, 1, 0, 0, 0, 0]:2:8
+[1, 2, 2, 1, 1, 0, 0, 0, 0]:2:5
+[2, 0, 0, 0, 2, 1, 0, 1, 1]:2:1 // we will always lose this match
+[0, 0, 0, 0, 2, 0, 0, 1, 0]:2:0 // we wont pick move 8 because scoring doesnt check for certain patterns. 1 has a better chance to win compaired to 8. we prioritize winning over previnting loss

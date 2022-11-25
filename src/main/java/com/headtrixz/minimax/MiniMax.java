@@ -40,12 +40,10 @@ public class MiniMax {
         int bestMove = -1;
         int bestScore = Integer.MIN_VALUE;
 
-        int maxItterations = game.getBoard().getCellCount();
-        int depth = Math.abs(maxDepth - maxItterations);
 
         for (int move : game.getBoard().getValidMoves()) {
             game.getBoard().setMove(move, game.getCurrentPlayer().getId());
-            int score = negamax(depth, game.getCurrentPlayer(), 1, -80, 80);
+            int score = negamax(8, game.getCurrentPlayer(), 1, -80, 80);
             game.getBoard().setMove(move, GameBoard.EMPTY_CELL);
 
             if (score > bestScore) {
@@ -121,7 +119,7 @@ public class MiniMax {
 
 
         if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
-            return game.getScore(currentPlayer, depth);
+            return game.getScore(currentPlayer, depth + 1);
         }
 
 
@@ -131,9 +129,14 @@ public class MiniMax {
         for (int move : game.getBoard().getValidMoves()) {
             // set a move and get the score
             game.getBoard().setMove(move, opp.getId());
-            value = Math.max(value, -negamax(depth - 1, opp, -color, -beta, -alpha));
+            int  score = -negamax(depth - 1, opp, -color, -beta, -alpha);
+
+            value = Math.max(value, score);
             game.getBoard().setMove(move, GameBoard.EMPTY_CELL);
 
+            if (Math.abs(score) == 80) {
+                return score;
+            }
             // check if we can stop searching because we found the best possible board
             alpha = Math.max(alpha, value);
             if (alpha >= beta) {
