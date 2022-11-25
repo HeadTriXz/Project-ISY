@@ -184,20 +184,6 @@ public abstract class GameModel {
     }
 
     /**
-     * Returns the maximum score used for MiniMax.
-     *
-     * @return The maximum score.
-     */
-    public abstract int getMaxScore();
-
-    /**
-     * Returns the minimum score used for MiniMax.
-     *
-     * @return The minimum score.
-     */
-    public abstract int getMinScore();
-
-    /**
      * Returns the score of the current player at the current depth.
      *
      * @param currentPlayer The player whose turn it is to move.

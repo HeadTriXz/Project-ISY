@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -36,33 +38,37 @@ class TestMiniMaxTestTicTacToe {
         this.miniMax = new MiniMax(game);
     }
 
-    @org.junit.jupiter.api.Test
-    @org.junit.jupiter.api.DisplayName("getMove(), minimax tictactoe.")
+    @Test
+    @DisplayName("getMove(), minimax tictactoe.")
     void getMove() {
         // load all the test cases and expected moves
-        ArrayList<String> testCases = readFile("src/test/resources/tictactoe.txt");
+        ArrayList<TestCase> testCases = generateTestCases("src/test/resources/tictactoe.txt");
         int testCaseCounter = 1;
-        for (String testCase : testCases) {
-
-            String[] testCaseSplit = testCase.split(":");
-            // parse string from Arrays.toString() to int array
-            JSONArray jsonArray;
-            try {
-                jsonArray = new JSONArray(testCaseSplit[0]);
-            } catch (Exception e) {
-                System.out.println("Error parsing test case on line " + ++testCaseCounter);
-                System.out.println(--testCaseCounter + " tests completed successfully.");
-                return;
+        for (TestCase testCase : testCases) {
+            game.getBoard().setCells(testCase.board);
+            game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerID - 1));
+            int move = miniMax.getMove();
+            if (move != testCase.expectedMove) {
+                miniMax.getMove();
             }
-            int[] board = jsonArray.toList().stream().mapToInt(i -> (int) i).toArray();
 
-            game.getBoard().setCells(board);
-            int expectedMove = Integer.parseInt(testCaseSplit[2]);
-            int currentPlayerID = Integer.parseInt(testCaseSplit[1]);
+            assertEquals(testCase.expectedMove, miniMax.getMove(),
+                    "Test case(" + testCaseCounter + ") failed");
+            testCaseCounter++;
+        }
+    }
 
-            game.setCurrentPlayer(game.getPlayer(currentPlayerID - 1));
+    @Test
+    @DisplayName("getMoveItterative(), minimax tictactoe, itterative.")
+    void getMoveItterativeTest() {
+        ArrayList<TestCase> testCases = generateTestCases("src/test/resources/tictactoe.txt");
+        int testCaseCounter = 1;
 
-            assertEquals(expectedMove, miniMax.getMove(),
+        for (TestCase testCase : testCases) {
+            game.getBoard().setCells(testCase.board);
+            game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerID - 1));
+
+            assertEquals(testCase.expectedMove, miniMax.getMoveIterative(1000),
                     "Test case(" + testCaseCounter + ") failed");
             testCaseCounter++;
         }
@@ -83,4 +89,40 @@ class TestMiniMaxTestTicTacToe {
             return null;
         }
     }
-}
+
+    static ArrayList<TestCase> generateTestCases(String textFile) {
+        ArrayList<String> fileLInes = readFile(textFile);
+
+        ArrayList<TestCase> testCases = new ArrayList<>();
+        for (String line : fileLInes) {
+            String[] testCaseSplit = line.split(":");
+            // parse string from Arrays.toString() to int array
+            JSONArray jsonArray;
+            try {
+                jsonArray = new JSONArray(testCaseSplit[0]);
+            } catch (Exception e) {
+                fail("Test case file is not in the correct format");
+                return null;
+            }
+            int[] board = jsonArray.toList().stream().mapToInt(i -> (int) i).toArray();
+            int expectedMove = Integer.parseInt(testCaseSplit[2]);
+            int currentPlayerID = Integer.parseInt(testCaseSplit[1]);
+
+            testCases.add(new TestCase(board, currentPlayerID, expectedMove));
+        }
+
+        return testCases;
+    }
+
+    private static class TestCase {
+        int[] board;
+        int currentPlayerID;
+        int expectedMove;
+
+        public TestCase( int[] board, int currentPlayerID, int expectedMove){
+            this.board = board;
+            this.currentPlayerID = currentPlayerID;
+            this.expectedMove = expectedMove;
+        }
+        }
+    }

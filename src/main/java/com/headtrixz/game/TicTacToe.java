@@ -59,31 +59,14 @@ public class TicTacToe extends GameModel {
                 return 0;
             }
             case PLAYER_ONE_WON, PLAYER_TWO_WON -> {
-                return (10 + depth) * (hasPlayerWon(currentPlayer) ? 1 : -1);
+                double depthPenalty = depth / 8f;
+                return (int) ((hasPlayerWon(currentPlayer) ? 80 : -80) * depthPenalty);
             }
             default -> {
                 System.out.println("there was a error. unknown state");
                 return 0;
             }
         }
-    }
-
-    /**
-     * Returns the maximum score used for MiniMax.
-     *
-     * @return The maximum score.
-     */
-    public int getMaxScore() {
-        return 1000;
-    }
-
-    /**
-     * Returns the minimum score used for MiniMax.
-     *
-     * @return The minimum score.
-     */
-    public int getMinScore() {
-        return -1000;
     }
 
     /**
