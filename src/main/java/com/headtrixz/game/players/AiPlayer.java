@@ -1,8 +1,11 @@
 package com.headtrixz.game.players;
 
-import com.headtrixz.minimax.MiniMax;
 import com.headtrixz.game.GameModel;
+import com.headtrixz.minimax.MiniMax;
 
+/**
+ * The AI player that makes use of minimax.
+ */
 public class AiPlayer extends Player {
     private final MiniMax miniMax;
 

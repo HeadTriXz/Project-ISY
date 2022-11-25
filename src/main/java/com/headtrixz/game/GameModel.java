@@ -3,7 +3,6 @@ package com.headtrixz.game;
 import com.headtrixz.game.helpers.GameModelHelper;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
-
 import java.util.List;
 
 /**
@@ -130,8 +129,8 @@ public abstract class GameModel {
     }
 
     /**
-     * check if the given player has won by checking if the GameState value with
-     * index users id + 1 is equal to the current state
+     * Check if the given player has won by checking if the GameState value with
+     * index users id + 1 is equal to the current state.
      *
      * @param player the player to check
      * @return a boolean that is true if the player has won
