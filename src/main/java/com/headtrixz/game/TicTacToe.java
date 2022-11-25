@@ -48,15 +48,24 @@ public class TicTacToe extends GameModel {
 
     /**
      * get the score of the game in its current state. the scoring is
-     * -2 if current player has won, -1 if current player has lost, 0 if game is still going or ended in draw
+     * -2 if current player has won, -1 if current player has lost,
+     * 0 if game is still going or ended in draw.
      *
      * @return the score of the board
      */
     public int getScore(Player currentPlayer, int depth) {
-
-        if (getState() == GameState.DRAW) return 0;
-        if (hasPlayerWon(currentPlayer)) return 1000 / depth;
-        return -1000 / depth;
+        switch (getState()) {
+            case DRAW, PLAYING -> {
+                return 0;
+            }
+            case PLAYER_ONE_WON, PLAYER_TWO_WON -> {
+                return (10 + depth) * (hasPlayerWon(currentPlayer) ? 1 : -1);
+            }
+            default -> {
+                System.out.println("there was a error. unknown state");
+                return 0;
+            }
+        }
     }
 
     /**

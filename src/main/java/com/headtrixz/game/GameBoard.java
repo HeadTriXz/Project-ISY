@@ -14,7 +14,12 @@ public class GameBoard {
     private int[] cells;
     private final int size;
 
-    public void setCells(int[] cells ) {
+    /**
+     * set certain cells onto the game board. used for testing
+     *
+     * @param cells
+     */
+    public void setCells(int[] cells) {
         this.cells = cells;
     }
 

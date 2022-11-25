@@ -3,11 +3,15 @@ package com.headtrixz.minimax;
 import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
-import java.util.*;
-
+/**
+ * The minimax algorithm.
+ */
 public class MiniMax {
-    public final static int MAX_DEPTH = 8;
+    public static final int MAX_DEPTH = 8;
 
     private final GameModel game;
     private final Map<GameBoard, TranspositionEntry> transpositionTable;
@@ -20,8 +24,8 @@ public class MiniMax {
     /**
      * get the best next move for any given player based on the current game state.
      * the game should be advanced to the next player for it to work correctly.
-     * this function works using the current board and does not work on a clone of the board because it uses the state
-     * of the game determining the score of the board
+     * this function works using the current board and does not work on a clone of the board
+     * because it uses the state of the game determining the score of the board
      *
      * @return the best move to make given the current game state
      */
@@ -32,18 +36,21 @@ public class MiniMax {
     /**
      * get the best next move for any given player based on the current game state.
      * the game should be advanced to the next player for it to work correctly.
-     * this function works using the current board and does not work on a clone of the board because it uses the state
+     * this function works using the current board and does not work on a clone of the
+     * board because it uses the state
      * of the game determining the score of the board
      *
      * @param maxDepth the maximum depth to look to
      * @return the best move to make given the current game state
      */
     public int getMove(int maxDepth) {
-        return minimax(0, game.getCurrentPlayer(), maxDepth, game.getMinScore(), game.getMaxScore());
+        return minimax(0, game.getCurrentPlayer(), maxDepth, game.getMinScore(), game.getMaxScore(),
+                1);
     }
 
     /**
-     * get the best move for the current player given the current game state within the given time limit
+     * get the best move for the current player given the current game state
+     * within the given time limit.
      *
      * @param maxMillis the time limit in milliseconds
      * @return the best move to make given the current game state
@@ -63,21 +70,25 @@ public class MiniMax {
         work.start();
         try {
             work.join(maxMillis);
-        } catch (InterruptedException ignored) {}
+        } catch (InterruptedException ignored) {
+            // ignored
+        }
 
         return moves.getLast();
     }
 
-
     /**
-     * the algorith that actualy gets the correct next move
+     * the algorithm that actually gets the correct next move.
      *
      * @param depth         the current depth
      * @param currentPlayer the player that is currently at play
      * @return best move to make if depth == 0, else the score of the board
      */
-    private int minimax(int depth, Player currentPlayer, int maxDepth, int alpha, int beta) throws IllegalStateException {
-        int alphaOriginal = alpha;
+    private int minimax(int depth, Player currentPlayer, int maxDepth, int alpha, int beta,
+                        int color) throws IllegalStateException {
+
+
+        final int alphaOriginal = alpha;
 
         TranspositionEntry entry = transpositionTable.get(game.getBoard());
         if (entry != null && entry.depth() > depth && depth > 0) {
@@ -97,21 +108,21 @@ public class MiniMax {
 
         // check if the game is finished or the max depth has been reached
         if (game.getState() != GameModel.GameState.PLAYING || depth >= maxDepth) {
-            return game.getScore(currentPlayer, depth);
+            return game.getScore(currentPlayer, depth) * color;
         }
 
         Map<Integer, Integer> potentialOutcomes = new HashMap<>();
 
         //get the opponent. the id of current player is +1 of the index in players array
         // so by passing the currentPlayers id we get the next player
-        Player opp = game.getPlayer(currentPlayer.getId() % 2);
+        Player opp = game.getOpponent(currentPlayer);
 
         int max = Integer.MIN_VALUE;
         // iterate over all valid moves and calculate there score
         for (int move : game.cloneBoard().getValidMoves()) {
             game.getBoard().setMove(move, currentPlayer.getId());
 
-            int score = -minimax(depth + 1, opp, maxDepth, -beta, -alpha);
+            int score = -minimax(depth + 1, opp, maxDepth, -beta, -alpha, -color);
             potentialOutcomes.put(move, score);
 
             game.getBoard().setMove(move, 0);
@@ -119,7 +130,9 @@ public class MiniMax {
             // check if we already have a board with the max score.
             alpha = Math.max(alpha, score);
             max = Math.max(max, score);
-            if (alpha >= beta) break;
+            if (alpha >= beta) {
+                break;
+            }
         }
 
         // return the move if we are at the base call or the score if we are in a recursive call
@@ -140,7 +153,7 @@ public class MiniMax {
     }
 
     /**
-     * get the entry in the map with the best score
+     * get the entry in the map with the best score.
      *
      * @param boardScores the map with boardScores and moves
      * @return the map entry with the best score
