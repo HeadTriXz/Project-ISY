@@ -167,7 +167,7 @@ public class MiniMax {
             ttFlag = TranspositionEntry.Flags.LOWER_BOUND;
         }
 
-        transpositionTable.put(game.cloneBoard(), new TranspositionEntry(depth, value, ttFlag));
+        transpositionTable.put(game.cloneBoard(), new TranspositionEntry(value, depth, ttFlag));
 
     }
 }
