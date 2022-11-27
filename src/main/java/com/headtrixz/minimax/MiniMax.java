@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class MiniMax {
     private final GameModel game;
-    private final Map<GameBoard, TranspositionEntry> transpositionTable;
+    private final Map<Integer, TranspositionEntry> transpositionTable;
 
     public MiniMax(GameModel game) {
         this.game = game;
@@ -40,13 +40,32 @@ public class MiniMax {
         int bestMove = -1;
         int bestScore = Integer.MIN_VALUE;
 
+        // check if we can win in one move
+        for (int move : game.getBoard().getValidMoves()) {
+            game.getBoard().setMove(move, game.getCurrentPlayer().getId());
+            if (game.hasPlayerWon(game.getCurrentPlayer())) {
+                game.getBoard().setMove(move, GameBoard.EMPTY_CELL);
+                return move;
+            }
+            game.getBoard().setMove(move, GameBoard.EMPTY_CELL);
+        }
+
+        // check if we will lose
+        for (int move : game.getBoard().getValidMoves()) {
+            game.getBoard().setMove(move, game.getCurrentPlayer().getId() == 1 ? 2 : 1);
+            if (game.hasPlayerWon(game.getOpponent())) {
+                game.getBoard().setMove(move, GameBoard.EMPTY_CELL);
+                return move;
+            }
+            game.getBoard().setMove(move, GameBoard.EMPTY_CELL);
+        }
 
         for (int move : game.getBoard().getValidMoves()) {
             game.getBoard().setMove(move, game.getCurrentPlayer().getId());
             int score = negamax(8, game.getCurrentPlayer(), 1, -80, 80);
             game.getBoard().setMove(move, GameBoard.EMPTY_CELL);
 
-            if (score > bestScore) {
+            if (score >= bestScore) {
                 bestScore = score;
                 bestMove = move;
             }
@@ -91,14 +110,14 @@ public class MiniMax {
      * @param currentPlayer the player that is currently at play
      * @param alpha         the minimum score possible
      * @param beta          the maximum score possible
-     *
      * @return best move to make if depth == 0, else the score of the board
      */
     private int negamax(int depth, Player currentPlayer, int color, int alpha, int beta) {
         final int alphaOrig = alpha;
 
-        TranspositionEntry ttEntry = transpositionTable.get(game.getBoard());
-        if (ttEntry != null && ttEntry.depth() >= depth) {
+        TranspositionEntry ttEntry =
+                transpositionTable.get(TranspositionEntry.createHash(game.getBoard(), currentPlayer));
+        if (ttEntry != null && ttEntry.depth() > depth) {
             switch (ttEntry.flag()) {
                 case EXACT:
                     return ttEntry.value();
@@ -129,14 +148,11 @@ public class MiniMax {
         for (int move : game.getBoard().getValidMoves()) {
             // set a move and get the score
             game.getBoard().setMove(move, opp.getId());
-            int  score = -negamax(depth - 1, opp, -color, -beta, -alpha);
+            int score = -negamax(depth - 1, opp, -color, -beta, -alpha);
 
             value = Math.max(value, score);
             game.getBoard().setMove(move, GameBoard.EMPTY_CELL);
 
-            if (Math.abs(score) == 80) {
-                return score;
-            }
             // check if we can stop searching because we found the best possible board
             alpha = Math.max(alpha, value);
             if (alpha >= beta) {
@@ -144,7 +160,7 @@ public class MiniMax {
             }
         }
 
-        addBoardToTranspositionTable(value, alphaOrig, beta, depth);
+        addBoardToTranspositionTable(value, alphaOrig, beta, depth, currentPlayer);
         return value;
     }
 
@@ -154,10 +170,11 @@ public class MiniMax {
      *
      * @param value the value of the board.
      * @param alpha the alpha value.
-     * @param beta the beta value.
+     * @param beta  the beta value.
      * @param depth the depth of the board.
      */
-    private void addBoardToTranspositionTable(int value, int alpha, int beta, int depth) {
+    private void addBoardToTranspositionTable(int value, int alpha, int beta, int depth,
+                                              Player currentPlayer) {
 
         TranspositionEntry.Flags ttFlag = TranspositionEntry.Flags.EXACT;
         if (value < alpha) {
@@ -167,7 +184,8 @@ public class MiniMax {
             ttFlag = TranspositionEntry.Flags.LOWER_BOUND;
         }
 
-        transpositionTable.put(game.cloneBoard(), new TranspositionEntry(value, depth, ttFlag));
+        transpositionTable.put(TranspositionEntry.createHash(game.getBoard(), currentPlayer),
+                new TranspositionEntry(value, depth, ttFlag));
 
     }
 }

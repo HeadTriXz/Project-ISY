@@ -54,11 +54,11 @@ public class TicTacToe extends GameModel {
      * @return the score of the board
      */
     public int getScore(Player currentPlayer, int depth) {
-        double depthPenalty = depth / 8f;
+        double depthPenalty = depth / 9f; //TODO:: change to the max depth
 
         switch (getState()) {
             case DRAW, PLAYING -> {
-                if (getBoard().getMove(1,1) == currentPlayer.getId()) {
+                if (getBoard().getMove(1, 1) == currentPlayer.getId()) {
                     return (int) (40 * depthPenalty);
                 }
                 return 0;
