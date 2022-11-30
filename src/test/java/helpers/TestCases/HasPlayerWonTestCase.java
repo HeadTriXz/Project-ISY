@@ -1,4 +1,4 @@
-package helpers;
+package helpers.TestCases;
 
 public class HasPlayerWonTestCase {
     public int[] board;

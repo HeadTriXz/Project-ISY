@@ -4,7 +4,7 @@ import com.headtrixz.game.helpers.OfflineHelper;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.GameController;
-import helpers.HasPlayerWonTestCase;
+import helpers.TestCases.HasPlayerWonTestCase;
 import helpers.Helpers;
 import java.util.ArrayList;
 import java.util.Arrays;

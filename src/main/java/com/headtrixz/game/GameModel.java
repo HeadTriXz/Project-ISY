@@ -187,10 +187,11 @@ public abstract class GameModel {
      * Returns the score of the current player at the current depth.
      *
      * @param currentPlayer The player whose turn it is to move.
-     * @param depth The depth of the current node in the tree.
+     * @param depth         The depth of the current node in the tree.
+     * @param maxDepth      The max amount of layers to search through
      * @return The score of the current player.
      */
-    public abstract int getScore(Player currentPlayer, int depth);
+    public abstract int getScore(Player currentPlayer, int depth, int maxDepth);
 
     /**
      * Returns the current state of the game.

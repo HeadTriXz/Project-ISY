@@ -1,4 +1,4 @@
-package helpers;
+package helpers.TestCases;
 
 public class MiniMaxTestCase {
     public int[] board;

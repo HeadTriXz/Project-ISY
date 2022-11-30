@@ -2,6 +2,8 @@ package helpers;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+import helpers.TestCases.HasPlayerWonTestCase;
+import helpers.TestCases.MiniMaxTestCase;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class Helpers {
      * @param textFile The file to read from.
      * @return An arrayList of test cases.
      */
-    public static ArrayList<MiniMaxTestCase> generateMiniMaxTestCases(String textFile) {
+    public static ArrayList<MiniMaxTestCase> loadMiniMaxTestCases(String textFile) {
         ArrayList<String> fileLines = readFile(textFile);
 
         assert fileLines != null;

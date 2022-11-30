@@ -53,8 +53,8 @@ public class TicTacToe extends GameModel {
      *
      * @return the score of the board
      */
-    public int getScore(Player currentPlayer, int depth) {
-        double depthPenalty = depth / 9f; //TODO:: change to the max depth
+    public int getScore(Player currentPlayer, int depth, int maxDepth) {
+        double depthPenalty = depth / (double) maxDepth;
 
         switch (getState()) {
             case DRAW, PLAYING -> {
