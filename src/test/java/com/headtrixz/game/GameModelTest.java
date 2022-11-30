@@ -103,15 +103,15 @@ class GameModelTest {
 
         final int[] testCaseCount = {0};
         return Arrays.stream(muchoTestCases).map(testCase -> {
-            int depth = testCaseCount[0]++ % 9;
+            int depth = testCaseCount[0]++ % cellCount;
 
             return DynamicTest.dynamicTest("Test Case(" + testCaseCount[0] + "): " +
                     Arrays.toString(testCase) + ", " + depth +".", () -> {
                 game.getBoard().setCells(testCase);
 
 
-                final int score1 = game.getScore(game.getPlayer(0), depth );
-                final int score2 = game.getScore(game.getPlayer(1), depth );
+                final int score1 = game.getScore(game.getPlayer(0), depth, cellCount);
+                final int score2 = game.getScore(game.getPlayer(1), depth, cellCount);
 
                 final int finalScore = score1 + score2;
 
@@ -119,7 +119,6 @@ class GameModelTest {
                     if (game.getBoard().getMove(4) != GameBoard.EMPTY_CELL) {
                         double depthPenalty = depth / 9f;
                         int midMoveScoreDiv = (int) (40 * depthPenalty);
-
 
                         assertEquals(midMoveScoreDiv, Math.abs(finalScore));
                     } else {
