@@ -4,16 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.Consumer;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Reads lines from the server and emits events based on the message type.
  */
 public class InputHandler implements Runnable {
-    private final HashMap<ServerMessageType, ArrayList<Consumer<ServerMessage>>> listeners = new HashMap<>();
-    private final HashMap<ServerMessageType, ArrayList<Consumer<ServerMessage>>> removed = new HashMap<>();
+    private final Map<ServerMessageType, List<InputListener>> listeners = new HashMap<>();
     private final BufferedReader in;
 
     /**
@@ -24,7 +24,7 @@ public class InputHandler implements Runnable {
     public InputHandler(Socket socket) throws IOException {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        on(ServerMessageType.ERROR, e -> {
+        subscribe(ServerMessageType.ERROR, e -> {
             System.err.println("Error: " + e.getMessage());
         });
     }
@@ -43,22 +43,14 @@ public class InputHandler implements Runnable {
      * @param event The event to emit.
      * @param message The message that was received from the server.
      */
-    private void emit(ServerMessageType event, ServerMessage message) {
+    private void notify(ServerMessageType event, ServerMessage message) {
         if (!listeners.containsKey(event)) {
             return;
         }
 
-        var list = listeners.get(event);
-        if (removed.containsKey(event)) {
-            for (Consumer<ServerMessage> listener : removed.get(event)) {
-                list.remove(listener);
-            }
-
-            removed.remove(event);
-        }
-
-        for (Consumer<ServerMessage> listener : list) {
-            listener.accept(message);
+        List<InputListener> list = listeners.get(event);
+        for (InputListener listener : list) {
+            listener.update(message);
         }
     }
 
@@ -68,16 +60,12 @@ public class InputHandler implements Runnable {
      * @param event The event to listen for.
      * @param listener The listener to remove.
      */
-    public void off(ServerMessageType event, Consumer<ServerMessage> listener) {
+    public void unsubscribe(ServerMessageType event, InputListener listener) {
         if (!listeners.containsKey(event)) {
             return;
         }
 
-        if (!removed.containsKey(event)) {
-            removed.put(event, new ArrayList<>());
-        }
-
-        removed.get(event).add(listener);
+        listeners.get(event).remove(listener);
     }
 
     /**
@@ -86,9 +74,9 @@ public class InputHandler implements Runnable {
      * @param event The event to listen for.
      * @param listener The function that will be called when the event is triggered.
      */
-    public void on(ServerMessageType event, Consumer<ServerMessage> listener) {
+    public void subscribe(ServerMessageType event, InputListener listener) {
         if (!listeners.containsKey(event)) {
-            listeners.put(event, new ArrayList<>());
+            listeners.put(event, new CopyOnWriteArrayList<>());
         }
 
         listeners.get(event).add(listener);
@@ -105,7 +93,7 @@ public class InputHandler implements Runnable {
                 ServerMessage message = new ServerMessage(input);
                 ServerMessageType type = message.getType();
                 if (type != null) {
-                    emit(type, message);
+                    notify(type, message);
                 }
             }
         } catch (IOException ignored) {}

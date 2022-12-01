@@ -4,6 +4,8 @@ import com.headtrixz.game.helpers.GameModelHelper;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
 
+import java.util.List;
+
 /**
  * The base for all games.
  */
@@ -178,7 +180,7 @@ public abstract class GameModel {
             return;
         }
 
-        if (move == -1 || board.isValidMove(move)) {
+        if (move == -1 || isValidMove(move)) {
             guiMove = move;
         }
     }
@@ -199,4 +201,34 @@ public abstract class GameModel {
      * @return The current state of the game.
      */
     public abstract GameState getState();
+
+    /**
+     * Returns a list of all available cells on the board.
+     *
+     * @return A list of all available cells on the board.
+     */
+    public abstract List<Integer> getValidMoves();
+
+    /**
+     * Returns whether the board is full.
+     *
+     * @return Whether the board has no empty cells left.
+     */
+    public abstract boolean isFull();
+
+    /**
+     * Returns whether the move is allowed to be set.
+     *
+     * @param move The move to be checked.
+     * @return Whether the move is valid.
+     */
+    public abstract boolean isValidMove(int move);
+
+    /**
+     * Sets the move for a specific player.
+     *
+     * @param move The move that the player wants to make.
+     * @param player The player who is making the move.
+     */
+    public abstract void setMove(int move, int player);
 }
