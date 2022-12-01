@@ -94,11 +94,18 @@ public class GameController implements GameMethods {
             }
         }
 
-        List<Integer> moves = game.getValidMoves();
-        gameGrid.setSuggestions(moves);
+        updateSuggestions();
 
         if (move != -1) {
             gameGrid.makeRed(move);
         }
+    }
+
+    /**
+     * Updates the suggestions on the game grid.
+     */
+    public void updateSuggestions() {
+        List<Integer> moves = game.getValidMoves();
+        gameGrid.setSuggestions(moves);
     }
 }

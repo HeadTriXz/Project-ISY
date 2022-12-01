@@ -1,7 +1,9 @@
 package com.headtrixz.game.helpers;
 
+import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
+import com.headtrixz.ui.GameController;
 import javafx.application.Platform;
 
 /**
@@ -72,6 +74,12 @@ public class OfflineHelper implements GameModelHelper {
         player.onTurn(m -> {
             if (m == -1 || !game.isValidMove(m)) {
                 nextPlayer();
+                Platform.runLater(() -> {
+                    GameMethods controller = game.getController();
+                    if (controller instanceof GameController) {
+                        ((GameController) controller).updateSuggestions();
+                    }
+                });
                 return;
             }
 
