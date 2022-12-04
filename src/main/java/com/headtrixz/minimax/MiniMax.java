@@ -94,7 +94,7 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMoveIterative(int maxMillis) {
-        final int maxIterations = baseGame.getValidMoves().size();
+        final int maxIterations = baseGame.getBoard().getValidMoves().size();
 
         final LinkedList<Integer> moves = new LinkedList<>();
         moves.addLast(getMove(0));
