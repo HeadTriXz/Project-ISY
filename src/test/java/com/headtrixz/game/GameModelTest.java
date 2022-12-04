@@ -133,8 +133,10 @@ class GameModelTest {
                                     "Test case failed. " + Arrays.toString(testCase)
                                             + " at depth " + 1);
                         }
-                    });
-        });
+                    }
+                );
+            }
+        );
     }
 
 }

@@ -114,7 +114,9 @@ class TestMiniMaxTestTicTacToe {
 
                     assertEquals(testCase.expectedMove, miniMax.getMoveIterative(1000),
                             "Test case(" + testCaseCount[0] + ") failed.");
-                }));
+                }
+            )
+        );
     }
 
 
@@ -139,8 +141,10 @@ class TestMiniMaxTestTicTacToe {
 
                         assertEquals(testCase.expectedMove, miniMax.getMoveIterative(1000),
                                 "Test case(" + testCaseCount[0] + ") failed.");
-                    });
-        });
+                    }
+                );
+            }
+        );
     }
 
 
