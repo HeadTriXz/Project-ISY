@@ -1,9 +1,9 @@
 package com.headtrixz.game;
 
 import com.headtrixz.game.helpers.GameModelHelper;
+import com.headtrixz.game.helpers.GameModelHelperFactory;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
-
 import java.util.List;
 
 /**
@@ -32,12 +32,44 @@ public abstract class GameModel {
     /**
      * The base for all games.
      *
-     * @param name The name of the game.
+     * @param name      The name of the game.
      * @param boardSize The size of the board.
      */
     public GameModel(String name, int boardSize) {
         this.name = name;
         this.board = new GameBoard(boardSize);
+    }
+
+
+    /**
+     * clone the GameModel.
+     *
+     * @return a clone of the game model.
+     */
+    public GameModel clone() {
+
+        GameModel gameClone;
+        try {
+            // create a new game
+            gameClone = GameModelFactory.createGameModel(this.getClass().getSimpleName());
+
+            // assign current state to new game
+            gameClone.board = board.clone();
+            gameClone.currentPlayer = currentPlayer;
+            gameClone.players = players.clone();
+
+            gameClone.helper =
+                    GameModelHelperFactory.createGameModelHelper(
+                            this.helper.getClass().getSimpleName(), gameClone);
+            gameClone.controller = controller;
+
+            return gameClone;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     /**
@@ -146,7 +178,7 @@ public abstract class GameModel {
      * Initializes the game.
      *
      * @param controller The game controller.
-     * @param helper A helper class for either an offline or online game.
+     * @param helper     A helper class for either an offline or online game.
      */
     public void initialize(GameMethods controller, GameModelHelper helper, Player... players) {
         this.controller = controller;
@@ -227,7 +259,7 @@ public abstract class GameModel {
     /**
      * Sets the move for a specific player.
      *
-     * @param move The move that the player wants to make.
+     * @param move   The move that the player wants to make.
      * @param player The player who is making the move.
      */
     public abstract void setMove(int move, int player);
