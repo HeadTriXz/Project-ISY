@@ -2,8 +2,8 @@ package helpers;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-import helpers.testCases.HasPlayerWonTestCase;
-import helpers.testCases.MiniMaxTestCase;
+import helpers.testcases.HasPlayerWonTestCase;
+import helpers.testcases.MiniMaxTestCase;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -217,8 +217,8 @@ public class Helpers {
         // check if the player has won the game of tictactoe
         // check rows
         for (int i = 0; i < 3; i++) {
-            if (board[i * 3] == player && board[i * 3 + 1] == player &&
-                    board[i * 3 + 2] == player) {
+            if (board[i * 3] == player && board[i * 3 + 1] == player
+                    && board[i * 3 + 2] == player) {
                 return true;
             }
         }

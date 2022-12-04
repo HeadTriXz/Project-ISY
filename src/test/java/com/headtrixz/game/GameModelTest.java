@@ -1,11 +1,15 @@
 package com.headtrixz.game;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.headtrixz.game.helpers.OfflineHelper;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.GameController;
 import helpers.Helpers;
-import helpers.testCases.HasPlayerWonTestCase;
+import helpers.testcases.HasPlayerWonTestCase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -13,8 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class GameModelTest {
 
@@ -58,8 +60,7 @@ class GameModelTest {
     @TestFactory
     Stream<DynamicTest> hasPlayerWon() {
         // load test cases from currentPlayerWon.txt
-        HasPlayerWonTestCase[] testCases =
-                Helpers.generateHasPlayerWonTestCases();
+        HasPlayerWonTestCase[] testCases = Helpers.generateHasPlayerWonTestCases();
 
         // create a dynamic test for each test case
         return Arrays.stream(testCases).map(testCase -> DynamicTest.dynamicTest(
@@ -71,8 +72,7 @@ class GameModelTest {
                     assertTrue(game.hasPlayerWon(game.getPlayer(testCase.player - 1)));
                     assertFalse(game.hasPlayerWon(
                             game.getOpponent(game.getPlayer(testCase.player - 1))));
-                }
-        ));
+                }));
     }
 
     @Test
@@ -89,7 +89,7 @@ class GameModelTest {
     Stream<DynamicTest> getScoreTest() {
         ArrayList<int[]> testCases =
                 Helpers.generateTicTacToeBoards("src/test/resources/getScoreTestCases.txt");
-        // add a testcase for every depth. store it in array instead of list for performance increase
+        // add a testcase for every depth.
         int cellCount = game.getBoard().getCellCount();
         assert testCases != null;
         int[][] muchoTestCases = new int[testCases.size() * cellCount][];
@@ -107,31 +107,33 @@ class GameModelTest {
         return Arrays.stream(muchoTestCases).map(testCase -> {
             int depth = testCaseCount[0]++ % cellCount;
 
-            return DynamicTest.dynamicTest("Test Case(" + testCaseCount[0] + "): "
-                    + Arrays.toString(testCase) + ", " + depth + ".", () -> {
-                game.getBoard().setCells(testCase);
+            return DynamicTest.dynamicTest(
+                    "Test Case(" + testCaseCount[0] + "): " + Arrays.toString(testCase) + ", "
+                            + depth + ".", () -> {
+                        game.getBoard().setCells(testCase);
 
 
-                final int score1 = game.getScore(game.getPlayer(0), depth, cellCount);
-                final int score2 = game.getScore(game.getPlayer(1), depth, cellCount);
+                        final int score1 = game.getScore(game.getPlayer(0), depth, cellCount);
+                        final int score2 = game.getScore(game.getPlayer(1), depth, cellCount);
 
-                final int finalScore = score1 + score2;
+                        final int finalScore = score1 + score2;
 
-                if (game.getState() == GameModel.GameState.PLAYING ||
-                        game.getState() == GameModel.GameState.DRAW) {
-                    if (game.getBoard().getMove(4) != GameBoard.EMPTY_CELL) {
-                        double depthPenalty = depth / 9f;
-                        int midMoveScoreDiv = (int) (40 * depthPenalty);
+                        if (game.getState() == GameModel.GameState.PLAYING
+                                || game.getState() == GameModel.GameState.DRAW) {
+                            if (game.getBoard().getMove(4) != GameBoard.EMPTY_CELL) {
+                                double depthPenalty = depth / 9f;
+                                int midMoveScoreDiv = (int) (40 * depthPenalty);
 
-                        assertEquals(midMoveScoreDiv, Math.abs(finalScore));
-                    } else {
-                        assertEquals(0, finalScore);
-                    }
-                } else {
-                    assertEquals(0, finalScore,
-                            "Test case failed. " + Arrays.toString(testCase) + " at depth " + 1);
-                }
-            });
+                                assertEquals(midMoveScoreDiv, Math.abs(finalScore));
+                            } else {
+                                assertEquals(0, finalScore);
+                            }
+                        } else {
+                            assertEquals(0, finalScore,
+                                    "Test case failed. " + Arrays.toString(testCase)
+                                            + " at depth " + 1);
+                        }
+                    });
         });
     }
 
