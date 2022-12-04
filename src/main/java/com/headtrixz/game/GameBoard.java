@@ -1,6 +1,5 @@
 package com.headtrixz.game;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -100,49 +99,6 @@ public class GameBoard {
      */
     public int getSize() {
         return size;
-    }
-
-    /**
-     * Returns a list of all available cells on the board.
-     *
-     * @return A list of all available cells on the board.
-     */
-    public ArrayList<Integer> getValidMoves() {
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 0; i < cells.length; i++) {
-            if (cells[i] == EMPTY_CELL) {
-                list.add(i);
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * Returns whether the board has no empty cells left.
-     *
-     * @return Whether the board has no empty cells left.
-     */
-    public boolean isFull() {
-        for (int cell : cells) {
-            if (cell == EMPTY_CELL) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Returns whether the move is within the bounds of the board and the cell is empty.
-     *
-     * @param move The move to be checked
-     * @return Whether the move is valid.
-     */
-    public boolean isValidMove(int move) {
-        return move >= 0
-                && move < cells.length
-                && cells[move] == EMPTY_CELL;
     }
 
     /**

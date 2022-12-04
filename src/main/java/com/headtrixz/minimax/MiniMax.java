@@ -27,7 +27,7 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMove() {
-        return getMove(baseGame.getBoard().getValidMoves().size());
+        return getMove(baseGame.getValidMoves().size());
     }
 
     /**
@@ -50,7 +50,7 @@ public class MiniMax {
         // only added to match results of old which chose the first winning or losing move;
         if (game instanceof TicTacToe) {
             // check if we can win in one  move
-            for (int move : game.getBoard().getValidMoves()) {
+            for (int move : game.getValidMoves()) {
                 game.getBoard().setMove(move, game.getCurrentPlayer().getId());
                 if (game.hasPlayerWon(game.getCurrentPlayer())) {
                     return move;
@@ -59,7 +59,7 @@ public class MiniMax {
             }
 
             // check if we will lose
-            for (int move : game.getBoard().getValidMoves()) {
+            for (int move : game.getValidMoves()) {
                 game.getBoard().setMove(move, game.getCurrentPlayer().getId() == 1 ? 2 : 1);
                 if (game.hasPlayerWon(game.getOpponent())) {
                     return move;
@@ -69,7 +69,7 @@ public class MiniMax {
         }
 
 
-        for (int move : game.getBoard().getValidMoves()) {
+        for (int move : game.getValidMoves()) {
             game = this.baseGame.clone();
 
             game.getBoard().setMove(move, game.getCurrentPlayer().getId());
@@ -94,7 +94,7 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMoveIterative(int maxMillis) {
-        final int maxIterations = baseGame.getBoard().getValidMoves().size();
+        final int maxIterations = baseGame.getValidMoves().size();
 
         final LinkedList<Integer> moves = new LinkedList<>();
         moves.addLast(getMove(0));
@@ -162,7 +162,7 @@ public class MiniMax {
         Player opp = game.getOpponent(currentPlayer);
         int value = Integer.MIN_VALUE;
         
-        for (int move : game.getBoard().getValidMoves()) {
+        for (int move : game.getValidMoves()) {
             GameModel gameClone = game.clone();
 
             // set a move and get the score

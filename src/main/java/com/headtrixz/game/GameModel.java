@@ -4,6 +4,7 @@ import com.headtrixz.game.helpers.GameModelHelper;
 import com.headtrixz.game.helpers.GameModelHelperFactory;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
+import java.util.List;
 
 /**
  * The base for all games.
@@ -232,6 +233,13 @@ public abstract class GameModel {
      * @return The current state of the game.
      */
     public abstract GameState getState();
+
+    /**
+     * Returns a list of all available cells on the board.
+     *
+     * @return A list of all available cells on the board.
+     */
+    public abstract List<Integer> getValidMoves();
 
     /**
      * Returns whether the board is full.
