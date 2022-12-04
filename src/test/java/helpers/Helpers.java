@@ -2,8 +2,8 @@ package helpers;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-import helpers.TestCases.HasPlayerWonTestCase;
-import helpers.TestCases.MiniMaxTestCase;
+import helpers.testCases.HasPlayerWonTestCase;
+import helpers.testCases.MiniMaxTestCase;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 import org.json.JSONArray;
 
+/**
+ * A class that contains helper methods for testing.
+ */
 public class Helpers {
     /**
      * Read all lines of text in a file and put it into an arraylist.
@@ -102,11 +105,17 @@ public class Helpers {
     }
 
 
+    /**
+     * generate an array of valid boards for tictactoe.
+     * valid means only 1 winner and not a difference between made moves of 0 or 1
+     *
+     * @return all valid boards.
+     */
     private static int[][] generateAllPosibleBoards() {
 
 
-        int[] board = {0,0,0,0,0,0,0,0,0,0};
-        int[][] permutations = new int[(int)Math.pow(3,9)][board.length];
+        int[] board = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int[][] permutations = new int[(int) Math.pow(3, 9)][board.length];
         int permutation = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -139,6 +148,11 @@ public class Helpers {
         return permutations;
     }
 
+    /**
+     * Generate test cases for hasPlayerWon.
+     *
+     * @return array of testCases
+     */
     public static HasPlayerWonTestCase[] generateHasPlayerWonTestCases() {
         // loop over all posible combinations of the board
 
@@ -158,8 +172,8 @@ public class Helpers {
                 }
             }
 
-            if (Math.abs(player1 - player2) > 1 ||
-                    !onlyOneTrue(hasWonArr(1, permutation), hasWonArr(2, permutation))) {
+            if (Math.abs(player1 - player2) > 1
+                    || !onlyOneTrue(hasWonArr(1, permutation), hasWonArr(2, permutation))) {
                 permutations[i] = null;
             }
 
@@ -181,14 +195,30 @@ public class Helpers {
         }).toArray(HasPlayerWonTestCase[]::new);
     }
 
+    /**
+     * check if only one of the values is true.
+     *
+     * @param a values to check
+     * @param b values to check
+     * @return true if only one of the values is true.
+     */
     public static boolean onlyOneTrue(boolean a, boolean b) {
         return (a && !b) || (!a && b);
     }
-    static private boolean hasWonArr(int player, int[] board) {
+
+    /**
+     * check if a player has won.
+     *
+     * @param player player to check
+     * @param board  board to check
+     * @return true if the player has won.
+     */
+    private static boolean hasWonArr(int player, int[] board) {
         // check if the player has won the game of tictactoe
         // check rows
         for (int i = 0; i < 3; i++) {
-            if (board[i * 3] == player && board[i * 3 + 1] == player && board[i * 3 + 2] == player) {
+            if (board[i * 3] == player && board[i * 3 + 1] == player &&
+                    board[i * 3 + 2] == player) {
                 return true;
             }
         }

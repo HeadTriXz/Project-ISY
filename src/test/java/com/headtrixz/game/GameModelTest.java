@@ -4,8 +4,8 @@ import com.headtrixz.game.helpers.OfflineHelper;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.GameController;
-import helpers.TestCases.HasPlayerWonTestCase;
 import helpers.Helpers;
+import helpers.testCases.HasPlayerWonTestCase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -40,7 +40,7 @@ class GameModelTest {
     }
 
     @Test
-    void GetOpponentTest() {
+    void getOpponentTest() {
         game.setCurrentPlayer(playerOne); // player one test
         assertEquals(game.getOpponent(), playerTwo);
         game.setCurrentPlayer(playerTwo); // player two test
@@ -49,11 +49,10 @@ class GameModelTest {
     }
 
     @Test
-    void GetOppenentOfPassedPlayerTest() {
+    void getOppenentOfPassedPlayerTest() {
         assertEquals(game.getOpponent(playerOne), playerTwo); //player one test
         assertEquals(game.getOpponent(playerTwo), playerOne); // player two test
     }
-
 
 
     @TestFactory
@@ -69,15 +68,17 @@ class GameModelTest {
                     // set the board to the test case
                     game.getBoard().setCells(testCase.board);
                     // assert that the test case is correct
-                    assertTrue(game.hasPlayerWon(game.getPlayer(testCase.player-1)));
-                    assertFalse(game.hasPlayerWon(game.getOpponent(game.getPlayer(testCase.player-1))));
+                    assertTrue(game.hasPlayerWon(game.getPlayer(testCase.player - 1)));
+                    assertFalse(game.hasPlayerWon(
+                            game.getOpponent(game.getPlayer(testCase.player - 1))));
                 }
         ));
     }
+
     @Test
-    void CurrentPlayerWonTest() {
-        int[] controllBoard = {1, 2, 1, 2, 1, 1, 2, 0, 1};
-        game.getBoard().setCells(controllBoard);
+    void currentPlayerWonTest() {
+        int[] controlBoard = {1, 2, 1, 2, 1, 1, 2, 0, 1};
+        game.getBoard().setCells(controlBoard);
 
         assertTrue(game.hasPlayerWon(game.getPlayer(0)));
         assertFalse(game.hasPlayerWon(game.getPlayer(1)));
@@ -86,14 +87,15 @@ class GameModelTest {
 
     @TestFactory
     Stream<DynamicTest> getScoreTest() {
-        ArrayList<int[]> testCases = Helpers.generateTicTacToeBoards("src/test/resources/getScoreTestCases.txt");
-        // add a testcase for every depth. store it in array instead of list for performace increse
+        ArrayList<int[]> testCases =
+                Helpers.generateTicTacToeBoards("src/test/resources/getScoreTestCases.txt");
+        // add a testcase for every depth. store it in array instead of list for performance increase
         int cellCount = game.getBoard().getCellCount();
         assert testCases != null;
         int[][] muchoTestCases = new int[testCases.size() * cellCount][];
 
 
-        for(int i=0; i < testCases.size(); i++) {
+        for (int i = 0; i < testCases.size(); i++) {
             int[] testCase = testCases.get(i);
             for (int j = 0; j < cellCount; j++) {
                 muchoTestCases[i * cellCount + j] = testCase;
@@ -103,30 +105,30 @@ class GameModelTest {
 
         final int[] testCaseCount = {0};
         return Arrays.stream(muchoTestCases).map(testCase -> {
-            int depth = testCaseCount[0]++ % 9;
+            int depth = testCaseCount[0]++ % cellCount;
 
-            return DynamicTest.dynamicTest("Test Case(" + testCaseCount[0] + "): " +
-                    Arrays.toString(testCase) + ", " + depth +".", () -> {
+            return DynamicTest.dynamicTest("Test Case(" + testCaseCount[0] + "): "
+                    + Arrays.toString(testCase) + ", " + depth + ".", () -> {
                 game.getBoard().setCells(testCase);
 
 
-                final int score1 = game.getScore(game.getPlayer(0), depth );
-                final int score2 = game.getScore(game.getPlayer(1), depth );
+                final int score1 = game.getScore(game.getPlayer(0), depth, cellCount);
+                final int score2 = game.getScore(game.getPlayer(1), depth, cellCount);
 
                 final int finalScore = score1 + score2;
 
-                if (game.getState() == GameModel.GameState.PLAYING || game.getState() == GameModel.GameState.DRAW) {
+                if (game.getState() == GameModel.GameState.PLAYING ||
+                        game.getState() == GameModel.GameState.DRAW) {
                     if (game.getBoard().getMove(4) != GameBoard.EMPTY_CELL) {
                         double depthPenalty = depth / 9f;
                         int midMoveScoreDiv = (int) (40 * depthPenalty);
-
 
                         assertEquals(midMoveScoreDiv, Math.abs(finalScore));
                     } else {
                         assertEquals(0, finalScore);
                     }
                 } else {
-                    assertEquals(0 , finalScore,
+                    assertEquals(0, finalScore,
                             "Test case failed. " + Arrays.toString(testCase) + " at depth " + 1);
                 }
             });

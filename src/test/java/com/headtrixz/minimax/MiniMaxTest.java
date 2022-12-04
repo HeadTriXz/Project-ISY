@@ -7,7 +7,7 @@ import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.GameController;
 import helpers.Helpers;
-import helpers.TestCases.MiniMaxTestCase;
+import helpers.testCases.MiniMaxTestCase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -52,9 +52,9 @@ class TestMiniMaxTestTicTacToe {
         // generate a dynamic test for each test case
         assert testCases != null;
         return testCases.stream().map(testCase -> DynamicTest.dynamicTest("Test Case(" + testCaseCount[0] + "): " +
-                Arrays.toString(testCase.board) + ", player: " +  testCase.currentPlayerID + ".", () -> {
+                Arrays.toString(testCase.board) + ", player: " +  testCase.currentPlayerId + ".", () -> {
             game.getBoard().setCells(testCase.board);
-            game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerID - 1));
+            game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerId - 1));
 
             assertEquals(testCase.expectedMove, miniMax.getMove(),
                     "Test case(" + testCaseCount[0]++ + ") failed.");
@@ -77,9 +77,9 @@ class TestMiniMaxTestTicTacToe {
             // create a new minimax instance (simulate first move of game)
             MiniMax miniMax = new MiniMax(this.game);
             return DynamicTest.dynamicTest("Test Case(" + testCaseCount[0] + "): " +
-                    Arrays.toString(testCase.board) + ", player: " +  testCase.currentPlayerID + ".", () -> {
+                    Arrays.toString(testCase.board) + ", player: " +  testCase.currentPlayerId + ".", () -> {
                 game.getBoard().setCells(testCase.board);
-                game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerID - 1));
+                game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerId - 1));
                 assertEquals(testCase.expectedMove, miniMax.getMove(),
                         "Test case(" + testCaseCount[0]++ + ") failed.");
             });
@@ -101,9 +101,9 @@ class TestMiniMaxTestTicTacToe {
         // generate a dynamic test for each test case
         assert testCases != null;
         return testCases.stream().map(testCase -> DynamicTest.dynamicTest("Test Case(" + testCaseCount[0]++ + "): " +
-                Arrays.toString(testCase.board) + ", player: " +  testCase.currentPlayerID + ".", () -> {
+                Arrays.toString(testCase.board) + ", player: " +  testCase.currentPlayerId + ".", () -> {
             game.getBoard().setCells(testCase.board);
-            game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerID - 1));
+            game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerId - 1));
 
             assertEquals(testCase.expectedMove, miniMax.getMoveIterative(1000),
                     "Test case(" + testCaseCount[0] + ") failed.");
@@ -125,9 +125,9 @@ class TestMiniMaxTestTicTacToe {
             // create a new minimax instance (simulate first move of game)
             MiniMax miniMax = new MiniMax(this.game);
             return DynamicTest.dynamicTest("Test Case(" + testCaseCount[0]++ + "): " +
-                    Arrays.toString(testCase.board) + ", player: " +  testCase.currentPlayerID + ".", () -> {
+                    Arrays.toString(testCase.board) + ", player: " +  testCase.currentPlayerId + ".", () -> {
                 game.getBoard().setCells(testCase.board);
-                game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerID - 1));
+                game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerId - 1));
 
                 assertEquals(testCase.expectedMove, miniMax.getMoveIterative(1000),
                         "Test case(" + testCaseCount[0] + ") failed.");

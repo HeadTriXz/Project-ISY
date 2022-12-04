@@ -1,5 +1,9 @@
-package helpers.TestCases;
+package helpers.testCases;
 
+
+/**
+ * class to store data related to testcases for hasPLayerWon
+ */
 public class HasPlayerWonTestCase {
     public int[] board;
     public int player;
