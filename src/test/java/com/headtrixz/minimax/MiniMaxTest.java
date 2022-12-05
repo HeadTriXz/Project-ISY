@@ -2,6 +2,7 @@ package com.headtrixz.minimax;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.TicTacToe;
@@ -64,7 +65,11 @@ class MiniMaxTest {
                         game.getBoard().setCells(testCase.board);
                         game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerId - 1));
 
-                        assertEquals(testCase.expectedMove, miniMax.getMove(),
+                        if (testCaseCount[0] == 42) {
+                            System.out.println("test");
+                        }
+
+                        assertTrue(testCase.expectedMoves.contains(miniMax.getMove()),
                             "Test case(" + testCaseCount[0]++ + ") failed.");
                     }
                 )
@@ -91,7 +96,7 @@ class MiniMaxTest {
                             + ", player: " + testCase.currentPlayerId + ".", () -> {
                             game.getBoard().setCells(testCase.board);
                             game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerId - 1));
-                            assertEquals(testCase.expectedMove, miniMax.getMove(),
+                            assertTrue(testCase.expectedMoves.contains(miniMax.getMove()),
                                 "Test case(" + testCaseCount[0]++ + ") failed.");
                         }
                     );
@@ -119,8 +124,8 @@ class MiniMaxTest {
                         game.getBoard().setCells(testCase.board);
                         game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerId - 1));
 
-                        assertEquals(testCase.expectedMove, miniMax.getMoveIterative(1000),
-                            "Test case(" + testCaseCount[0] + ") failed.");
+                    assertTrue(testCase.expectedMoves.contains(miniMax.getMoveIterative(1000)),
+                        "Test case(" + testCaseCount[0]++ + ") failed.");
                     }
                 )
             );
@@ -146,16 +151,17 @@ class MiniMaxTest {
                         game.getBoard().setCells(testCase.board);
                         game.setCurrentPlayer(game.getPlayer(testCase.currentPlayerId - 1));
 
-                        assertEquals(testCase.expectedMove, miniMax.getMoveIterative(1000),
-                            "Test case(" + testCaseCount[0] + ") failed.");
-                    }
+                        assertTrue(testCase.expectedMoves.contains(miniMax.getMoveIterative(1000)),
+                            "Test case(" + testCaseCount[0]++ + ") failed.");
+                        }
                 );
-            });
+                }
+            );
         }
 
 
         @Test
-        void hashBoardAndPlayerTest() {
+        void hashBoardAndPlayerUniquenessTest() {
             ArrayList<int[]> boards =
                 Helpers.generateTicTacToeBoards(
                     "src/test/resources/getScoreTestCases.txt");
@@ -175,6 +181,35 @@ class MiniMaxTest {
             }
         }
 
+        @TestFactory
+        Stream<DynamicTest> hashBoardAndPlayerSameResultTest() {
+            ArrayList<int[]> boards =
+                Helpers.generateTicTacToeBoards(
+                    "src/test/resources/getScoreTestCases.txt");
 
+            // keep count of amount of tests done
+            final int[] testCaseCount = {1};
+
+            return boards.stream().map(testCase -> {
+
+                return DynamicTest.dynamicTest(
+                    "Test Case(" + testCaseCount[0]++ + "): " + Arrays.toString(testCase) + ".",
+                    () -> {
+                        game.getBoard().setCells(testCase);
+                        GameModel cloneGame = game.clone();
+                        for (int i = 0; i < 2; i++) {
+                            long hash = TranspositionEntry.createHash(game.getBoard(),
+                                game.getPlayer(i));
+                            long hash2 = TranspositionEntry.createHash(cloneGame.getBoard(),
+                                cloneGame.getPlayer(i));
+                            assertEquals(hash, hash2,
+                                "Hash function returned a different hash"
+                                    + " for the same board and player.");
+                        }
+                    }
+                );
+
+            });
+        }
     }
 }

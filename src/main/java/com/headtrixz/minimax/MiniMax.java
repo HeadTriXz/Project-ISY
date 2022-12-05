@@ -51,20 +51,20 @@ public class MiniMax {
         if (game instanceof TicTacToe) {
             // check if we can win in one  move
             for (int move : game.getValidMoves()) {
-                game.getBoard().setMove(move, game.getCurrentPlayer().getId());
+                game.setMove(move, game.getCurrentPlayer().getId());
                 if (game.hasPlayerWon(game.getCurrentPlayer())) {
                     return move;
                 }
-                game.getBoard().setMove(move, GameBoard.EMPTY_CELL);
+                game.setMove(move, GameBoard.EMPTY_CELL);
             }
 
             // check if we will lose
             for (int move : game.getValidMoves()) {
-                game.getBoard().setMove(move, game.getCurrentPlayer().getId() == 1 ? 2 : 1);
+                game.setMove(move, game.getCurrentPlayer().getId() == 1 ? 2 : 1);
                 if (game.hasPlayerWon(game.getOpponent())) {
                     return move;
                 }
-                game.getBoard().setMove(move, GameBoard.EMPTY_CELL);
+                game.setMove(move, GameBoard.EMPTY_CELL);
             }
         }
 
@@ -72,9 +72,8 @@ public class MiniMax {
         for (int move : game.getValidMoves()) {
             game = this.baseGame.clone();
 
-            game.getBoard().setMove(move, game.getCurrentPlayer().getId());
+            game.setMove(move, game.getCurrentPlayer().getId());
             int score = negamax(maxDepth, game.getCurrentPlayer(), 1, -80, 80, maxDepth, game);
-            game.getBoard().setMove(move, GameBoard.EMPTY_CELL);
 
             if (score >= bestScore) {
                 bestScore = score;
@@ -134,7 +133,9 @@ public class MiniMax {
         TranspositionEntry ttEntry =
                 transpositionTable.get(
                         TranspositionEntry.createHash(game.getBoard(), currentPlayer));
-        if (ttEntry != null && ttEntry.depth() > depth) {
+
+        if (ttEntry != null && ttEntry.depth() >= depth) {
+
             switch (ttEntry.flag()) {
                 case EXACT:
                     return ttEntry.value();
@@ -161,15 +162,18 @@ public class MiniMax {
 
         Player opp = game.getOpponent(currentPlayer);
         int value = Integer.MIN_VALUE;
+        GameModel bestGame = null;
         
         for (int move : game.getValidMoves()) {
             GameModel gameClone = game.clone();
 
             // set a move and get the score
-            gameClone.getBoard().setMove(move, opp.getId());
+            gameClone.setMove(move, opp.getId());
             int score = -negamax(depth - 1, opp, -color, -beta, -alpha, 8, gameClone);
-
-            value = Math.max(value, score);
+            if (score > value) {
+                value = score;
+                bestGame = game.clone();
+            }
 
             alpha = Math.max(alpha, score);
             if (alpha >= beta) {
@@ -177,7 +181,7 @@ public class MiniMax {
             }
         }
 
-        addBoardToTranspositionTable(value, alphaOrig, beta, depth, currentPlayer);
+        addBoardToTranspositionTable(value, alphaOrig, beta, depth, currentPlayer, bestGame);
         return value;
     }
 
@@ -191,7 +195,7 @@ public class MiniMax {
      * @param depth the depth of the board.
      */
     private void addBoardToTranspositionTable(int value, int alpha, int beta, int depth,
-                                              Player currentPlayer) {
+                                              Player currentPlayer, GameModel game) {
 
         TranspositionEntry.Flags ttFlag = TranspositionEntry.Flags.EXACT;
         if (value < alpha) {
@@ -201,7 +205,7 @@ public class MiniMax {
             ttFlag = TranspositionEntry.Flags.LOWER_BOUND;
         }
 
-        transpositionTable.put(TranspositionEntry.createHash(baseGame.getBoard(), currentPlayer),
+        transpositionTable.put(TranspositionEntry.createHash(game.getBoard(), currentPlayer),
                 new TranspositionEntry(value, depth, ttFlag));
 
     }

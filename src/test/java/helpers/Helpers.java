@@ -67,10 +67,15 @@ public class Helpers {
             }
             // parse the actual test case.
             int[] board = jsonArray.toList().stream().mapToInt(i -> (int) i).toArray();
-            int expectedMove = Integer.parseInt(testCaseSplit[2]);
+            String[] movesString = testCaseSplit[2].split(";");
+            int[] moves = new int[movesString.length];
+            for (int i = 0; i < movesString.length; i++) {
+                moves[i] = Integer.parseInt(movesString[i]);
+            }
+
             int currentPlayerID = Integer.parseInt(testCaseSplit[1]);
 
-            testCases.add(new MiniMaxTestCase(board, currentPlayerID, expectedMove, comment));
+            testCases.add(new MiniMaxTestCase(board, currentPlayerID, moves, comment));
         }
 
         return testCases;
