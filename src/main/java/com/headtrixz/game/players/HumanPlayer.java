@@ -23,6 +23,10 @@ public class HumanPlayer extends Player {
      */
     @Override
     public int getMove() {
+        if (game.getValidMoves().size() == 0) {
+            return -1;
+        }
+
         while (game.getState() == GameModel.GameState.PLAYING) {
             int move = game.getGuiMove();
             if (move != -1) {
