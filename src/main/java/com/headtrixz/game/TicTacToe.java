@@ -1,11 +1,13 @@
 package com.headtrixz.game;
 
-import com.headtrixz.game.players.Player;
+import static com.headtrixz.game.GameBoard.EMPTY_CELL;
+import static com.headtrixz.game.GameBoard.PLAYER_ONE;
+import static com.headtrixz.game.GameBoard.PLAYER_TWO;
 
+import com.headtrixz.game.players.Player;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.headtrixz.game.GameBoard.*;
+import javafx.scene.paint.Color;
 
 /**
  * Represents a game of Tic Tac Toe.
@@ -14,11 +16,26 @@ public class TicTacToe extends GameModel {
     private static final int BOARD_SIZE = 3;
     private static final String NAME = "Tic-Tac-Toe";
 
+    // GUI Config
+    private static final Color BACKGROUND_COLOR = Color.TRANSPARENT;
+    private static final String PLAYER_ONE_IMAGE =
+        TicTacToe.class.getResource("/images/x.png").toString();
+    private static final String PLAYER_TWO_IMAGE =
+        TicTacToe.class.getResource("/images/o.png").toString();
+    private static final String SUGGESTION_IMAGE = null;
+
     /**
      * Represents a game of Tic Tac Toe.
      */
     public TicTacToe() {
-        super(NAME, BOARD_SIZE);
+        super(
+            NAME,
+            BOARD_SIZE,
+            BACKGROUND_COLOR,
+            SUGGESTION_IMAGE,
+            PLAYER_ONE_IMAGE,
+            PLAYER_TWO_IMAGE
+        );
     }
 
     /**
@@ -49,10 +66,10 @@ public class TicTacToe extends GameModel {
     }
 
     /**
-     * get the score of the game in its current state. the scoring is
-     * -2 if current player has won, -1 if current player has lost, 0 if game is still going or ended in draw
+     * Get the score of the game in its current state. the scoring is -2 if current player
+     * has won, -1 if current player has lost, 0 if game is still going or ended in draw.
      *
-     * @return the score of the board
+     * @return The score of the board.
      */
     public int getScore(Player currentPlayer, int depth) {
         if (getState() == GameState.DRAW || getState() == GameState.PLAYING) {

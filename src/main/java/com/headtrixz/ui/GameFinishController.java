@@ -1,9 +1,10 @@
 package com.headtrixz.ui;
 
+import static com.headtrixz.game.GameBoard.EMPTY_CELL;
+
 import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.ui.elements.GameGrid;
-
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -42,12 +43,13 @@ public class GameFinishController {
         endText.setText(text);
 
         GameBoard board = game.getBoard();
-        GameGrid grid = new GameGrid(board.getSize(), 300.0, false);
+        GameGrid grid = new GameGrid(board.getSize(), 300.0, game.getBackgroundColor());
 
-        String[] players = { "", "X", "O" };
         for (int i = 0; i < board.getCellCount(); i++) {
             int move = board.getMove(i);
-            grid.setTile(i, players[move]);
+            if (move != EMPTY_CELL) {
+                grid.setTile(i, game.getImage(move));
+            }
         }
 
         container.getChildren().add(grid);

@@ -104,8 +104,13 @@ public class GameBoard {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         GameBoard gameBoard = (GameBoard) o;
         return Arrays.equals(cells, gameBoard.cells);

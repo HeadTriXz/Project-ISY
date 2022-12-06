@@ -6,7 +6,7 @@ import com.headtrixz.minimax.MiniMax;
 /**
  * The AI player that makes use of minimax.
  */
-public class AiPlayer extends Player {
+public class AIPlayer extends Player {
     private final MiniMax miniMax;
 
     /**
@@ -15,7 +15,7 @@ public class AiPlayer extends Player {
      * @param game The game the player is playing in.
      * @param username The username of the player.
      */
-    public AiPlayer(GameModel game, String username) {
+    public AIPlayer(GameModel game, String username) {
         super(username);
         this.miniMax = new MiniMax(game);
     }

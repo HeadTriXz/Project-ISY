@@ -3,7 +3,7 @@ package com.headtrixz.ui;
 import com.headtrixz.game.Othello;
 import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.helpers.OfflineHelper;
-import com.headtrixz.game.players.AiPlayer;
+import com.headtrixz.game.players.AIPlayer;
 import com.headtrixz.game.players.HackyAIPlayer;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
@@ -29,7 +29,7 @@ public class GameControllerFactory {
                 TicTacToe gameModel = new TicTacToe();
                 OfflineHelper helper = new OfflineHelper(gameModel);
                 Player humanPlayer = new HumanPlayer(gameModel, username);
-                Player aiPlayer = new AiPlayer(gameModel, aiName);
+                Player aiPlayer = new AIPlayer(gameModel, aiName);
                 GameController controller = new GameController(gameModel);
 
                 gameModel.initialize(controller, helper, humanPlayer, aiPlayer);

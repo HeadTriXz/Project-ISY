@@ -2,12 +2,14 @@ package com.headtrixz.ui;
 
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
+import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.elements.GameGrid;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+
 
 /**
  * A controller for the game screen.
@@ -43,7 +45,7 @@ public class GameController implements GameMethods {
     }
 
     /**
-     * Gets called when the game ends comes to a natural ending. Switches to the Game Finish screen
+     * Gets called when the game ends come to a natural ending. Switches to the Game Finish screen
      * with the current game data.
      */
     @Override
@@ -55,7 +57,7 @@ public class GameController implements GameMethods {
      * FXML init method. Gets called when the screen has loaded. Sets up the players and game.
      */
     public void initialize() {
-        gameGrid = new GameGrid(game.getBoard().getSize(), PANE_SIZE, true);
+        gameGrid = new GameGrid(game.getBoard().getSize(), PANE_SIZE, game.getBackgroundColor());
         gameGrid.setCallback(this::onMouseClick);
         container.getChildren().add(gameGrid);
 
@@ -84,21 +86,18 @@ public class GameController implements GameMethods {
      */
     @Override
     public void update(int move, Player player) {
-        String[] players = {"", "X", "O"}; // TODO: Do this differently
         int[] board = game.getBoard().getCells();
         gameGrid.clearBoard(board.length);
 
         for (int i = 0; i < board.length; i++) {
             if (board[i] != 0) {
-                gameGrid.setTile(i, players[board[i]]);
+                gameGrid.setTile(i, game.getImage(board[i]));
             }
         }
 
-        List<Integer> moves = game.getValidMoves();
-        gameGrid.setSuggestions(moves);
-
-        if (move != -1) {
-            gameGrid.makeRed(move);
+        if (game.getCurrentPlayer() instanceof HumanPlayer) {
+            List<Integer> moves = game.getValidMoves();
+            gameGrid.setSuggestions(moves, game.getImage(0));
         }
     }
 }

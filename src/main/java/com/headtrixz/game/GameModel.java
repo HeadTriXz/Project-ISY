@@ -4,6 +4,7 @@ import com.headtrixz.game.helpers.GameModelHelper;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
 import java.util.List;
+import javafx.scene.paint.Color;
 
 /**
  * The base for all games.
@@ -19,12 +20,14 @@ public abstract class GameModel {
         DRAW
     }
 
+    protected Color backgroundColor;
     protected GameBoard board;
     protected GameMethods controller;
     protected Player currentPlayer;
     protected GameModelHelper helper;
     protected String name;
     protected Player[] players;
+    protected String[] images;
 
     protected volatile int guiMove = -1;
 
@@ -34,9 +37,11 @@ public abstract class GameModel {
      * @param name      The name of the game.
      * @param boardSize The size of the board.
      */
-    public GameModel(String name, int boardSize) {
+    public GameModel(String name, int boardSize, Color backgroundColor, String... images) {
         this.name = name;
+        this.backgroundColor = backgroundColor;
         this.board = new GameBoard(boardSize);
+        this.images = images;
     }
 
     /**
@@ -46,6 +51,15 @@ public abstract class GameModel {
      */
     public GameBoard cloneBoard() {
         return board.clone();
+    }
+
+    /**
+     * Returns the background color for the GUI to use for this game.
+     *
+     * @return The color.
+     */
+    public Color getBackgroundColor() {
+        return backgroundColor;
     }
 
     /**
@@ -91,6 +105,16 @@ public abstract class GameModel {
      */
     public GameModelHelper getHelper() {
         return helper;
+    }
+
+    /**
+     * Returns the image to use for the player on the game grid.
+     *
+     * @param player The player to get the image for.
+     * @return An image.
+     */
+    public String getImage(int player) {
+        return images[player];
     }
 
     /**

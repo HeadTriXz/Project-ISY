@@ -3,6 +3,7 @@ package com.headtrixz.game;
 import com.headtrixz.game.players.Player;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.paint.Color;
 
 /**
  * Represents a game of Othello.
@@ -21,11 +22,28 @@ public class Othello extends GameModel {
     };
     private static final String NAME = "Othello";
 
+    // GUI Config
+    private static final Color BACKGROUND_COLOR = Color.rgb(2, 142, 71);
+    private static final String PLAYER_ONE_IMAGE =
+        Othello.class.getResource("/images/black.png").toString();
+    private static final String PLAYER_TWO_IMAGE =
+        Othello.class.getResource("/images/white.png").toString();
+    private static final String SUGGESTION_IMAGE =
+        Othello.class.getResource("/images/suggestion.png").toString();
+
     /**
      * Represents a game of Othello.
      */
     public Othello() {
-        super(NAME, BOARD_SIZE);
+        super(
+            NAME,
+            BOARD_SIZE,
+            BACKGROUND_COLOR,
+            SUGGESTION_IMAGE,
+            PLAYER_ONE_IMAGE,
+            PLAYER_TWO_IMAGE
+        );
+
         board.setMove(27, GameBoard.PLAYER_ONE);
         board.setMove(28, GameBoard.PLAYER_TWO);
         board.setMove(35, GameBoard.PLAYER_TWO);
@@ -33,10 +51,10 @@ public class Othello extends GameModel {
     }
 
     /**
-     * Show the tiles that will get fliped to the player when a stone is placed.
+     * Show the tiles that will get flipped to the player when a stone is placed.
      *
-     * @param move the possition on the board.
-     * @param player the player who's turn it is.
+     * @param move the position on the board.
+     * @param player the player whose turn it is.
      * @return A list with the tiles that will be flipped when a move is set.
      */
     public List<Integer> getFlips(int move, int player) {
