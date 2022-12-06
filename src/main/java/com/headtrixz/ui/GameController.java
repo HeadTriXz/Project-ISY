@@ -56,7 +56,7 @@ public class GameController implements GameMethods {
      * FXML init method. Gets called when the screen has loaded. Sets up the players and game.
      */
     public void initialize() {
-        gameGrid = new GameGrid(game.getBoard().getSize(), PANE_SIZE, true);
+        gameGrid = new GameGrid(game.getBoard().getSize(), PANE_SIZE, game.getBackgroundColor());
         gameGrid.setCallback(this::onMouseClick);
         container.getChildren().add(gameGrid);
 
