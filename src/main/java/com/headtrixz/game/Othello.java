@@ -44,10 +44,10 @@ public class Othello extends GameModel {
             PLAYER_TWO_IMAGE
         );
 
-        board.setMove(27, GameBoard.PLAYER_ONE);
-        board.setMove(28, GameBoard.PLAYER_TWO);
-        board.setMove(35, GameBoard.PLAYER_TWO);
-        board.setMove(36, GameBoard.PLAYER_ONE);
+        board.setMove(27, GameBoard.PLAYER_TWO);
+        board.setMove(28, GameBoard.PLAYER_ONE);
+        board.setMove(35, GameBoard.PLAYER_ONE);
+        board.setMove(36, GameBoard.PLAYER_TWO);
     }
 
     /**
