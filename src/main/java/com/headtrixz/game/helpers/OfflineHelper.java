@@ -55,11 +55,13 @@ public class OfflineHelper implements GameModelHelper {
     private void nextPlayer() {
         if (game.getState() == GameModel.GameState.PLAYING) {
             Player opponent = game.getOpponent();
+            game.setCurrentPlayer(opponent);
+
             if (!game.hasValidMoves(opponent.getId())) {
+                nextPlayer();
                 return;
             }
 
-            game.setCurrentPlayer(opponent);
             nextTurn(opponent);
         } else {
             Platform.runLater(() -> {
