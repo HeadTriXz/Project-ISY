@@ -4,6 +4,7 @@ import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.GameController;
+import java.util.List;
 import javafx.application.Platform;
 
 /**
@@ -54,6 +55,9 @@ public class OfflineHelper implements GameModelHelper {
     private void nextPlayer() {
         if (game.getState() == GameModel.GameState.PLAYING) {
             Player opponent = game.getOpponent();
+            if (!game.hasValidMoves(opponent.getId())) {
+                return;
+            }
 
             game.setCurrentPlayer(opponent);
             nextTurn(opponent);

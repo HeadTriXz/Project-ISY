@@ -23,7 +23,7 @@ public class HumanPlayer extends Player {
      */
     @Override
     public int getMove() {
-        if (game.getValidMoves().size() == 0) {
+        if (!game.hasValidMoves(id)) {
             return -1;
         }
 

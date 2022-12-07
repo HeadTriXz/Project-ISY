@@ -243,6 +243,14 @@ public abstract class GameModel {
     public abstract List<Integer> getValidMoves();
 
     /**
+     * Returns whether the player has any available cells.
+     *
+     * @param player The player to check.
+     * @return Whether the player has any available cells.
+     */
+    public abstract boolean hasValidMoves(int player);
+
+    /**
      * Returns whether the move is allowed to be set.
      *
      * @param move The move to be checked.

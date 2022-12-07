@@ -195,6 +195,22 @@ public class Othello extends GameModel {
     }
 
     /**
+     * Returns whether the player has any available cells.
+     *
+     * @param player The player to check.
+     * @return Whether the player has any available cells.
+     */
+    public boolean hasValidMoves(int player) {
+        for (int i = 0; i < board.getCellCount(); i++) {
+            if (isValidMove(i, player)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Returns true if the given move is within the bounds of the board.
      *
      * @param x The x coordinate of the tile to check.
@@ -211,10 +227,7 @@ public class Othello extends GameModel {
      * @return Whether the players are still playing.
      */
     private boolean isPlaying() {
-        List<Integer> playerOneMoves = getValidMoves(GameBoard.PLAYER_ONE);
-        List<Integer> playerTwoMoves = getValidMoves(GameBoard.PLAYER_TWO);
-
-        return playerOneMoves.size() + playerTwoMoves.size() > 0;
+        return hasValidMoves(GameBoard.PLAYER_ONE) || hasValidMoves(GameBoard.PLAYER_TWO);
     }
 
     /**
@@ -251,8 +264,8 @@ public class Othello extends GameModel {
     /**
      * Updates the board to show the move that was just played.
      *
-     * @param move the possition on the board
-     * @param player the player who is setting the set.
+     * @param move The position on the board.
+     * @param player The player who is setting the set.
      */
     @Override
     public void setMove(int move, int player) {

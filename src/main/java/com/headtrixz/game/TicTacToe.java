@@ -58,11 +58,11 @@ public class TicTacToe extends GameModel {
             return GameState.PLAYER_TWO_WON;
         }
 
-        if (isFull()) {
-            return GameState.DRAW;
+        if (hasValidMoves(0)) {
+            return GameState.PLAYING;
         }
 
-        return GameState.PLAYING;
+        return GameState.DRAW;
     }
 
     /**
@@ -118,6 +118,23 @@ public class TicTacToe extends GameModel {
     }
 
     /**
+     * Returns whether the board has no empty cells left.
+     *
+     * @param player The player to check.
+     * @return Whether the board has no empty cells left.
+     */
+    @Override
+    public boolean hasValidMoves(int player) {
+        for (int cell : board.getCells()) {
+            if (cell == EMPTY_CELL) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * If the player has three of their moves in a row, column, or diagonal, then they have won.
      *
      * @param player The player who is being checked for a win.
@@ -134,21 +151,6 @@ public class TicTacToe extends GameModel {
 
                 || player == board.getMove(0, 0) && player == board.getMove(1, 1) && player == board.getMove(2, 2)
                 || player == board.getMove(0, 2) && player == board.getMove(1, 1) && player == board.getMove(2, 0);
-    }
-
-    /**
-     * Returns whether the board has no empty cells left.
-     *
-     * @return Whether the board has no empty cells left.
-     */
-    public boolean isFull() {
-        for (int cell : board.getCells()) {
-            if (cell == EMPTY_CELL) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**
