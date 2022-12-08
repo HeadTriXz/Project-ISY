@@ -1,4 +1,4 @@
-package com.headtrixz.ui;
+package com.headtrixz.factory;
 
 import com.headtrixz.game.Othello;
 import com.headtrixz.game.TicTacToe;
@@ -7,6 +7,8 @@ import com.headtrixz.game.players.AIPlayer;
 import com.headtrixz.game.players.HackyAIPlayer;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
+import com.headtrixz.ui.GameController;
+import com.headtrixz.ui.UIManager;
 import com.headtrixz.ui.util.GameType;
 
 /**

@@ -1,5 +1,6 @@
 package com.headtrixz.ui;
 
+import com.headtrixz.factory.GameControllerFactory;
 import com.headtrixz.ui.helpers.Validator;
 import com.headtrixz.ui.util.GameType;
 import javafx.fxml.FXML;
