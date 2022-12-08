@@ -1,5 +1,6 @@
 package com.headtrixz.factory;
 
+import com.headtrixz.game.GameModel;
 import com.headtrixz.game.Othello;
 import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.helpers.OfflineHelper;
@@ -24,34 +25,27 @@ public class GameControllerFactory {
      */
     public static GameController createGameController(GameType game) {
         String username = UIManager.getSetting("username");
-        String aiName = "AI";
-
+        GameModel gameModel;
         switch (game) {
             case TicTacToe -> {
-                TicTacToe gameModel = new TicTacToe();
-                OfflineHelper helper = new OfflineHelper(gameModel);
-                Player humanPlayer = new HumanPlayer(gameModel, username);
-                Player aiPlayer = new AIPlayer(gameModel, aiName);
-                GameController controller = new GameController(gameModel);
-
-                gameModel.initialize(controller, helper, humanPlayer, aiPlayer);
-                return controller;
+                gameModel = new TicTacToe();
             }
 
             case Othello -> {
-                Othello gameModel = new Othello();
-                OfflineHelper helper = new OfflineHelper(gameModel);
-                Player humanPlayer = new HumanPlayer(gameModel, username);
-                Player aiPlayer = new HackyAIPlayer(gameModel, aiName);
-                GameController controller = new GameController(gameModel);
-
-                gameModel.initialize(controller, helper, humanPlayer, aiPlayer);
-                return controller;
+                gameModel = new Othello();
             }
 
             default -> {
                 return null;
             }
         }
+
+        OfflineHelper helper = new OfflineHelper(gameModel);
+        Player humanPlayer = new HumanPlayer(gameModel, username);
+        Player aiPlayer = new AIPlayer(gameModel, "AI");
+        GameController controller = new GameController(gameModel);
+
+        gameModel.initialize(controller, helper, humanPlayer, aiPlayer);
+        return controller;
     }
 }

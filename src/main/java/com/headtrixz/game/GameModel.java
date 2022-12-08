@@ -1,7 +1,6 @@
 package com.headtrixz.game;
 
 import com.headtrixz.game.helpers.GameModelHelper;
-import com.headtrixz.game.helpers.GameModelHelperFactory;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
 
