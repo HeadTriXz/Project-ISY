@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import org.json.JSONArray;
 
@@ -116,40 +117,34 @@ public class Helpers {
      *
      * @return all valid boards.
      */
-    private static int[][] generateAllPosibleBoards() {
+    private static int[][] generateAllPossibleBoards() {
+        return generatePermutations(9).toArray(new int[][] {});
+    }
 
+    /**
+     * generate all permutations of a given length.
+     *
+     * @param n the length of the permutations.
+     * @return all permutations.
+     */
+    public static List<int[]> generatePermutations(int n) {
+        List<int[]> permutations = new ArrayList<>();
 
-        int[] board = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        int[][] permutations = new int[(int) Math.pow(3, 9)][board.length];
-        int permutation = 0;
+        if (n == 0) {
+            permutations.add(new int[0]);
+            return permutations;
+        }
+
         for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                for (int k = 0; k < 3; k++) {
-                    for (int l = 0; l < 3; l++) {
-                        for (int m = 0; m < 3; m++) {
-                            for (int n = 0; n < 3; n++) {
-                                for (int o = 0; o < 3; o++) {
-                                    for (int p = 0; p < 3; p++) {
-                                        for (int q = 0; q < 3; q++) {
-                                            board[0] = i;
-                                            board[1] = j;
-                                            board[2] = k;
-                                            board[3] = l;
-                                            board[4] = m;
-                                            board[5] = n;
-                                            board[6] = o;
-                                            board[7] = p;
-                                            board[8] = q;
-                                            permutations[permutation] = board.clone();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+            List<int[]> subPermutations = generatePermutations(n - 1);
+            for (int[] subPerm : subPermutations) {
+                int[] newPerm = new int[n];
+                newPerm[0] = i;
+                System.arraycopy(subPerm, 0, newPerm, 1, n - 1);
+                permutations.add(newPerm);
             }
         }
+
         return permutations;
     }
 
@@ -159,10 +154,7 @@ public class Helpers {
      * @return array of testCases
      */
     public static HasPlayerWonTestCase[] generateHasPlayerWonTestCases() {
-        // loop over all posible combinations of the board
-
-        int[][] permutations = generateAllPosibleBoards();
-
+        int[][] permutations = generateAllPossibleBoards();
 
         for (int i = 0; i < permutations.length; i++) {
             int[] permutation = permutations[i];
@@ -178,7 +170,7 @@ public class Helpers {
             }
 
             if (Math.abs(player1 - player2) > 1
-                    || !onlyOneTrue(hasWonArr(1, permutation), hasWonArr(2, permutation))) {
+                || !onlyOneTrue(hasWonArr(1, permutation), hasWonArr(2, permutation))) {
                 permutations[i] = null;
             }
 
@@ -223,7 +215,7 @@ public class Helpers {
         // check rows
         for (int i = 0; i < 3; i++) {
             if (board[i * 3] == player && board[i * 3 + 1] == player
-                    && board[i * 3 + 2] == player) {
+                && board[i * 3 + 2] == player) {
                 return true;
             }
         }
@@ -242,7 +234,6 @@ public class Helpers {
         }
 
         return board[2] == player && board[4] == player && board[6] == player;
-
     }
 
 }
