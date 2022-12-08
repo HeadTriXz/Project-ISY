@@ -1,8 +1,10 @@
 package com.headtrixz.game;
 
 import com.headtrixz.game.helpers.GameModelHelper;
+import com.headtrixz.game.helpers.GameModelHelperFactory;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
+
 import java.util.List;
 import javafx.scene.paint.Color;
 
@@ -153,6 +155,16 @@ public abstract class GameModel {
     }
 
     /**
+     * Returns the opponent of the passed in player.
+     *
+     * @param player the player to get the oppent of
+     * @return The opponent of the passed player.
+     */
+    public Player getOpponent(Player player) {
+        return getPlayer(player.getId() % players.length);
+    }
+
+    /**
      * Check if the given player has won by checking if the GameState value with
      * index users id + 1 is equal to the current state.
      *
@@ -224,9 +236,11 @@ public abstract class GameModel {
      *
      * @param currentPlayer The player whose turn it is to move.
      * @param depth         The depth of the current node in the tree.
+     * @param depth         The depth of the current node in the tree.
+     * @param maxDepth      The max amount of layers to search through
      * @return The score of the current player.
      */
-    public abstract int getScore(Player currentPlayer, int depth);
+    public abstract int getScore(Player currentPlayer, int depth, int maxDepth);
 
     /**
      * Returns the current state of the game.

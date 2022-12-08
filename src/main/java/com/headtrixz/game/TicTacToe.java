@@ -71,34 +71,24 @@ public class TicTacToe extends GameModel {
      *
      * @return The score of the board.
      */
-    public int getScore(Player currentPlayer, int depth) {
-        if (getState() == GameState.DRAW || getState() == GameState.PLAYING) {
-            return 0;
+    public int getScore(Player currentPlayer, int depth, int maxDepth) {
+        double depthPenalty = depth / (double) maxDepth;
+
+        switch (getState()) {
+            case DRAW, PLAYING -> {
+                if (getBoard().getMove(1, 1) == currentPlayer.getId()) {
+                    return (int) (40 * depthPenalty);
+                }
+                return 0;
+            }
+            case PLAYER_ONE_WON, PLAYER_TWO_WON -> {
+                return (int) ((hasPlayerWon(currentPlayer) ? 80 : -80) * depthPenalty);
+            }
+            default -> {
+                System.out.println("there was a error. unknown state");
+                return 0;
+            }
         }
-
-        if (hasPlayerWon(currentPlayer)) {
-            return getMaxScore() / depth;
-        }
-
-        return getMinScore() / depth; // player has lost
-    }
-
-    /**
-     * Returns the maximum score used for MiniMax.
-     *
-     * @return The maximum score.
-     */
-    public int getMaxScore() {
-        return 1000;
-    }
-
-    /**
-     * Returns the minimum score used for MiniMax.
-     *
-     * @return The minimum score.
-     */
-    public int getMinScore() {
-        return -1000;
     }
 
     /**

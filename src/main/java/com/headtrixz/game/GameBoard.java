@@ -14,6 +14,15 @@ public class GameBoard {
     private final int size;
 
     /**
+     * set certain cells onto the game board. used for testing
+     *
+     * @param cells array of cells to set with the same amount of cells as the current board.
+     */
+    public void setCells(int[] cells) {
+        this.cells = cells;
+    }
+
+    /**
      * Represents a game board.
      *
      * @param size The size of the game board.
