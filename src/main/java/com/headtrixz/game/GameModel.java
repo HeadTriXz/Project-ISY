@@ -47,6 +47,32 @@ public abstract class GameModel {
     }
 
     /**
+     * clone the GameModel.
+     *
+     * @return a clone of the game model.
+     */
+    public GameModel clone() {
+        try {
+            GameModel gameClone = getClass().getDeclaredConstructor().newInstance();
+
+            // assign current state to new game
+            gameClone.board = board.clone();
+            gameClone.controller = controller;
+            gameClone.currentPlayer = currentPlayer;
+            gameClone.players = players.clone();
+
+            gameClone.helper = helper
+                .getClass()
+                .getDeclaredConstructor(GameModel.class)
+                .newInstance(gameClone);
+
+            return gameClone;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Returns a copy of the board.
      *
      * @return A copy of the board.
@@ -216,20 +242,6 @@ public abstract class GameModel {
             guiMove = move;
         }
     }
-
-    /**
-     * Returns the maximum score used for MiniMax.
-     *
-     * @return The maximum score.
-     */
-    public abstract int getMaxScore();
-
-    /**
-     * Returns the minimum score used for MiniMax.
-     *
-     * @return The minimum score.
-     */
-    public abstract int getMinScore();
 
     /**
      * Returns the score of the current player at the current depth.

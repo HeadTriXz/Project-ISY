@@ -126,7 +126,7 @@ public class Othello extends GameModel {
      *
      * @return the score of the board
      */
-    public int getScore(Player currentPlayer, int depth) {
+    public int getScore(Player currentPlayer, int depth, int maxDepth) {
         if (getState() == GameState.DRAW || getState() == GameState.PLAYING) {
             return 0;
         }
