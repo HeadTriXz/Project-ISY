@@ -1,4 +1,7 @@
-package com.headtrixz.game;
+package com.headtrixz.factory;
+
+import com.headtrixz.game.GameModel;
+import com.headtrixz.game.TicTacToe;
 
 /**
  * factory to create game models.

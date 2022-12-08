@@ -1,6 +1,9 @@
-package com.headtrixz.game.helpers;
+package com.headtrixz.factory;
 
 import com.headtrixz.game.GameModel;
+import com.headtrixz.game.helpers.GameModelHelper;
+import com.headtrixz.game.helpers.OfflineHelper;
+import com.headtrixz.game.helpers.OnlineHelper;
 
 /**
  * factory to create a GameModelHelpers.
