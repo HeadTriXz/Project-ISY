@@ -1,31 +1,24 @@
 package com.headtrixz.ui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.function.Consumer;
-
-import com.headtrixz.game.GameBoard;
-
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
+import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.helpers.OnlineHelper;
+import com.headtrixz.game.players.AIPlayer;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.game.players.RemotePlayer;
 import com.headtrixz.networking.Connection;
 import com.headtrixz.networking.InputListener;
 import com.headtrixz.networking.ServerMessageType;
-import com.headtrixz.game.TicTacToe;
-import com.headtrixz.game.players.TicTacToeAI;
-
 import com.headtrixz.ui.elements.GameGrid;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -171,21 +164,25 @@ public class TournamentController implements GameMethods {
         // TODO: Set this to a helper/util class
         currentGame = new TicTacToe();
         RemotePlayer remotePlayer = new RemotePlayer(oppenent);
-        TicTacToeAI aiPlayer = new TicTacToeAI((TicTacToe) currentGame, username);
+        AIPlayer aiPlayer = new AIPlayer(currentGame, username);
         onlineHelper = new OnlineHelper(currentGame);
         currentGame.initialize(this, onlineHelper, aiPlayer, remotePlayer);
 
         Platform.runLater(() -> {
             gameContainer.getChildren().remove(gameGrid);
-            gameGrid = new GameGrid(currentGame.getBoard().getSize(), gameContainer.getHeight(), false);
-            gameContainer.getChildren().add(gameGrid);
+            gameGrid = new GameGrid(
+                currentGame.getBoard().getSize(),
+                gameContainer.getHeight(),
+                currentGame.getBackgroundColor()
+            );
 
+            gameContainer.getChildren().add(gameGrid);
             playerTwoText.setText("O - " + oppenent);
         });
     };
 
     /**
-     * A listener that listens to the user playlist and sets that visible in the GUI
+     * A listener that listens to the user playlist and sets that visible in the GUI.
      */
     private final InputListener onPlayerList = message -> {
         List<String> playersList = new ArrayList<String>(Arrays.asList(message.getArray()));
@@ -208,8 +205,6 @@ public class TournamentController implements GameMethods {
     @Override
     public void update(int move, Player player) {
         addToLogs(String.format("%s was gezet door speler %s", move, player.getUsername()));
-
-        String[] players = {"X", "O"}; // TODO: Do this differently
-        gameGrid.setTile(move, players[player.getId() - 1]);
+        gameGrid.setTile(move, currentGame.getImage(player.getId()));
     }
 }

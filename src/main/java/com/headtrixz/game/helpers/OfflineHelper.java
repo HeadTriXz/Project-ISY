@@ -1,7 +1,10 @@
 package com.headtrixz.game.helpers;
 
+import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
+import com.headtrixz.ui.GameController;
+import java.util.List;
 import javafx.application.Platform;
 
 /**
@@ -47,6 +50,27 @@ public class OfflineHelper implements GameModelHelper {
     }
 
     /**
+     * Sets the next player and starts a new turn.
+     */
+    private void nextPlayer() {
+        if (game.getState() == GameModel.GameState.PLAYING) {
+            Player opponent = game.getOpponent();
+            game.setCurrentPlayer(opponent);
+
+            if (!game.hasValidMoves(opponent.getId())) {
+                nextPlayer();
+                return;
+            }
+
+            nextTurn(opponent);
+        } else {
+            Platform.runLater(() -> {
+                game.getController().endGame();
+            });
+        }
+    }
+
+    /**
      * Tells the player it's their turn and handles their move.
      *
      * @param player The player whose turn it is.
@@ -54,23 +78,23 @@ public class OfflineHelper implements GameModelHelper {
     @Override
     public void nextTurn(Player player) {
         player.onTurn(m -> {
-            if (!game.isValidMove(m)) {
+            if (m == -1 || !game.isValidMove(m)) {
+                nextPlayer();
+                Platform.runLater(() -> {
+                    GameMethods controller = game.getController();
+                    if (controller instanceof GameController) {
+                        ((GameController) controller).updateSuggestions();
+                    }
+                });
                 return;
             }
 
-            game.getBoard().setMove(m, player.getId());
+            game.setMove(m, player.getId());
             Platform.runLater(() -> {
                 game.getController().update(m, player);
             });
 
-            if (game.getState() == GameModel.GameState.PLAYING) {
-                game.setCurrentPlayer(game.getOpponent());
-                nextTurn(game.getCurrentPlayer());
-            } else {
-                Platform.runLater(() -> {
-                    game.getController().endGame();
-                });
-            }
+            nextPlayer();
         });
     }
 }

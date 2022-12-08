@@ -1,23 +1,22 @@
 package com.headtrixz.ui;
 
-import com.headtrixz.ui.elements.GameGrid;
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
-import com.headtrixz.game.helpers.OfflineHelper;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
-import com.headtrixz.game.TicTacToe;
-import com.headtrixz.game.players.TicTacToeAI;
-
+import com.headtrixz.ui.elements.GameGrid;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
+/**
+ * A controller for the game screen.
+ */
 public class GameController implements GameMethods {
     private static final double PANE_SIZE = 300.0;
 
     private GameModel game;
-    private OfflineHelper helper;
     private GameGrid gameGrid;
 
     @FXML
@@ -28,16 +27,25 @@ public class GameController implements GameMethods {
     private StackPane container;
 
     /**
+     * Create a new controller.
+     *
+     * @param game the game this controller will host
+     */
+    public GameController(GameModel game) {
+        this.game = game;
+    }
+
+    /**
      * Stop the game and go back to the home screen.
      */
     public void displayHome() {
-        helper.forfeit();
+        game.getHelper().forfeit();
         UIManager.switchScreen("home");
     }
 
     /**
-     * Gets called when the game ends comes to a natural ending.
-     * Switches to the Game Finish screen with the current game data.
+     * Gets called when the game ends comes to a natural ending. Switches to the Game Finish screen
+     * with the current game data.
      */
     @Override
     public void endGame() {
@@ -45,26 +53,18 @@ public class GameController implements GameMethods {
     }
 
     /**
-     * FXML init method. Gets called when the screen has loaded.
-     * Sets up the players and game.
+     * FXML init method. Gets called when the screen has loaded. Sets up the players and game.
      */
     public void initialize() {
-        // TODO: Turn this into a something else.
-        game = new TicTacToe();
-        helper = new OfflineHelper(game);
-
-        Player playerOne = new HumanPlayer(game, "Humon");
-        Player playerTwo = new TicTacToeAI((TicTacToe) game, "Compuper");
-
-        game.initialize(this, helper, playerOne, playerTwo);
-
-        gameGrid = new GameGrid(game.getBoard().getSize(), PANE_SIZE, true);
+        gameGrid = new GameGrid(game.getBoard().getSize(), PANE_SIZE, game.getBackgroundColor());
         gameGrid.setCallback(this::onMouseClick);
         container.getChildren().add(gameGrid);
 
         // Set visible usernames.
-        playerOneName.setText(playerOne.getUsername());
-        playerTwoName.setText(playerTwo.getUsername());
+        playerOneName.setText(game.getPlayer(0).getUsername());
+        playerTwoName.setText(game.getPlayer(1).getUsername());
+
+        update(-1, null);
     }
 
     /**
@@ -77,15 +77,33 @@ public class GameController implements GameMethods {
     }
 
     /**
-     * Gets called when a set is done on the board by either players.
-     * Updates the tile on the board to show which player has set which move.
+     * Gets called when a set is done on the board by either players. Updates the tile on the board
+     * to show which player has set which move.
      *
      * @param move the index of the move the player has done.
      * @param player the player who has set the move.
      */
     @Override
     public void update(int move, Player player) {
-        String[] players = { "", "X", "O" }; // TODO: Do this differently
-        gameGrid.setTile(move, players[player.getId()]);
+        int[] board = game.getBoard().getCells();
+        gameGrid.clearBoard(board.length);
+
+        for (int i = 0; i < board.length; i++) {
+            if (board[i] != 0) {
+                gameGrid.setTile(i, game.getImage(board[i]));
+            }
+        }
+
+        if (game.getCurrentPlayer() instanceof HumanPlayer) {
+            updateSuggestions();
+        }
+    }
+
+    /**
+     * Updates the suggestions on the game grid.
+     */
+    public void updateSuggestions() {
+        List<Integer> moves = game.getValidMoves();
+        gameGrid.setSuggestions(moves, game.getImage(0));
     }
 }

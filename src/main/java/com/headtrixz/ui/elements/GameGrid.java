@@ -1,37 +1,43 @@
 package com.headtrixz.ui.elements;
 
+import java.util.List;
+import java.util.function.Consumer;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-import java.util.function.Consumer;
-
+/**
+ * The GameGrid component/element.
+ */
 public class GameGrid extends GridPane {
     private Consumer<Integer> callback;
+    private final double paneSize;
 
     /**
      * Create a fancy new board! With some options.
      *
      * @param size The amount of the squares it has each direction.
      * @param gridSize The size that the grid is allowed to be.
-     * @param renderCursor Render a pointy cursor when someone hover over a open square.
+     * @param backgroundColor The color of the grid's background.
      */
-    public GameGrid(int size, double gridSize, boolean renderCursor) {
+    public GameGrid(int size, double gridSize, Color backgroundColor) {
         super();
 
+        setBackground(Background.fill(backgroundColor));
         setGridLinesVisible(true);
         setMaxSize(gridSize, gridSize);
 
-        final double paneSize = gridSize / size;
+        paneSize = gridSize / size;
         for (int i = 0; i < size * size; i++) {
             StackPane sp = new StackPane();
             sp.setMinSize(paneSize, paneSize);
             sp.setMaxSize(paneSize, paneSize);
-
-            if (renderCursor) {
-                this.setCursor(Cursor.HAND);
-            }
 
             final int index = i; // Java is stupid (╯°□°）╯︵ ┻━┻
             sp.setOnMouseClicked(a -> onClick(index));
@@ -44,13 +50,21 @@ public class GameGrid extends GridPane {
      * Set a symbol in a square and disable the cursor.
      *
      * @param move The index to fill in.
-     * @param player The symbol to put into the square.
+     * @param path The symbol to put into the square.
      */
-    public void setTile(int move, String player) {
-        Text text = new Text(player);
+    public void setTile(int move, String path) {
+        if (path == null) {
+            return;
+        }
+
+        Image image = new Image(path, paneSize, paneSize, false, true);
+        ImageView view = new ImageView(image);
+        view.setFitWidth(paneSize);
+        view.setFitHeight(paneSize);
+
         StackPane pane = (StackPane) this.getChildren().get(move + 1);
         pane.setCursor(Cursor.DEFAULT);
-        pane.getChildren().add(text);
+        pane.getChildren().add(view);
     }
 
     /**
@@ -73,5 +87,39 @@ public class GameGrid extends GridPane {
      */
     public void setCallback(Consumer<Integer> callback) {
         this.callback = callback;
+    }
+
+    /**
+     * Clear the complete board.
+     *
+     * @param len the length of the board.
+     */
+    public void clearBoard(int len) {
+        for (int i = 0; i < len; i++) {
+            StackPane pane = (StackPane) this.getChildren().get(i + 1);
+            pane.getChildren().clear();
+            pane.setCursor(Cursor.DEFAULT);
+        }
+    }
+
+    /**
+     * Set suggestion tiles.
+     *
+     * @param suggestions the suggestions.
+     * @param path The path to the image for suggestions.
+     */
+    public void setSuggestions(List<Integer> suggestions, String path) {
+        for (int move : suggestions) {
+            StackPane pane = (StackPane) this.getChildren().get(move + 1);
+            pane.setCursor(Cursor.HAND);
+
+            if (path != null) {
+                Image image = new Image(path, paneSize, paneSize, false, true);
+                ImageView view = new ImageView(image);
+                view.setOpacity(0.2);
+
+                pane.getChildren().add(view);
+            }
+        }
     }
 }

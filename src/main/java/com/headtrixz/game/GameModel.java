@@ -4,7 +4,9 @@ import com.headtrixz.game.helpers.GameModelHelper;
 import com.headtrixz.game.helpers.GameModelHelperFactory;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
+
 import java.util.List;
+import javafx.scene.paint.Color;
 
 /**
  * The base for all games.
@@ -20,12 +22,14 @@ public abstract class GameModel {
         DRAW
     }
 
+    protected Color backgroundColor;
     protected GameBoard board;
     protected GameMethods controller;
     protected Player currentPlayer;
     protected GameModelHelper helper;
     protected String name;
     protected Player[] players;
+    protected String[] images;
 
     protected volatile int guiMove = -1;
 
@@ -35,9 +39,11 @@ public abstract class GameModel {
      * @param name      The name of the game.
      * @param boardSize The size of the board.
      */
-    public GameModel(String name, int boardSize) {
+    public GameModel(String name, int boardSize, Color backgroundColor, String... images) {
         this.name = name;
+        this.backgroundColor = backgroundColor;
         this.board = new GameBoard(boardSize);
+        this.images = images;
     }
 
     /**
@@ -76,6 +82,15 @@ public abstract class GameModel {
     }
 
     /**
+     * Returns the background color for the GUI to use for this game.
+     *
+     * @return The color.
+     */
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    /**
      * Returns the original board. WARNING: Do NOT modify the board.
      *
      * @return The original board.
@@ -109,6 +124,25 @@ public abstract class GameModel {
      */
     public int getGuiMove() {
         return guiMove;
+    }
+
+    /**
+     * Get the helper.
+     *
+     * @return the helper.
+     */
+    public GameModelHelper getHelper() {
+        return helper;
+    }
+
+    /**
+     * Returns the image to use for the player on the game grid.
+     *
+     * @param player The player to get the image for.
+     * @return An image.
+     */
+    public String getImage(int player) {
+        return images[player];
     }
 
     /**
@@ -157,14 +191,14 @@ public abstract class GameModel {
     }
 
     /**
-     * check if the given player has won by checking if the GameState value with
-     * index users id is equal to the current state.
+     * Check if the given player has won by checking if the GameState value with
+     * index users id + 1 is equal to the current state.
      *
      * @param player the player to check
      * @return a boolean that is true if the player has won
      */
     public boolean hasPlayerWon(Player player) {
-        return GameState.values()[player.getId()] == getState();
+        return GameState.values()[player.getId() + 1] == getState();
     }
 
     /**
@@ -182,7 +216,6 @@ public abstract class GameModel {
             players[i].setId(i + 1);
         }
 
-        board.clear();
         helper.initialize();
     }
 
@@ -235,11 +268,12 @@ public abstract class GameModel {
     public abstract List<Integer> getValidMoves();
 
     /**
-     * Returns whether the board is full.
+     * Returns whether the player has any available cells.
      *
-     * @return Whether the board has no empty cells left.
+     * @param player The player to check.
+     * @return Whether the player has any available cells.
      */
-    public abstract boolean isFull();
+    public abstract boolean hasValidMoves(int player);
 
     /**
      * Returns whether the move is allowed to be set.
