@@ -11,7 +11,6 @@ public class GameModelFactory {
      * @return a GameModel specifically for the type of game.
      */
     public static GameModel createGameModel(String gameType) {
-
         return switch (gameType) {
             case "TicTacToe" -> new TicTacToe();
             default ->

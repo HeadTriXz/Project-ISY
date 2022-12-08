@@ -38,13 +38,11 @@ public class MiniMax {
      * @return the best move to make given the current game state
      */
     public int getMove(int maxDepth) {
-
         // make a clone of the game
         GameModel game = this.baseGame.clone();
 
         int bestMove = -1;
         int bestScore = Integer.MIN_VALUE;
-
 
         // only done for tic tact toe.
         // only added to match results of old which chose the first winning or losing move;
@@ -68,7 +66,6 @@ public class MiniMax {
             }
         }
 
-
         for (int move : game.getValidMoves()) {
             game = this.baseGame.clone();
 
@@ -83,7 +80,6 @@ public class MiniMax {
 
         return bestMove;
     }
-
 
     /**
      * get the best move for the current player given the current game state
@@ -135,18 +131,13 @@ public class MiniMax {
                         TranspositionEntry.createHash(game.getBoard(), currentPlayer));
 
         if (ttEntry != null && ttEntry.depth() >= depth) {
-
             switch (ttEntry.flag()) {
-                case EXACT:
+                case EXACT -> {
                     return ttEntry.value();
-                case LOWER_BOUND:
-                    alpha = Math.max(alpha, ttEntry.value());
-                    break;
-                case UPPER_BOUND:
-                    beta = Math.min(beta, ttEntry.value());
-                    break;
-                default:
-                    throw new IllegalStateException("Invalid flag");
+                }
+                case LOWER_BOUND -> alpha = Math.max(alpha, ttEntry.value());
+                case UPPER_BOUND -> beta = Math.min(beta, ttEntry.value());
+                default -> throw new IllegalStateException("Invalid flag");
             }
 
             if (alpha >= beta) {
@@ -154,11 +145,9 @@ public class MiniMax {
             }
         }
 
-
         if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
             return game.getScore(currentPlayer, depth + 1, maxDepth);
         }
-
 
         Player opp = game.getOpponent(currentPlayer);
         int value = Integer.MIN_VALUE;
@@ -196,7 +185,6 @@ public class MiniMax {
      */
     private void addBoardToTranspositionTable(int value, int alpha, int beta, int depth,
                                               Player currentPlayer, GameModel game) {
-
         TranspositionEntry.Flags ttFlag = TranspositionEntry.Flags.EXACT;
         if (value < alpha) {
             ttFlag = TranspositionEntry.Flags.UPPER_BOUND;
@@ -207,6 +195,5 @@ public class MiniMax {
 
         transpositionTable.put(TranspositionEntry.createHash(game.getBoard(), currentPlayer),
                 new TranspositionEntry(value, depth, ttFlag));
-
     }
 }

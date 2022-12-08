@@ -46,7 +46,6 @@ public class OfflineHelper implements GameModelHelper {
         nextTurn(game.getCurrentPlayer());
     }
 
-
     /**
      * Tells the player it's their turn and handles their move.
      *

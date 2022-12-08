@@ -40,36 +40,30 @@ public abstract class GameModel {
         this.board = new GameBoard(boardSize);
     }
 
-
     /**
      * clone the GameModel.
      *
      * @return a clone of the game model.
      */
     public GameModel clone() {
-
-        GameModel gameClone;
         try {
-            // create a new game
-            gameClone = GameModelFactory.createGameModel(this.getClass().getSimpleName());
+            GameModel gameClone = getClass().getDeclaredConstructor().newInstance();
 
             // assign current state to new game
             gameClone.board = board.clone();
+            gameClone.controller = controller;
             gameClone.currentPlayer = currentPlayer;
             gameClone.players = players.clone();
 
-            gameClone.helper =
-                    GameModelHelperFactory.createGameModelHelper(
-                            this.helper.getClass().getSimpleName(), gameClone);
-            gameClone.controller = controller;
+            gameClone.helper = helper
+                .getClass()
+                .getDeclaredConstructor(GameModel.class)
+                .newInstance(gameClone);
 
             return gameClone;
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     /**
@@ -161,7 +155,6 @@ public abstract class GameModel {
     public Player getOpponent(Player player) {
         return getPlayer(player.getId() % players.length);
     }
-
 
     /**
      * check if the given player has won by checking if the GameState value with

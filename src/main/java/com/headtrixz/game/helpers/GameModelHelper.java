@@ -7,7 +7,6 @@ import com.headtrixz.game.players.Player;
  * The interface for the GameModel helpers.
  */
 public interface GameModelHelper {
-
     /**
      * Ends the game when the player forfeits.
      */

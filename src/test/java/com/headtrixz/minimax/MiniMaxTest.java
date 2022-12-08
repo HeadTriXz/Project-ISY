@@ -24,7 +24,6 @@ import org.junit.jupiter.api.TestFactory;
  * A class that tests the MiniMax algorithm.
  */
 class MiniMaxTest {
-
     /**
      * Tests specifically for tic-tac-toe.
      */
@@ -76,12 +75,10 @@ class MiniMaxTest {
             );
         }
 
-
         @TestFactory
         Stream<DynamicTest> getMoveCleanTableTest() {
             ArrayList<MiniMaxTestCase> testCases =
                 Helpers.loadMiniMaxTestCases("src/test/resources/tictactoe.txt");
-
 
             // keep count of amount of tests done
             final int[] testCaseCount = {1};
@@ -103,7 +100,6 @@ class MiniMaxTest {
                 }
             );
         }
-
 
         @TestFactory
         Stream<DynamicTest> getMoveIterativeTest() {
@@ -131,7 +127,6 @@ class MiniMaxTest {
             );
         }
 
-
         @TestFactory
         Stream<DynamicTest> getMoveIterativeCleanTableTest() {
             ArrayList<MiniMaxTestCase> testCases =
@@ -155,17 +150,14 @@ class MiniMaxTest {
                             "Test case(" + testCaseCount[0]++ + ") failed.");
                         }
                 );
-                }
-            );
+            });
         }
-
 
         @Test
         void hashBoardAndPlayerUniquenessTest() {
             ArrayList<int[]> boards =
                 Helpers.generateTicTacToeBoards(
                     "src/test/resources/getScoreTestCases.txt");
-
 
             ArrayList<Long> hashes = new ArrayList<>();
             assert boards != null;
@@ -191,7 +183,6 @@ class MiniMaxTest {
             final int[] testCaseCount = {1};
 
             return boards.stream().map(testCase -> {
-
                 return DynamicTest.dynamicTest(
                     "Test Case(" + testCaseCount[0]++ + "): " + Arrays.toString(testCase) + ".",
                     () -> {
@@ -208,7 +199,6 @@ class MiniMaxTest {
                         }
                     }
                 );
-
             });
         }
     }

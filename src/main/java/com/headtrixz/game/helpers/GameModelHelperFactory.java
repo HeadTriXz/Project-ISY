@@ -14,7 +14,6 @@ public class GameModelHelperFactory {
      * @return a GameModelHelper specifically for the type of game.
      */
     public static GameModelHelper createGameModelHelper(String gameType, GameModel game) {
-
         return switch (gameType) {
             case "OnlineHelper" -> new OnlineHelper(game);
             case "OfflineHelper" -> new OfflineHelper(game);

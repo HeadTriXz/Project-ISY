@@ -38,7 +38,6 @@ public class Helpers {
         }
     }
 
-
     /**
      * Generate test cases from a file.
      *
@@ -109,7 +108,6 @@ public class Helpers {
 
         return testCases;
     }
-
 
     /**
      * generate an array of valid boards for tictactoe.
@@ -185,7 +183,6 @@ public class Helpers {
             permutations[i++] = permutations[k];
         }
 
-
         return Arrays.stream(Arrays.copyOf(permutations, i)).map(ints -> {
             int player = hasWonArr(1, ints) ? 1 : 2;
             return new HasPlayerWonTestCase(ints, player);
@@ -221,7 +218,6 @@ public class Helpers {
         }
 
         // check columns
-
         for (int i = 0; i < 3; i++) {
             if (board[i] == player && board[i + 3] == player && board[i + 6] == player) {
                 return true;
@@ -235,6 +231,4 @@ public class Helpers {
 
         return board[2] == player && board[4] == player && board[6] == player;
     }
-
 }
-
