@@ -1,11 +1,12 @@
 package com.headtrixz.game;
 
-import com.headtrixz.game.players.Player;
+import static com.headtrixz.game.GameBoard.EMPTY_CELL;
+import static com.headtrixz.game.GameBoard.PLAYER_ONE;
+import static com.headtrixz.game.GameBoard.PLAYER_TWO;
 
+import com.headtrixz.game.players.Player;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.headtrixz.game.GameBoard.*;
 
 /**
  * Represents a game of Tic Tac Toe.
@@ -50,38 +51,30 @@ public class TicTacToe extends GameModel {
 
     /**
      * get the score of the game in its current state. the scoring is
-     * -2 if current player has won, -1 if current player has lost, 0 if game is still going or ended in draw
+     * 80 if current player has won, -80 if current player has lost,
+     * 0 if game is still going or ended in draw. and 40 if currentPlayer
+     * has the center cell and game is still playing
      *
      * @return the score of the board
      */
-    public int getScore(Player currentPlayer, int depth) {
-        if (getState() == GameState.DRAW || getState() == GameState.PLAYING) {
-            return 0;
+    public int getScore(Player currentPlayer, int depth, int maxDepth) {
+        double depthPenalty = depth / (double) maxDepth;
+
+        switch (getState()) {
+            case DRAW, PLAYING -> {
+                if (getBoard().getMove(1, 1) == currentPlayer.getId()) {
+                    return (int) (40 * depthPenalty);
+                }
+                return 0;
+            }
+            case PLAYER_ONE_WON, PLAYER_TWO_WON -> {
+                return (int) ((hasPlayerWon(currentPlayer) ? 80 : -80) * depthPenalty);
+            }
+            default -> {
+                System.out.println("there was a error. unknown state");
+                return 0;
+            }
         }
-
-        if (hasPlayerWon(currentPlayer)) {
-            return getMaxScore() / depth;
-        }
-
-        return getMinScore() / depth; // player has lost
-    }
-
-    /**
-     * Returns the maximum score used for MiniMax.
-     *
-     * @return The maximum score.
-     */
-    public int getMaxScore() {
-        return 1000;
-    }
-
-    /**
-     * Returns the minimum score used for MiniMax.
-     *
-     * @return The minimum score.
-     */
-    public int getMinScore() {
-        return -1000;
     }
 
     /**

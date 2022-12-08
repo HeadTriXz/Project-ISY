@@ -1,9 +1,9 @@
 package com.headtrixz.game;
 
 import com.headtrixz.game.helpers.GameModelHelper;
+import com.headtrixz.game.helpers.GameModelHelperFactory;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
-
 import java.util.List;
 
 /**
@@ -32,12 +32,38 @@ public abstract class GameModel {
     /**
      * The base for all games.
      *
-     * @param name The name of the game.
+     * @param name      The name of the game.
      * @param boardSize The size of the board.
      */
     public GameModel(String name, int boardSize) {
         this.name = name;
         this.board = new GameBoard(boardSize);
+    }
+
+    /**
+     * clone the GameModel.
+     *
+     * @return a clone of the game model.
+     */
+    public GameModel clone() {
+        try {
+            GameModel gameClone = getClass().getDeclaredConstructor().newInstance();
+
+            // assign current state to new game
+            gameClone.board = board.clone();
+            gameClone.controller = controller;
+            gameClone.currentPlayer = currentPlayer;
+            gameClone.players = players.clone();
+
+            gameClone.helper = helper
+                .getClass()
+                .getDeclaredConstructor(GameModel.class)
+                .newInstance(gameClone);
+
+            return gameClone;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -121,21 +147,31 @@ public abstract class GameModel {
     }
 
     /**
+     * Returns the opponent of the passed in player.
+     *
+     * @param player the player to get the oppent of
+     * @return The opponent of the passed player.
+     */
+    public Player getOpponent(Player player) {
+        return getPlayer(player.getId() % players.length);
+    }
+
+    /**
      * check if the given player has won by checking if the GameState value with
-     * index users id + 1 is equal to the current state
+     * index users id is equal to the current state.
      *
      * @param player the player to check
      * @return a boolean that is true if the player has won
      */
     public boolean hasPlayerWon(Player player) {
-        return GameState.values()[player.getId() + 1] == getState();
+        return GameState.values()[player.getId()] == getState();
     }
 
     /**
      * Initializes the game.
      *
      * @param controller The game controller.
-     * @param helper A helper class for either an offline or online game.
+     * @param helper     A helper class for either an offline or online game.
      */
     public void initialize(GameMethods controller, GameModelHelper helper, Player... players) {
         this.controller = controller;
@@ -175,27 +211,14 @@ public abstract class GameModel {
     }
 
     /**
-     * Returns the maximum score used for MiniMax.
-     *
-     * @return The maximum score.
-     */
-    public abstract int getMaxScore();
-
-    /**
-     * Returns the minimum score used for MiniMax.
-     *
-     * @return The minimum score.
-     */
-    public abstract int getMinScore();
-
-    /**
      * Returns the score of the current player at the current depth.
      *
      * @param currentPlayer The player whose turn it is to move.
-     * @param depth The depth of the current node in the tree.
+     * @param depth         The depth of the current node in the tree.
+     * @param maxDepth      The max amount of layers to search through
      * @return The score of the current player.
      */
-    public abstract int getScore(Player currentPlayer, int depth);
+    public abstract int getScore(Player currentPlayer, int depth, int maxDepth);
 
     /**
      * Returns the current state of the game.
@@ -229,7 +252,7 @@ public abstract class GameModel {
     /**
      * Sets the move for a specific player.
      *
-     * @param move The move that the player wants to make.
+     * @param move   The move that the player wants to make.
      * @param player The player who is making the move.
      */
     public abstract void setMove(int move, int player);
