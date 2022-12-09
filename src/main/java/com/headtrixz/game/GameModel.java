@@ -3,7 +3,6 @@ package com.headtrixz.game;
 import com.headtrixz.game.helpers.GameModelHelper;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
-
 import java.util.List;
 import javafx.scene.paint.Color;
 
@@ -23,7 +22,6 @@ public abstract class GameModel {
 
     protected Color backgroundColor;
     protected GameBoard board;
-    protected GameMethods controller;
     protected Player currentPlayer;
     protected GameModelHelper helper;
     protected String name;
@@ -56,28 +54,14 @@ public abstract class GameModel {
 
             // assign current state to new game
             gameClone.board = board.clone();
-            gameClone.controller = controller;
             gameClone.currentPlayer = currentPlayer;
+            gameClone.helper = helper.clone(gameClone);
             gameClone.players = players.clone();
-
-            gameClone.helper = helper
-                .getClass()
-                .getDeclaredConstructor(GameModel.class)
-                .newInstance(gameClone);
 
             return gameClone;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Returns a copy of the board.
-     *
-     * @return A copy of the board.
-     */
-    public GameBoard cloneBoard() {
-        return board.clone();
     }
 
     /**
@@ -96,15 +80,6 @@ public abstract class GameModel {
      */
     public GameBoard getBoard() {
         return board;
-    }
-
-    /**
-     * Returns the game controller.
-     *
-     * @return The game controller.
-     */
-    public GameMethods getController() {
-        return controller;
     }
 
     /**
@@ -176,13 +151,13 @@ public abstract class GameModel {
      * @return The opponent of the current player.
      */
     public Player getOpponent() {
-        return players[currentPlayer.getId() % players.length];
+        return getOpponent(currentPlayer);
     }
 
     /**
      * Returns the opponent of the passed in player.
      *
-     * @param player the player to get the oppent of
+     * @param player The player to get the opponent of.
      * @return The opponent of the passed player.
      */
     public Player getOpponent(Player player) {
@@ -203,11 +178,10 @@ public abstract class GameModel {
     /**
      * Initializes the game.
      *
-     * @param controller The game controller.
-     * @param helper     A helper class for either an offline or online game.
+     * @param helper A helper class for either an offline or online game.
+     * @param players The players that participate in the game.
      */
-    public void initialize(GameMethods controller, GameModelHelper helper, Player... players) {
-        this.controller = controller;
+    public void initialize(GameModelHelper helper, Player... players) {
         this.currentPlayer = players[0];
         this.helper = helper;
         this.players = players;

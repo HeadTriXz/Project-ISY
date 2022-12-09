@@ -1,8 +1,11 @@
 package com.headtrixz.ui;
 
+import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
+import com.headtrixz.game.Othello;
 import com.headtrixz.game.TicTacToe;
+import com.headtrixz.game.helpers.GameModelHelper;
 import com.headtrixz.game.helpers.OnlineHelper;
 import com.headtrixz.game.players.AIPlayer;
 import com.headtrixz.game.players.Player;
@@ -19,11 +22,12 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 public class TournamentController implements GameMethods {
-
     @FXML
     ListView<String> playersListView;
     @FXML
@@ -37,7 +41,11 @@ public class TournamentController implements GameMethods {
     @FXML
     Text onlineText;
     @FXML
+    ImageView playerOneIcon;
+    @FXML
     Text playerOneText;
+    @FXML
+    ImageView playerTwoIcon;
     @FXML
     Text playerTwoText;
     @FXML
@@ -46,11 +54,9 @@ public class TournamentController implements GameMethods {
     StackPane gameContainer;
 
     String username;
-    GameModel currentGame;
-    OnlineHelper onlineHelper;
+    GameModel game;
 
     GameGrid gameGrid;
-
 
     int drawCount;
     int winCount;
@@ -82,9 +88,7 @@ public class TournamentController implements GameMethods {
         });
 
         work.start();
-
         title.setText("Tournooi modes voor Tic Tac Toe");
-        playerOneText.setText(username + " - X");
     }
 
 
@@ -107,8 +111,8 @@ public class TournamentController implements GameMethods {
      * Forfeits the current match and logs out of the server.
      */
     public void disconnect() {
-        if (currentGame != null) {
-            onlineHelper.forfeit();
+        if (game != null) {
+            game.getHelper().forfeit();
         }
 
         Connection connection = Connection.getInstance();
@@ -119,37 +123,42 @@ public class TournamentController implements GameMethods {
         UIManager.switchScreen("home");
     }
 
+    private String onDraw() {
+        drawCount++;
+        draws.setText(String.format("Gelijkspel: %d", drawCount));
+        return "Match gelijkgespeeld tegen";
+    }
+
+    private String onLoss() {
+        loseCount++;
+        loses.setText(String.format("Verloren: %d", loseCount));
+        return "Match verloren van";
+    }
+
+    private String onWin() {
+        winCount++;
+        wins.setText(String.format("Gewonnen: %d", winCount));
+        return "Match gewonnen van";
+    }
+
     /**
      * Gets called when a game has ended. Shows a message in the log for what
      * the result was and increments the appropriate counter.
      */
     @Override
     public void endGame() {
-        String logText = "Ja dit is een apparte situatie, maar je hebt iets gedaan tegen";
-        switch (currentGame.getState()) {
-            case PLAYER_ONE_WON -> {
-                winCount++;
-                wins.setText(String.format("Gewonnen: %d", winCount));
-                logText = "Match gewonnen van";
-            }
+        Player localPlayer = game.getHelper().getLocalPlayer();
+        String text = switch (game.getState()) {
+            case PLAYING -> throw new RuntimeException("Tried ending game while still playing.");
+            case PLAYER_ONE_WON -> localPlayer.getId() == GameBoard.PLAYER_ONE ? onWin() : onLoss();
+            case PLAYER_TWO_WON -> localPlayer.getId() == GameBoard.PLAYER_TWO ? onWin() : onLoss();
+            case DRAW -> onDraw();
+        };
 
-            case PLAYER_TWO_WON -> {
-                loseCount++;
-                loses.setText(String.format("Verloren: %d", loseCount));
-                logText = "Match verloren van";
-            }
+        String opponent = game.getOpponent(localPlayer).getUsername();
+        addToLogs(String.format("%s: %s\n", text, opponent));
 
-            case DRAW -> {
-                drawCount++;
-                draws.setText(String.format("Gelijkspel: %d", drawCount));
-                logText = "Match gelijkgespeeld tegen";
-            }
-        }
-
-        String opponent = currentGame.getPlayer(1).getUsername();
-        addToLogs(String.format("%s: %s\n", logText, opponent));
-
-        currentGame = null;
+        game = null;
     }
 
     /**
@@ -161,23 +170,43 @@ public class TournamentController implements GameMethods {
         String oppenent = obj.get("OPPONENT");
         addToLogs("Start een match met: " + oppenent);
 
-        // TODO: Set this to a helper/util class
-        currentGame = new TicTacToe();
-        RemotePlayer remotePlayer = new RemotePlayer(oppenent);
-        AIPlayer aiPlayer = new AIPlayer(currentGame, username);
-        onlineHelper = new OnlineHelper(currentGame);
-        currentGame.initialize(this, onlineHelper, aiPlayer, remotePlayer);
+        // TODO: Replace with factory.
+        game = switch (obj.get("GAMETYPE")) {
+            case "Tic-tac-toe" -> new TicTacToe();
+            case "Reversi" -> new Othello();
+            default -> throw new RuntimeException("Unknown type of game: " + obj.get("GAMETYPE"));
+        };
+
+        Player playerOne = obj.get("PLAYERTOMOVE").equals(oppenent)
+            ? new RemotePlayer(oppenent)
+            : new AIPlayer(game, username);
+        Player playerTwo = obj.get("PLAYERTOMOVE").equals(oppenent)
+            ? new AIPlayer(game, username)
+            : new RemotePlayer(oppenent);
+
+        GameModelHelper helper = new OnlineHelper(this, game);
+        game.initialize(helper, playerOne, playerTwo);
 
         Platform.runLater(() -> {
             gameContainer.getChildren().remove(gameGrid);
             gameGrid = new GameGrid(
-                currentGame.getBoard().getSize(),
+                game.getBoard().getSize(),
                 gameContainer.getHeight(),
-                currentGame.getBackgroundColor()
+                game.getBackgroundColor()
             );
 
             gameContainer.getChildren().add(gameGrid);
-            playerTwoText.setText("O - " + oppenent);
+
+            Image black = new Image(game.getImage(GameBoard.PLAYER_ONE), 20, 20, false, true);
+            Image white = new Image(game.getImage(GameBoard.PLAYER_TWO), 20, 20, false, true);
+
+            playerOneText.setText(playerOne.getUsername());
+            playerOneIcon.setImage(black);
+
+            playerTwoText.setText(playerTwo.getUsername());
+            playerTwoIcon.setImage(white);
+
+            update(-1, playerOne);
         });
     };
 
@@ -185,14 +214,15 @@ public class TournamentController implements GameMethods {
      * A listener that listens to the user playlist and sets that visible in the GUI.
      */
     private final InputListener onPlayerList = message -> {
-        List<String> playersList = new ArrayList<String>(Arrays.asList(message.getArray()));
+        List<String> playersList = new ArrayList<>(Arrays.asList(message.getArray()));
 
-        onlineText.setText(String.format("Online: %d", playersList.size()));
+        Platform.runLater(() -> {
+            onlineText.setText(String.format("Online: %d", playersList.size()));
+            playersList.remove(username);
 
-        playersList.remove(username);
-
-        playersListView.setItems(FXCollections.observableArrayList(playersList));
-        playersListView.refresh();
+            playersListView.setItems(FXCollections.observableArrayList(playersList));
+            playersListView.refresh();
+        });
     };
 
     /**
@@ -204,7 +234,15 @@ public class TournamentController implements GameMethods {
      */
     @Override
     public void update(int move, Player player) {
+        int[] board = game.getBoard().getCells(); // TODO: Duplicated code.
+        gameGrid.clearBoard(board.length);
+
+        for (int i = 0; i < board.length; i++) {
+            if (board[i] != 0) {
+                gameGrid.setTile(i, game.getImage(board[i]));
+            }
+        }
+
         addToLogs(String.format("%s was gezet door speler %s", move, player.getUsername()));
-        gameGrid.setTile(move, currentGame.getImage(player.getId()));
     }
 }
