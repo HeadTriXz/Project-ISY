@@ -13,11 +13,8 @@ import javafx.scene.text.Text;
 /**
  * A controller for the game screen.
  */
-public class GameController implements GameMethods {
+public class GameController extends GameMethods {
     private static final double PANE_SIZE = 300.0;
-
-    private GameModel game;
-    private GameGrid gameGrid;
 
     @FXML
     private Text playerOneName;
@@ -85,14 +82,7 @@ public class GameController implements GameMethods {
      */
     @Override
     public void update(int move, Player player) {
-        int[] board = game.getBoard().getCells();
-        gameGrid.clearBoard(board.length);
-
-        for (int i = 0; i < board.length; i++) {
-            if (board[i] != 0) {
-                gameGrid.setTile(i, game.getImage(board[i]));
-            }
-        }
+        updateGrid();
 
         if (game.getCurrentPlayer() instanceof HumanPlayer) {
             updateSuggestions();

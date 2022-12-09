@@ -2,7 +2,6 @@ package com.headtrixz.ui;
 
 import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameMethods;
-import com.headtrixz.game.GameModel;
 import com.headtrixz.game.Othello;
 import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.helpers.GameModelHelper;
@@ -27,40 +26,37 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
-public class TournamentController implements GameMethods {
+/**
+ * Controller for the tournament screen.
+ */
+public class TournamentController extends GameMethods {
     @FXML
-    ListView<String> playersListView;
+    private StackPane container;
     @FXML
-    Text title;
+    private Text draws;
     @FXML
-    Text wins;
+    private Text loggedInAs;
     @FXML
-    Text loses;
+    private Text loses;
     @FXML
-    Text draws;
+    private Text onlineText;
     @FXML
-    Text onlineText;
+    private ImageView playerOneIcon;
     @FXML
-    ImageView playerOneIcon;
+    private Text playerOneText;
     @FXML
-    Text playerOneText;
+    private ListView<String> playersListView;
     @FXML
-    ImageView playerTwoIcon;
+    private ImageView playerTwoIcon;
     @FXML
-    Text playerTwoText;
+    private Text playerTwoText;
     @FXML
-    Text loggedInAs;
-    @FXML
-    StackPane gameContainer;
+    private Text wins;
 
-    String username;
-    GameModel game;
-
-    GameGrid gameGrid;
-
-    int drawCount;
-    int winCount;
-    int loseCount;
+    private int drawCount;
+    private int loseCount;
+    private int winCount;
+    private String username;
 
     /**
      * FXML init method. Logs into the server when the screen has loaded.
@@ -72,23 +68,20 @@ public class TournamentController implements GameMethods {
         Connection connection = Connection.getInstance();
         connection.getOutputHandler().login(username);
         connection.getInputHandler().subscribe(ServerMessageType.MATCH, onMatch);
-
         connection.getInputHandler().subscribe(ServerMessageType.PLAYERLIST, onPlayerList);
 
         Thread work = new Thread(() -> {
             while (true) {
                 try {
-                    this.getPlayerList();
+                    connection.getOutputHandler().getPlayerList();
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-
             }
         });
 
         work.start();
-        title.setText("Tournooi modes voor Tic Tac Toe");
     }
 
 
@@ -99,11 +92,6 @@ public class TournamentController implements GameMethods {
      */
     public void addToLogs(String message) {
         System.out.println(message);
-    }
-
-    public void getPlayerList() {
-        Connection connection = Connection.getInstance();
-        connection.getOutputHandler().getPlayerList();
     }
 
     /**
@@ -121,24 +109,6 @@ public class TournamentController implements GameMethods {
 
         connection.getOutputHandler().logout();
         UIManager.switchScreen("home");
-    }
-
-    private String onDraw() {
-        drawCount++;
-        draws.setText(String.format("Gelijkspel: %d", drawCount));
-        return "Match gelijkgespeeld tegen";
-    }
-
-    private String onLoss() {
-        loseCount++;
-        loses.setText(String.format("Verloren: %d", loseCount));
-        return "Match verloren van";
-    }
-
-    private String onWin() {
-        winCount++;
-        wins.setText(String.format("Gewonnen: %d", winCount));
-        return "Match gewonnen van";
     }
 
     /**
@@ -159,6 +129,17 @@ public class TournamentController implements GameMethods {
         addToLogs(String.format("%s: %s\n", text, opponent));
 
         game = null;
+    }
+
+    /**
+     * Method to execute when the game ends in a draw.
+     *
+     * @return String to log.
+     */
+    private String onDraw() {
+        drawCount++;
+        draws.setText(String.format("Gelijkspel: %d", drawCount));
+        return "Match gelijkgespeeld tegen";
     }
 
     /**
@@ -188,27 +169,37 @@ public class TournamentController implements GameMethods {
         game.initialize(helper, playerOne, playerTwo);
 
         Platform.runLater(() -> {
-            gameContainer.getChildren().remove(gameGrid);
+            container.getChildren().remove(gameGrid);
             gameGrid = new GameGrid(
                 game.getBoard().getSize(),
-                gameContainer.getHeight(),
+                container.getHeight(),
                 game.getBackgroundColor()
             );
 
-            gameContainer.getChildren().add(gameGrid);
+            container.getChildren().add(gameGrid);
 
             Image black = new Image(game.getImage(GameBoard.PLAYER_ONE), 20, 20, false, true);
-            Image white = new Image(game.getImage(GameBoard.PLAYER_TWO), 20, 20, false, true);
-
             playerOneText.setText(playerOne.getUsername());
             playerOneIcon.setImage(black);
 
+            Image white = new Image(game.getImage(GameBoard.PLAYER_TWO), 20, 20, false, true);
             playerTwoText.setText(playerTwo.getUsername());
             playerTwoIcon.setImage(white);
 
             update(-1, playerOne);
         });
     };
+
+    /**
+     * Method to execute when you lose the game.
+     *
+     * @return String to log.
+     */
+    private String onLoss() {
+        loseCount++;
+        loses.setText(String.format("Verloren: %d", loseCount));
+        return "Match verloren van";
+    }
 
     /**
      * A listener that listens to the user playlist and sets that visible in the GUI.
@@ -226,6 +217,17 @@ public class TournamentController implements GameMethods {
     };
 
     /**
+     * Method to execute when you win the game.
+     *
+     * @return String to log.
+     */
+    private String onWin() {
+        winCount++;
+        wins.setText(String.format("Gewonnen: %d", winCount));
+        return "Match gewonnen van";
+    }
+
+    /**
      * Gets called when a set is done on the board by either players.
      * Puts a log message of the move.
      *
@@ -234,15 +236,7 @@ public class TournamentController implements GameMethods {
      */
     @Override
     public void update(int move, Player player) {
-        int[] board = game.getBoard().getCells(); // TODO: Duplicated code.
-        gameGrid.clearBoard(board.length);
-
-        for (int i = 0; i < board.length; i++) {
-            if (board[i] != 0) {
-                gameGrid.setTile(i, game.getImage(board[i]));
-            }
-        }
-
+        updateGrid();
         addToLogs(String.format("%s was gezet door speler %s", move, player.getUsername()));
     }
 }

@@ -96,6 +96,8 @@ public class InputHandler implements Runnable {
                     notify(type, message);
                 }
             }
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+            // empty
+        }
     }
 }
