@@ -17,13 +17,15 @@ public class Connection {
     /**
      * Closes the connection to the server.
      */
-    public void close() throws IOException {
-        outputHandler.close();
-        inputHandlerThread.interrupt();
-        inputHandler.close();
-        socket.close();
-
-        System.out.println("Connection closed.");
+    public void close() {
+        try {
+            outputHandler.close();
+            inputHandlerThread.interrupt();
+            inputHandler.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

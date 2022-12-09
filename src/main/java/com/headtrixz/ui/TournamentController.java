@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -30,6 +33,8 @@ import javafx.scene.text.Text;
  * Controller for the tournament screen.
  */
 public class TournamentController extends GameMethods {
+    private static final int INTERVAL = 5000;
+
     @FXML
     private StackPane container;
     @FXML
@@ -53,6 +58,7 @@ public class TournamentController extends GameMethods {
     @FXML
     private Text wins;
 
+    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     private int drawCount;
     private int loseCount;
     private int winCount;
@@ -70,20 +76,9 @@ public class TournamentController extends GameMethods {
         connection.getInputHandler().subscribe(ServerMessageType.MATCH, onMatch);
         connection.getInputHandler().subscribe(ServerMessageType.PLAYERLIST, onPlayerList);
 
-        Thread work = new Thread(() -> {
-            while (true) {
-                try {
-                    connection.getOutputHandler().getPlayerList();
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-
-        work.start();
+        executor.scheduleAtFixedRate(() ->
+            connection.getOutputHandler().getPlayerList(), 0, INTERVAL, TimeUnit.MILLISECONDS);
     }
-
 
     /**
      * Appends text to the log text field and scrolls down the latest message.
@@ -103,11 +98,13 @@ public class TournamentController extends GameMethods {
             game.getHelper().forfeit();
         }
 
+        executor.shutdown();
+
         Connection connection = Connection.getInstance();
         connection.getInputHandler().unsubscribe(ServerMessageType.MATCH, onMatch);
         connection.getInputHandler().unsubscribe(ServerMessageType.PLAYERLIST, onPlayerList);
+        connection.close();
 
-        connection.getOutputHandler().logout();
         UIManager.switchScreen("home");
     }
 
