@@ -22,18 +22,21 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
+/**
+ * This class controls the input from the GUI.
+ */
 public class TournamentController implements GameMethods {
 
     @FXML
     ListView<String> playersListView;
     @FXML
-    Text title;
+    Text titleText;
     @FXML
-    Text wins;
+    Text winsText;
     @FXML
-    Text loses;
+    Text losesText;
     @FXML
-    Text draws;
+    Text drawsText;
     @FXML
     Text onlineText;
     @FXML
@@ -41,9 +44,9 @@ public class TournamentController implements GameMethods {
     @FXML
     Text playerTwoText;
     @FXML
-    Text loggedInAs;
+    Text loggedInAsText;
     @FXML
-    StackPane gameContainer;
+    StackPane gameContainerStackPane;
 
     String username;
     GameModel currentGame;
@@ -61,7 +64,7 @@ public class TournamentController implements GameMethods {
      */
     public void initialize() {
         username = UIManager.getSetting("username");
-        loggedInAs.setText(String.format("Ingelogd als: %s", username));
+        loggedInAsText.setText(String.format("Ingelogd als: %s", username));
 
         Connection connection = Connection.getInstance();
         connection.getOutputHandler().login(username);
@@ -82,7 +85,7 @@ public class TournamentController implements GameMethods {
 
         work.start();
 
-        title.setText("Tournooi modes voor Tic Tac Toe");
+        titleText.setText("Tournooi modes voor Tic Tac Toe");
         playerOneText.setText(username + " - X");
     }
 
@@ -124,25 +127,26 @@ public class TournamentController implements GameMethods {
      */
     @Override
     public void endGame() {
-        String logText = "Ja dit is een apparte situatie, maar je hebt iets gedaan tegen";
+        String logText;
         switch (currentGame.getState()) {
             case PLAYER_ONE_WON -> {
                 winCount++;
-                wins.setText(String.format("Gewonnen: %d", winCount));
+                winsText.setText(String.format("Gewonnen: %d", winCount));
                 logText = "Match gewonnen van";
             }
 
             case PLAYER_TWO_WON -> {
                 loseCount++;
-                loses.setText(String.format("Verloren: %d", loseCount));
+                losesText.setText(String.format("Verloren: %d", loseCount));
                 logText = "Match verloren van";
             }
 
             case DRAW -> {
                 drawCount++;
-                draws.setText(String.format("Gelijkspel: %d", drawCount));
+                drawsText.setText(String.format("Gelijkspel: %d", drawCount));
                 logText = "Match gelijkgespeeld tegen";
             }
+            default -> logText = "Ja dit is een apparte situatie, maar je hebt iets gedaan tegen";
         }
 
         String opponent = currentGame.getPlayer(1).getUsername();
@@ -168,14 +172,14 @@ public class TournamentController implements GameMethods {
         currentGame.initialize(this, onlineHelper, aiPlayer, remotePlayer);
 
         Platform.runLater(() -> {
-            gameContainer.getChildren().remove(gameGrid);
+            gameContainerStackPane.getChildren().remove(gameGrid);
             gameGrid = new GameGrid(
                 currentGame.getBoard().getSize(),
-                gameContainer.getHeight(),
+                gameContainerStackPane.getHeight(),
                 currentGame.getBackgroundColor()
             );
 
-            gameContainer.getChildren().add(gameGrid);
+            gameContainerStackPane.getChildren().add(gameGrid);
             playerTwoText.setText("O - " + oppenent);
         });
     };
@@ -198,7 +202,7 @@ public class TournamentController implements GameMethods {
      * Gets called when a set is done on the board by either players.
      * Puts a log message of the move.
      *
-     * @param move the index of the move the player has done.
+     * @param move   the index of the move the player has done.
      * @param player the player who has set the move.
      */
     @Override
