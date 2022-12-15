@@ -3,14 +3,15 @@ package com.headtrixz.ui;
 import com.headtrixz.networking.Connection;
 import com.headtrixz.networking.ServerMessageType;
 import com.headtrixz.ui.helpers.Validator;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/**
+ * This class controls the input from the GUI.
+ */
 public class TournamentSettingController {
     @FXML
     private TextField usernameField;
@@ -75,7 +76,8 @@ public class TournamentSettingController {
                     for (String s : e.getArray()) {
                         if (s.equals(usernameField.getText())) {
                             this.message(
-                                "Gebruiker met deze naam bestaat al. Kies een andere naam.", true);
+                                "Gebruiker met deze naam bestaat al. " + System.lineSeparator()
+                                    + "Kies een andere naam.", true);
                             return;
                         }
                     }
