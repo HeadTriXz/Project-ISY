@@ -47,8 +47,9 @@
                      </children>
                   </HBox>
                   <StackPane fx:id="gameContainer" prefHeight="264.0" prefWidth="419.0">
-                      <children>
-                      </children>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wachten op spel" />
+                     </children>
                   </StackPane>
                </children>
             </VBox>

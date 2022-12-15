@@ -1,12 +1,15 @@
 package com.headtrixz.ui;
 
 import com.headtrixz.networking.Connection;
+import com.headtrixz.networking.ServerMessageType;
 import com.headtrixz.ui.helpers.Validator;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 
 public class TournamentSettingController {
     @FXML
@@ -29,6 +32,8 @@ public class TournamentSettingController {
     private Label messageLabel;
 
     private Validator validator;
+
+    private String[] loggedinUsernames;
 
     /**
      * FXML init method. Makes sure that the settings are persistence between
@@ -61,7 +66,25 @@ public class TournamentSettingController {
 
         this.message("connecting");
         try {
-            conn.connect(UIManager.getSetting("ip"), Integer.parseInt(UIManager.getSetting("port")));
+            conn.connect(UIManager.getSetting("ip"),
+                Integer.parseInt(UIManager.getSetting("port")));
+
+            conn.getInputHandler().subscribe(ServerMessageType.PLAYERLIST, e -> {
+                Platform.runLater(() -> {
+
+                    for (String s : e.getArray()) {
+                        if (s.equals(usernameField.getText())) {
+                            this.message(
+                                "Gebruiker met deze naam bestaat al. Kies een andere naam.", true);
+                            return;
+                        }
+                    }
+                    UIManager.switchScreen("tournament");
+                });
+            });
+
+            conn.getOutputHandler().getPlayerList();
+
         } catch (Exception e) {
             this.message("Whoops cannot connect.", true);
             e.printStackTrace();
@@ -72,38 +95,26 @@ public class TournamentSettingController {
      * On click event for when the back home button is pressed.
      */
     public void back() {
-        saveAndSwitch("home", false);
+        this.save();
+        UIManager.switchScreen("home");
+
     }
 
     /**
      * On click event for when the TTT button is pressed.
      */
-    public void playTicTacToe() {
-        saveAndSwitch("tournament", true);
+    public void onConnect() {
+        this.save();
+        this.connect();
     }
 
     /**
-     * On click event for when the Othello button is pressed.
+     * Saves all the settings.
      */
-    public void playOthello() {
-        // saveAndSwitch("othello", true);
-    }
-
-    /**
-     * Saves all the settings and switches from screen.
-     *
-     * @param name The screen to switch to.
-     */
-    private void saveAndSwitch(String name, boolean connect) {
+    private void save() {
         UIManager.setSetting("username", usernameField.getText());
         UIManager.setSetting("ip", ipField.getText());
         UIManager.setSetting("port", portField.getText());
-
-        if (connect) {
-            this.connect();
-        }
-
-        UIManager.switchScreen(name);
     }
 
     /**
@@ -112,7 +123,6 @@ public class TournamentSettingController {
     public void validate() {
         boolean isValid = validator.validate();
         playTicTacToeButton.setDisable(isValid);
-//        playOthelloButton.setDisable(isValid);
     }
 
     /**
@@ -123,11 +133,11 @@ public class TournamentSettingController {
     public void message(String mess) {
         this.message(mess, false);
     }
-    
+
     /**
      * Displays a message on the GUI.
      *
-     * @param mess the message that must be displayed as a string.
+     * @param mess    the message that must be displayed as a string.
      * @param failure is boolean set is to true when the text must be red.
      */
     public void message(String mess, boolean failure) {

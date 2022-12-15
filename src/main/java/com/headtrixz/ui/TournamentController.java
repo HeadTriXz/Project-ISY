@@ -66,7 +66,6 @@ public class TournamentController implements GameMethods {
         Connection connection = Connection.getInstance();
         connection.getOutputHandler().login(username);
         connection.getInputHandler().subscribe(ServerMessageType.MATCH, onMatch);
-
         connection.getInputHandler().subscribe(ServerMessageType.PLAYERLIST, onPlayerList);
 
         Thread work = new Thread(() -> {
