@@ -1,8 +1,10 @@
 package com.headtrixz.ui;
 
 import com.headtrixz.networking.Connection;
+import com.headtrixz.networking.InputListener;
 import com.headtrixz.networking.ServerMessageType;
 import com.headtrixz.ui.helpers.Validator;
+import java.util.Arrays;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,10 +22,6 @@ public class TournamentSettingController {
     @FXML
     private TextField portField;
     @FXML
-    private Button playTicTacToeButton;
-    @FXML
-    private Button playOthelloButton;
-    @FXML
     private Label usernameLabel;
     @FXML
     private Label ipLabel;
@@ -31,10 +29,11 @@ public class TournamentSettingController {
     private Label portLabel;
     @FXML
     private Label messageLabel;
+    @FXML
+    private Button connectButton;
 
     private Validator validator;
-
-    private String[] loggedinUsernames;
+    private Connection connection;
 
     /**
      * FXML init method. Makes sure that the settings are persistence between
@@ -63,35 +62,30 @@ public class TournamentSettingController {
      * Makes the connection the the server.
      */
     private void connect() {
-        Connection conn = Connection.getInstance();
-
+        connection = Connection.getInstance();
         this.message("connecting");
         try {
-            conn.connect(UIManager.getSetting("ip"),
+            connection.connect(UIManager.getSetting("ip"),
                 Integer.parseInt(UIManager.getSetting("port")));
 
-            conn.getInputHandler().subscribe(ServerMessageType.PLAYERLIST, e -> {
-                Platform.runLater(() -> {
-
-                    for (String s : e.getArray()) {
-                        if (s.equals(usernameField.getText())) {
-                            this.message(
-                                "Gebruiker met deze naam bestaat al. " + System.lineSeparator()
-                                    + "Kies een andere naam.", true);
-                            return;
-                        }
-                    }
-                    UIManager.switchScreen("tournament");
-                });
-            });
-
-            conn.getOutputHandler().getPlayerList();
-
+            connection.getInputHandler().subscribe(ServerMessageType.PLAYERLIST, onPlayerList);
+            connection.getOutputHandler().getPlayerList();
         } catch (Exception e) {
             this.message("Whoops cannot connect.", true);
             e.printStackTrace();
         }
     }
+
+    private final InputListener onPlayerList = message -> {
+        Platform.runLater(() -> {
+            if (Arrays.asList(message.getArray()).contains(usernameField.getText())) {
+                this.message(
+                    "Gebruiker met deze naam bestaat al. \n Kies een andere naam.", true);
+            } else {
+                this.goToTournament();
+            }
+        });
+    };
 
     /**
      * On click event for when the back home button is pressed.
@@ -99,7 +93,6 @@ public class TournamentSettingController {
     public void back() {
         this.save();
         UIManager.switchScreen("home");
-
     }
 
     /**
@@ -108,6 +101,11 @@ public class TournamentSettingController {
     public void onConnect() {
         this.save();
         this.connect();
+    }
+
+    public void goToTournament() {
+        connection.getInputHandler().unsubscribe(ServerMessageType.PLAYERLIST, onPlayerList);
+        UIManager.switchScreen("tournament");
     }
 
     /**
@@ -124,7 +122,7 @@ public class TournamentSettingController {
      */
     public void validate() {
         boolean isValid = validator.validate();
-        playTicTacToeButton.setDisable(isValid);
+        connectButton.setDisable(isValid);
     }
 
     /**
