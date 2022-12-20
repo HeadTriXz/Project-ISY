@@ -82,10 +82,11 @@ public class TournamentSettingController {
                 .anyMatch(usernameField.getText()::equalsIgnoreCase)) {
                 this.message(
                     "Gebruiker met deze naam bestaat al. \n Kies een andere naam.", true);
-                unsubscribePlayerList();
             } else {
-                this.goToTournament();
+                UIManager.switchScreen("tournament");
             }
+            unsubscribePlayerList();
+
         });
     };
 
@@ -107,11 +108,6 @@ public class TournamentSettingController {
 
     public void unsubscribePlayerList() {
         connection.getInputHandler().unsubscribe(ServerMessageType.PLAYERLIST, onPlayerList);
-    }
-
-    public void goToTournament() {
-        unsubscribePlayerList();
-        UIManager.switchScreen("tournament");
     }
 
     /**
