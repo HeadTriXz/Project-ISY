@@ -5,6 +5,8 @@ import com.headtrixz.networking.InputListener;
 import com.headtrixz.networking.ServerMessageType;
 import com.headtrixz.ui.helpers.Validator;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -78,7 +80,8 @@ public class TournamentSettingController {
 
     private final InputListener onPlayerList = message -> {
         Platform.runLater(() -> {
-            if (Arrays.asList(message.getArray()).contains(usernameField.getText())) {
+            if (Arrays.stream(message.getArray())
+                .anyMatch(usernameField.getText()::equalsIgnoreCase)) {
                 this.message(
                     "Gebruiker met deze naam bestaat al. \n Kies een andere naam.", true);
             } else {
