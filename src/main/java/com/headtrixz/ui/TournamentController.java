@@ -2,6 +2,7 @@ package com.headtrixz.ui;
 
 import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameMethods;
+import com.headtrixz.game.GameModel;
 import com.headtrixz.game.Othello;
 import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.helpers.GameModelHelper;
@@ -32,7 +33,7 @@ import javafx.scene.text.Text;
 /**
  * Controller for the tournament screen.
  */
-public class TournamentController extends GameMethods {
+public class TournamentController implements GameMethods {
     private static final int INTERVAL = 5000;
 
     @FXML
@@ -59,6 +60,8 @@ public class TournamentController extends GameMethods {
     private Text wins;
 
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    private GameModel game;
+    private GameGrid gameGrid;
     private int drawCount;
     private int loseCount;
     private int winCount;
@@ -103,6 +106,7 @@ public class TournamentController extends GameMethods {
         Connection connection = Connection.getInstance();
         connection.getInputHandler().unsubscribe(ServerMessageType.MATCH, onMatch);
         connection.getInputHandler().unsubscribe(ServerMessageType.PLAYERLIST, onPlayerList);
+        connection.getOutputHandler().logout();
         connection.close();
 
         UIManager.switchScreen("home");
@@ -233,7 +237,7 @@ public class TournamentController extends GameMethods {
      */
     @Override
     public void update(int move, Player player) {
-        updateGrid();
+        gameGrid.update(game);
         addToLogs(String.format("%s was gezet door speler %s", move, player.getUsername()));
     }
 }

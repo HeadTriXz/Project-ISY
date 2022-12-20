@@ -1,8 +1,8 @@
 package com.headtrixz.ui.elements;
 
+import com.headtrixz.game.GameModel;
 import java.util.List;
 import java.util.function.Consumer;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,7 +10,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 /**
  * The GameGrid component/element.
@@ -119,6 +118,20 @@ public class GameGrid extends GridPane {
                 view.setOpacity(0.2);
 
                 pane.getChildren().add(view);
+            }
+        }
+    }
+
+    /**
+     * Updates the tiles in the game grid.
+     */
+    public void update(GameModel game) {
+        int[] board = game.getBoard().getCells();
+        clearBoard(board.length);
+
+        for (int i = 0; i < board.length; i++) {
+            if (board[i] != 0) {
+                setTile(i, game.getImage(board[i]));
             }
         }
     }
