@@ -17,13 +17,15 @@ public class Connection {
     /**
      * Closes the connection to the server.
      */
-    public void close() throws IOException {
-        outputHandler.close();
-        inputHandlerThread.interrupt();
-        inputHandler.close();
-        socket.close();
-
-        System.out.println("Connection closed.");
+    public void close() {
+        try {
+            outputHandler.close();
+            inputHandlerThread.interrupt();
+            inputHandler.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -32,15 +34,20 @@ public class Connection {
      * @param host The hostname of the server you want to connect to.
      * @param port The port to connect to.
      */
-    public void connect(String host, int port) throws Exception {
-        socket = new Socket(host, port);
-        outputHandler = new OutputHandler(socket);
-        inputHandler = new InputHandler(socket);
+    public boolean connect(String host, int port) {
+        try {
+            socket = new Socket(host, port);
+            outputHandler = new OutputHandler(socket);
+            inputHandler = new InputHandler(socket);
 
-        inputHandlerThread = new Thread(inputHandler);
-        inputHandlerThread.start();
+            inputHandlerThread = new Thread(inputHandler);
+            inputHandlerThread.start();
 
-        System.out.println("Connection established.");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**

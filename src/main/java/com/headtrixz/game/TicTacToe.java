@@ -146,7 +146,7 @@ public class TicTacToe extends GameModel {
     /**
      * Returns whether the move is within the bounds of the board and the cell is empty.
      *
-     * @param move The move to be checked
+     * @param move The move to be checked.
      * @return Whether the move is valid.
      */
     public boolean isValidMove(int move) {

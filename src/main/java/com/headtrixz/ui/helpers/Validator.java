@@ -1,11 +1,13 @@
 package com.headtrixz.ui.helpers;
+
+import java.util.ArrayList;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.util.ArrayList;
-
+/**
+ * Validator for text fields.
+ */
 public class Validator {
-
     public static final String USERNAME_PATTERN = "^[a-zA-Z][a-zA-Z0-9]{0,15}$";
     public static final String PORT_PATTERN = "^((6553[0-5])|(655[0-2][0-9])|(65[0-4][0-9]{2})|(6[0-4][0-9]{3})|([1-5][0-9]{4})|([0-5]{0,5})|([0-9]{1,4}))$";
 

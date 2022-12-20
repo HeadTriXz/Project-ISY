@@ -170,7 +170,10 @@ public class MiniMax {
             }
         }
 
-        addBoardToTranspositionTable(value, alphaOrig, beta, depth, currentPlayer, bestGame);
+        if (bestGame != null) {
+            addBoardToTranspositionTable(value, alphaOrig, beta, depth, currentPlayer, bestGame);
+        }
+
         return value;
     }
 

@@ -1,10 +1,9 @@
 package com.headtrixz.networking;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Iterator;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Represents a message received from the server.

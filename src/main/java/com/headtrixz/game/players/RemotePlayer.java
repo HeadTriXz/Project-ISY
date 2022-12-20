@@ -1,9 +1,12 @@
 package com.headtrixz.game.players;
 
+/**
+ * Represents a remote player.
+ */
 public class RemotePlayer extends Player {
     /**
      * Create a new remote player instance.
-     * Make sure that the name is the same as on the server server, otherwise
+     * Make sure that the name is the same as on the server, otherwise
      * everything will break and burn to the ground. But if you do decide to
      * burn it all down make sure to take Java and PHP with you.
      *

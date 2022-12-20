@@ -2,6 +2,9 @@ package com.headtrixz.game.players;
 
 import com.headtrixz.game.GameModel;
 
+/**
+ * Represents a player that plays through the GUI.
+ */
 public class HumanPlayer extends Player {
     private final GameModel game;
 

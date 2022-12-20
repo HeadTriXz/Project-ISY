@@ -85,14 +85,7 @@ public class GameController implements GameMethods {
      */
     @Override
     public void update(int move, Player player) {
-        int[] board = game.getBoard().getCells();
-        gameGrid.clearBoard(board.length);
-
-        for (int i = 0; i < board.length; i++) {
-            if (board[i] != 0) {
-                gameGrid.setTile(i, game.getImage(board[i]));
-            }
-        }
+        gameGrid.update(game);
 
         if (game.getCurrentPlayer() instanceof HumanPlayer) {
             updateSuggestions();

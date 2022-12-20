@@ -1,5 +1,6 @@
 package com.headtrixz.game.helpers;
 
+import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.game.players.RemotePlayer;
@@ -14,19 +15,19 @@ import javafx.application.Platform;
 /**
  * Represents a helper class that handles the game logic for an online game.
  */
-public class OnlineHelper implements GameModelHelper {
+public class OnlineHelper extends GameModelHelper {
     private Connection connection;
-    private GameModel game;
     private Player localPlayer;
     private GameModel.GameState state;
 
     /**
      * Represents a helper class that handles the game logic for an online game.
      *
+     * @param controller The controller of the game.
      * @param game The game the helper is for.
      */
-    public OnlineHelper(GameModel game) {
-        this.game = game;
+    public OnlineHelper(GameMethods controller, GameModel game) {
+        super(controller, game);
     }
 
     /**
@@ -34,9 +35,7 @@ public class OnlineHelper implements GameModelHelper {
      */
     private void endGame() {
         unsubscribeAll();
-        Platform.runLater(() -> {
-            game.getController().endGame();
-        });
+        Platform.runLater(controller::endGame);
     }
 
     /**
@@ -56,6 +55,16 @@ public class OnlineHelper implements GameModelHelper {
     @Override
     public GameModel.GameState getState() {
         return state;
+    }
+
+    /**
+     * Returns the local player (you).
+     *
+     * @return The local player.
+     */
+    @Override
+    public Player getLocalPlayer() {
+        return localPlayer;
     }
 
     /**
@@ -83,6 +92,10 @@ public class OnlineHelper implements GameModelHelper {
      */
     @Override
     public void nextTurn(Player player) {
+        if (!game.hasValidMoves(player.getId())) {
+            return;
+        }
+
         game.setCurrentPlayer(player);
 
         if (player == localPlayer) {
@@ -104,13 +117,13 @@ public class OnlineHelper implements GameModelHelper {
         Player player = game.getPlayer(obj.get("PLAYER"));
         int move = Integer.parseInt(obj.get("MOVE"));
 
-        game.getBoard().setMove(move, player.getId());
+        game.setMove(move, player.getId());
         Platform.runLater(() -> {
-            game.getController().update(move, player);
+            controller.update(move, player);
         });
 
         if (player == localPlayer) {
-            nextTurn(game.getOpponent());
+            nextTurn(game.getOpponent(localPlayer));
         }
     };
 
