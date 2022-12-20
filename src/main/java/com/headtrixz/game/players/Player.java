@@ -4,6 +4,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+/**
+ * Represents a player.
+ */
 public abstract class Player {
     private static final Executor EXECUTOR = Executors.newSingleThreadExecutor();
 

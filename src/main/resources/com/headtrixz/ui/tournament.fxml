@@ -15,7 +15,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="5.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.headtrixz.ui.TournamentController">
    <children>
-      <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament modes for Tic Tac Toe" textAlignment="CENTER">
+      <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament modes for Tic Tac Toe" textAlignment="CENTER">
          <font>
             <Font size="25.0" />
          </font>
@@ -41,9 +41,25 @@
                <children>
                   <HBox prefHeight="18.0" prefWidth="419.0">
                      <children>
-                        <Text fx:id="playerOneText" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="SOMETIMES" />
-                        <Text fx:id="playerTwoText" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <HBox alignment="CENTER_LEFT">
+                           <children>
+                              <Text fx:id="playerOneText" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin></Text>
+                              <ImageView fx:id="playerOneIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </HBox>
+                        <Pane HBox.hgrow="SOMETIMES" />
+                        <HBox alignment="CENTER_LEFT">
+                           <children>
+                              <ImageView fx:id="playerTwoIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                              <Text fx:id="playerTwoText" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <HBox.margin>
+                                    <Insets right="3.0" />
+                                 </HBox.margin></Text>
+                           </children>
+                        </HBox>
                      </children>
                   </HBox>
                   <StackPane fx:id="gameContainerStackPane" prefHeight="264.0" prefWidth="419.0">

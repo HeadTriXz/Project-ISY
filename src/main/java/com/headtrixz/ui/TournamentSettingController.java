@@ -1,20 +1,18 @@
 package com.headtrixz.ui;
 
 import com.headtrixz.networking.Connection;
-import com.headtrixz.networking.InputListener;
-import com.headtrixz.networking.ServerMessageType;
 import com.headtrixz.ui.helpers.Validator;
-import java.util.Arrays;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
- * This class controls the input from the GUI.
+ * Controller for the tournament settings page.
  */
 public class TournamentSettingController {
+    @FXML
+    private Button connectButton;
     @FXML
     private TextField usernameField;
     @FXML
@@ -29,11 +27,32 @@ public class TournamentSettingController {
     private Label portLabel;
     @FXML
     private Label messageLabel;
-    @FXML
-    private Button connectButton;
 
     private Validator validator;
-    private Connection connection;
+
+    /**
+     * On click event for when the back home button is pressed.
+     */
+    public void back() {
+        this.saveAndSwitch("home", false);
+    }
+
+    /**
+     * Makes the connection the server.
+     */
+    private boolean connect() {
+        Connection connection = Connection.getInstance();
+        String host = UIManager.getSetting("ip");
+        int port = Integer.parseInt(UIManager.getSetting("port"));
+
+        this.message("Connecting...");
+        boolean hasConnected = connection.connect(host, port);
+        if (!hasConnected) {
+            this.message("Could not connect to the server.", true);
+        }
+
+        return hasConnected;
+    }
 
     /**
      * FXML init method. Makes sure that the settings are persistence between
@@ -54,68 +73,55 @@ public class TournamentSettingController {
         usernameLabel.setText("Maximaal 16 karakters minimaal 1 en geen . , _");
         ipLabel.setText("Alleen een IP");
         portLabel.setText("Alleen cijfers van 0 - 65535");
-
     }
 
+    /**
+     * Displays a message on the GUI.
+     *
+     * @param message the message that must be displayed as a string.
+     */
+    public void message(String message) {
+        this.message(message, false);
+    }
 
     /**
-     * Makes the connection the the server.
+     * Displays a message on the GUI.
+     *
+     * @param message the message that must be displayed as a string.
+     * @param failure is boolean set is to true when the text must be red.
      */
-    private void connect() {
-        connection = Connection.getInstance();
-        this.message("connecting");
-        try {
-            connection.connect(UIManager.getSetting("ip"),
-                Integer.parseInt(UIManager.getSetting("port")));
-
-            connection.getInputHandler().subscribe(ServerMessageType.PLAYERLIST, onPlayerList);
-            connection.getOutputHandler().getPlayerList();
-        } catch (Exception e) {
-            this.message("Whoops cannot connect.", true);
-            e.printStackTrace();
+    public void message(String message, boolean failure) {
+        messageLabel.setText(message);
+        if (failure) {
+            messageLabel.setStyle("-fx-text-fill: #ff0000");
         }
     }
 
-    private final InputListener onPlayerList = message -> {
-        Platform.runLater(() -> {
-            if (Arrays.stream(message.getArray())
-                .anyMatch(usernameField.getText()::equalsIgnoreCase)) {
-                this.message(
-                    "Gebruiker met deze naam bestaat al. \n Kies een andere naam.", true);
-            } else {
-                UIManager.switchScreen("tournament");
-            }
-            unsubscribePlayerList();
-        });
-    };
-
     /**
-     * On click event for when the back home button is pressed.
-     */
-    public void back() {
-        this.save();
-        UIManager.switchScreen("home");
-    }
-
-    /**
-     * On click event for when the TTT button is pressed.
+     * On click event for when the connect button is pressed.
      */
     public void onConnect() {
-        this.save();
-        this.connect();
-    }
-
-    public void unsubscribePlayerList() {
-        connection.getInputHandler().unsubscribe(ServerMessageType.PLAYERLIST, onPlayerList);
+        this.saveAndSwitch("tournament", true);
     }
 
     /**
-     * Saves all the settings.
+     * Saves all the settings and switches from screen.
+     *
+     * @param name The screen to switch to.
      */
-    private void save() {
+    private void saveAndSwitch(String name, boolean connect) {
         UIManager.setSetting("username", usernameField.getText());
         UIManager.setSetting("ip", ipField.getText());
         UIManager.setSetting("port", portField.getText());
+
+        boolean hasConnected = false;
+        if (connect) {
+            hasConnected = this.connect();
+        }
+
+        if (!connect || hasConnected) {
+            UIManager.switchScreen(name);
+        }
     }
 
     /**
@@ -124,27 +130,5 @@ public class TournamentSettingController {
     public void validate() {
         boolean isValid = validator.validate();
         connectButton.setDisable(isValid);
-    }
-
-    /**
-     * Displays a message on the GUI.
-     *
-     * @param mess the message that must be displayed as a string.
-     */
-    public void message(String mess) {
-        this.message(mess, false);
-    }
-
-    /**
-     * Displays a message on the GUI.
-     *
-     * @param mess    the message that must be displayed as a string.
-     * @param failure is boolean set is to true when the text must be red.
-     */
-    public void message(String mess, boolean failure) {
-        messageLabel.setText(mess);
-        if (failure) {
-            messageLabel.setStyle("-fx-text-fill: #ff0000");
-        }
     }
 }

@@ -4,23 +4,22 @@ import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.GameController;
-import java.util.List;
 import javafx.application.Platform;
 
 /**
  * Represents a helper class that handles the game logic for an offline game.
  */
-public class OfflineHelper implements GameModelHelper {
-    private final GameModel game;
+public class OfflineHelper extends GameModelHelper {
     private GameModel.GameState state;
 
     /**
      * Represents a helper class that handles the game logic for an offline game.
      *
+     * @param controller The controller of the game.
      * @param game The game the helper is for.
      */
-    public OfflineHelper(GameModel game) {
-        this.game = game;
+    public OfflineHelper(GameMethods controller, GameModel game) {
+        super(controller, game);
     }
 
     /**
@@ -29,6 +28,16 @@ public class OfflineHelper implements GameModelHelper {
     @Override
     public void forfeit() {
         this.state = GameModel.GameState.PLAYER_TWO_WON;
+    }
+
+    /**
+     * Returns the local player (you).
+     *
+     * @return The local player.
+     */
+    @Override
+    public Player getLocalPlayer() {
+        return game.getPlayer(0);
     }
 
     /**
@@ -64,9 +73,7 @@ public class OfflineHelper implements GameModelHelper {
 
             nextTurn(opponent);
         } else {
-            Platform.runLater(() -> {
-                game.getController().endGame();
-            });
+            Platform.runLater(controller::endGame);
         }
     }
 
@@ -81,7 +88,6 @@ public class OfflineHelper implements GameModelHelper {
             if (m == -1 || !game.isValidMove(m)) {
                 nextPlayer();
                 Platform.runLater(() -> {
-                    GameMethods controller = game.getController();
                     if (controller instanceof GameController) {
                         ((GameController) controller).updateSuggestions();
                     }
@@ -91,7 +97,7 @@ public class OfflineHelper implements GameModelHelper {
 
             game.setMove(m, player.getId());
             Platform.runLater(() -> {
-                game.getController().update(m, player);
+                controller.update(m, player);
             });
 
             nextPlayer();

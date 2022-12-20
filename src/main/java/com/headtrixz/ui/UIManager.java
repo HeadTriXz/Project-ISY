@@ -2,12 +2,14 @@ package com.headtrixz.ui;
 
 import java.io.IOException;
 import java.util.prefs.Preferences;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Utility class for the GUI.
+ */
 public class UIManager extends Application {
     private static Stage mainStage;
     private static Preferences preferences;

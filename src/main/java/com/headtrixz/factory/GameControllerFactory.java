@@ -5,47 +5,41 @@ import com.headtrixz.game.Othello;
 import com.headtrixz.game.TicTacToe;
 import com.headtrixz.game.helpers.OfflineHelper;
 import com.headtrixz.game.players.AIPlayer;
-import com.headtrixz.game.players.HackyAIPlayer;
 import com.headtrixz.game.players.HumanPlayer;
 import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.GameController;
 import com.headtrixz.ui.UIManager;
-import com.headtrixz.ui.util.GameType;
 
 /**
  * Create a new game controller fresh from the factory.
  */
 public class GameControllerFactory {
+    /**
+     * The different games.
+     */
+    public enum GameType {
+        TicTacToe, Othello,
+    }
 
     /**
      * Create a new game controller for the FXML.
      *
-     * @param game the name of the game.
+     * @param type The type of game.
      * @return The game controller.
      */
-    public static GameController createGameController(GameType game) {
+    public static GameController createGameController(GameType type) {
         String username = UIManager.getSetting("username");
-        GameModel gameModel;
-        switch (game) {
-            case TicTacToe -> {
-                gameModel = new TicTacToe();
-            }
+        GameModel game = switch (type) {
+            case TicTacToe ->  new TicTacToe();
+            case Othello -> new Othello();
+        };
 
-            case Othello -> {
-                gameModel = new Othello();
-            }
+        GameController controller = new GameController(game);
+        OfflineHelper helper = new OfflineHelper(controller, game);
+        Player playerOne = new HumanPlayer(game, username);
+        Player playerTwo = new AIPlayer(game, "AI");
 
-            default -> {
-                return null;
-            }
-        }
-
-        OfflineHelper helper = new OfflineHelper(gameModel);
-        Player humanPlayer = new HumanPlayer(gameModel, username);
-        Player aiPlayer = new AIPlayer(gameModel, "AI");
-        GameController controller = new GameController(gameModel);
-
-        gameModel.initialize(controller, helper, humanPlayer, aiPlayer);
+        game.initialize(helper, playerOne, playerTwo);
         return controller;
     }
 }

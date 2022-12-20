@@ -9,6 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
+/**
+ * Controller for the GameFinish screen.
+ */
 public class GameFinishController {
     @FXML
     private Text endText;
@@ -32,10 +35,11 @@ public class GameFinishController {
      * Shows the board with who has won.
      */
     public void initialize() {
-        String opponentName = game.getPlayer(1).getUsername();
+        String opponent = game.getPlayer(1).getUsername();
         String text = switch (game.getState()) {
-            case PLAYER_ONE_WON -> String.format("Gefeliciteerd, je hebt van %s gewonnen.", opponentName);
-            case PLAYER_TWO_WON -> String.format("Helaas, je hebt van %s verloren.", opponentName);
+            case PLAYER_ONE_WON ->
+                String.format("Gefeliciteerd, je hebt van %s gewonnen.", opponent);
+            case PLAYER_TWO_WON -> String.format("Helaas, je hebt van %s verloren.", opponent);
             case DRAW -> "Er is gelijk gespeeld, er zijn geen winnaars";
             default -> "Deze uitkomst zou niet mogelijk moeten zijn";
         };
