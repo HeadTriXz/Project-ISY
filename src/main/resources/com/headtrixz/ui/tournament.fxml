@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -62,7 +63,7 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <StackPane fx:id="gameContainerStackPane" prefHeight="264.0" prefWidth="419.0">
+                  <StackPane fx:id="containerStackPane" prefHeight="264.0" prefWidth="419.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wachten op spel" />
                      </children>

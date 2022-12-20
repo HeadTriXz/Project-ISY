@@ -37,13 +37,13 @@ public class TournamentController implements GameMethods {
     private static final int INTERVAL = 5000;
 
     @FXML
-    private StackPane container;
+    private StackPane containerStackPane;
     @FXML
-    private Text draws;
+    private Text drawText;
     @FXML
-    private Text loggedInAs;
+    private Text loggedInAsText;
     @FXML
-    private Text loses;
+    private Text losesText;
     @FXML
     private Text onlineText;
     @FXML
@@ -57,7 +57,7 @@ public class TournamentController implements GameMethods {
     @FXML
     private Text playerTwoText;
     @FXML
-    private Text wins;
+    private Text winsText;
 
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     private GameModel game;
@@ -72,7 +72,7 @@ public class TournamentController implements GameMethods {
      */
     public void initialize() {
         username = UIManager.getSetting("username");
-        loggedInAs.setText(String.format("Ingelogd als: %s", username));
+        loggedInAsText.setText(String.format("Ingelogd als: %s", username));
 
         Connection connection = Connection.getInstance();
         connection.getOutputHandler().login(username);
@@ -139,7 +139,7 @@ public class TournamentController implements GameMethods {
      */
     private String onDraw() {
         drawCount++;
-        draws.setText(String.format("Gelijkspel: %d", drawCount));
+        drawText.setText(String.format("Gelijkspel: %d", drawCount));
         return "Match gelijkgespeeld tegen";
     }
 
@@ -170,14 +170,14 @@ public class TournamentController implements GameMethods {
         game.initialize(helper, playerOne, playerTwo);
 
         Platform.runLater(() -> {
-            container.getChildren().remove(gameGrid);
+            containerStackPane.getChildren().remove(gameGrid);
             gameGrid = new GameGrid(
                 game.getBoard().getSize(),
-                container.getHeight(),
+                containerStackPane.getHeight(),
                 game.getBackgroundColor()
             );
 
-            container.getChildren().add(gameGrid);
+            containerStackPane.getChildren().add(gameGrid);
 
             Image black = new Image(game.getImage(GameBoard.PLAYER_ONE), 20, 20, false, true);
             playerOneText.setText(playerOne.getUsername());
@@ -198,7 +198,7 @@ public class TournamentController implements GameMethods {
      */
     private String onLoss() {
         loseCount++;
-        loses.setText(String.format("Verloren: %d", loseCount));
+        losesText.setText(String.format("Verloren: %d", loseCount));
         return "Match verloren van";
     }
 
@@ -224,7 +224,7 @@ public class TournamentController implements GameMethods {
      */
     private String onWin() {
         winCount++;
-        wins.setText(String.format("Gewonnen: %d", winCount));
+        winsText.setText(String.format("Gewonnen: %d", winCount));
         return "Match gewonnen van";
     }
 

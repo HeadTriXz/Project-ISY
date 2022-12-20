@@ -1,7 +1,11 @@
 package com.headtrixz.ui;
 
 import com.headtrixz.networking.Connection;
+import com.headtrixz.networking.InputListener;
+import com.headtrixz.networking.ServerMessageType;
 import com.headtrixz.ui.helpers.Validator;
+import java.util.Arrays;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,18 +34,21 @@ public class TournamentSettingController {
 
     private Validator validator;
 
+    private Connection connection;
+
     /**
      * On click event for when the back home button is pressed.
      */
     public void back() {
-        this.saveAndSwitch("home", false);
+        this.save();
+        UIManager.switchScreen("home");
     }
 
     /**
      * Makes the connection the server.
      */
     private boolean connect() {
-        Connection connection = Connection.getInstance();
+        connection = Connection.getInstance();
         String host = UIManager.getSetting("ip");
         int port = Integer.parseInt(UIManager.getSetting("port"));
 
@@ -49,9 +56,29 @@ public class TournamentSettingController {
         boolean hasConnected = connection.connect(host, port);
         if (!hasConnected) {
             this.message("Could not connect to the server.", true);
+        } else {
+            connection.getInputHandler().subscribe(ServerMessageType.PLAYERLIST, onPlayerList);
+            connection.getOutputHandler().getPlayerList();
         }
 
         return hasConnected;
+    }
+
+    private final InputListener onPlayerList = message -> {
+        Platform.runLater(() -> {
+            if (Arrays.stream(message.getArray())
+                .anyMatch(usernameField.getText()::equalsIgnoreCase)) {
+                this.message(
+                    "Gebruiker met deze naam bestaat al. \n Kies een andere naam.", true);
+            } else {
+                UIManager.switchScreen("tournament");
+            }
+            unsubscribePlayerList();
+        });
+    };
+
+    public void unsubscribePlayerList() {
+        connection.getInputHandler().unsubscribe(ServerMessageType.PLAYERLIST, onPlayerList);
     }
 
     /**
@@ -101,27 +128,17 @@ public class TournamentSettingController {
      * On click event for when the connect button is pressed.
      */
     public void onConnect() {
-        this.saveAndSwitch("tournament", true);
+        save();
+        connect();
     }
 
     /**
      * Saves all the settings and switches from screen.
-     *
-     * @param name The screen to switch to.
      */
-    private void saveAndSwitch(String name, boolean connect) {
+    private void save() {
         UIManager.setSetting("username", usernameField.getText());
         UIManager.setSetting("ip", ipField.getText());
         UIManager.setSetting("port", portField.getText());
-
-        boolean hasConnected = false;
-        if (connect) {
-            hasConnected = this.connect();
-        }
-
-        if (!connect || hasConnected) {
-            UIManager.switchScreen(name);
-        }
     }
 
     /**
