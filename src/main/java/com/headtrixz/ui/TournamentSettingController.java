@@ -5,8 +5,6 @@ import com.headtrixz.networking.InputListener;
 import com.headtrixz.networking.ServerMessageType;
 import com.headtrixz.ui.helpers.Validator;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -84,6 +82,7 @@ public class TournamentSettingController {
                 .anyMatch(usernameField.getText()::equalsIgnoreCase)) {
                 this.message(
                     "Gebruiker met deze naam bestaat al. \n Kies een andere naam.", true);
+                unsubscribePlayerList();
             } else {
                 this.goToTournament();
             }
@@ -106,8 +105,12 @@ public class TournamentSettingController {
         this.connect();
     }
 
-    public void goToTournament() {
+    public void unsubscribePlayerList() {
         connection.getInputHandler().unsubscribe(ServerMessageType.PLAYERLIST, onPlayerList);
+    }
+
+    public void goToTournament() {
+        unsubscribePlayerList();
         UIManager.switchScreen("tournament");
     }
 
