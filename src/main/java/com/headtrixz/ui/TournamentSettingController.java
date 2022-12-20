@@ -86,7 +86,6 @@ public class TournamentSettingController {
                 UIManager.switchScreen("tournament");
             }
             unsubscribePlayerList();
-
         });
     };
 
