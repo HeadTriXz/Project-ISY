@@ -69,7 +69,7 @@ public class TournamentSettingController {
             if (Arrays.stream(message.getArray())
                 .anyMatch(usernameField.getText()::equalsIgnoreCase)) {
                 this.message(
-                    "Gebruiker met deze naam bestaat al. \n Kies een andere naam.", true);
+                    "Gebruiker met deze naam bestaat al. \nKies een andere naam.", true);
             } else {
                 UIManager.switchScreen("tournament");
             }
