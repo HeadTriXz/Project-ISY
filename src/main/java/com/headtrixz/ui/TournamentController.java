@@ -39,7 +39,7 @@ public class TournamentController implements GameMethods {
     @FXML
     private StackPane containerStackPane;
     @FXML
-    private Text drawText;
+    private Text drawsText;
     @FXML
     private Text loggedInAsText;
     @FXML
@@ -139,7 +139,7 @@ public class TournamentController implements GameMethods {
      */
     private String onDraw() {
         drawCount++;
-        drawText.setText(String.format("Gelijkspel: %d", drawCount));
+        drawsText.setText(String.format("Gelijkspel: %d", drawCount));
         return "Match gelijkgespeeld tegen";
     }
 
@@ -149,8 +149,8 @@ public class TournamentController implements GameMethods {
      */
     private final InputListener onMatch = message -> {
         Map<String, String> obj = message.getObject();
-        String oppenent = obj.get("OPPONENT");
-        addToLogs("Start een match met: " + oppenent);
+        String opponent = obj.get("OPPONENT");
+        addToLogs("Start een match met: " + opponent);
 
         // TODO: Replace with factory.
         game = switch (obj.get("GAMETYPE")) {
@@ -159,12 +159,12 @@ public class TournamentController implements GameMethods {
             default -> throw new RuntimeException("Unknown type of game: " + obj.get("GAMETYPE"));
         };
 
-        Player playerOne = obj.get("PLAYERTOMOVE").equals(oppenent)
-            ? new RemotePlayer(oppenent)
+        Player playerOne = obj.get("PLAYERTOMOVE").equals(opponent)
+            ? new RemotePlayer(opponent)
             : new AIPlayer(game, username);
-        Player playerTwo = obj.get("PLAYERTOMOVE").equals(oppenent)
+        Player playerTwo = obj.get("PLAYERTOMOVE").equals(opponent)
             ? new AIPlayer(game, username)
-            : new RemotePlayer(oppenent);
+            : new RemotePlayer(opponent);
 
         GameModelHelper helper = new OnlineHelper(this, game);
         game.initialize(helper, playerOne, playerTwo);
