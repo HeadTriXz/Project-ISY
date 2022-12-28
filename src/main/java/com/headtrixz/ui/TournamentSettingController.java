@@ -52,10 +52,10 @@ public class TournamentSettingController {
         String host = UIManager.getSetting("ip");
         int port = Integer.parseInt(UIManager.getSetting("port"));
 
-        this.message("Connecting...");
+        this.message("Verbinden...");
         boolean hasConnected = connection.connect(host, port);
         if (!hasConnected) {
-            this.message("Could not connect to the server.", true);
+            this.message("Kon niet verbinden met de server.", true);
         } else {
             connection.getInputHandler().subscribe(ServerMessageType.PLAYERLIST, onPlayerList);
             connection.getOutputHandler().getPlayerList();
@@ -69,7 +69,7 @@ public class TournamentSettingController {
             if (Arrays.stream(message.getArray())
                 .anyMatch(usernameField.getText()::equalsIgnoreCase)) {
                 this.message(
-                    "Gebruiker met deze naam bestaat al. \nKies een andere naam.", true);
+                    "Gebruiker met deze naam bestaat al.\nKies een andere naam.", true);
             } else {
                 UIManager.switchScreen("tournament");
             }

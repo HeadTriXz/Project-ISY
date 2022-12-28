@@ -16,7 +16,7 @@
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="5.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.headtrixz.ui.TournamentController">
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament" textAlignment="CENTER">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Toernooi" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
@@ -80,7 +80,7 @@
       </HBox>
       <StackPane>
          <children>
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#disconnect" text="Disconnect" StackPane.alignment="CENTER_LEFT" />
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#disconnect" text="Geef op" StackPane.alignment="CENTER_LEFT" />
             <Text fx:id="loggedInAsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingelogd als: " StackPane.alignment="CENTER_RIGHT" />
          </children>
       </StackPane>
