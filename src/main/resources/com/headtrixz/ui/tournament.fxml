@@ -80,7 +80,7 @@
       </HBox>
       <StackPane>
          <children>
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#disconnect" text="Geef op" StackPane.alignment="CENTER_LEFT" />
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#disconnect" text="Verlaten" StackPane.alignment="CENTER_LEFT" />
             <Text fx:id="loggedInAsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingelogd als: " StackPane.alignment="CENTER_RIGHT" />
          </children>
       </StackPane>
