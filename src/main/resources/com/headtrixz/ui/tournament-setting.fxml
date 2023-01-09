@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.headtrixz.ui.TournamentSettingController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.headtrixz.ui.TournamentSettingController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="312.0" minWidth="10.0" prefWidth="299.0" />
@@ -63,7 +63,7 @@
             </TextField>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
                 <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP/Hostname">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Serveradres">
                     </Text>
                     <Label fx:id="ipLabel" textFill="RED" visible="false">
                         <padding>
@@ -74,7 +74,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="6">
                 <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Port">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Poort">
                     </Text>
                     <Label fx:id="portLabel" textFill="RED" visible="false">
                         <padding>
@@ -85,7 +85,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
                 <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Naam">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gebruikersnaam">
                     </Text>
                     <Label fx:id="usernameLabel" textFill="RED" visible="false">
                         <padding>
@@ -110,7 +110,7 @@
     </Button>
     <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tournament">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Toernooi">
                 <font>
                     <Font name="System Bold" size="25.0" />
                 </font>

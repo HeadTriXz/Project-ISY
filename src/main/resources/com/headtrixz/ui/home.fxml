@@ -68,7 +68,7 @@
             </HBox>
          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
             <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Naam">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gebruikersnaam">
             </Text>
                <Label fx:id="usernameLabel" visible="false" textFill="RED">
                   <padding>
@@ -81,7 +81,7 @@
     </VBox>
     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
         <children>
-            <Button fx:id="playTournamentButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#playTournament" text="Tournooi modus">
+            <Button fx:id="playTournamentButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#playTournament" text="Toernooi modus">
                 <padding>
                     <Insets bottom="7.0" left="7.0" right="7.0" top="7.0" />
                 </padding>
