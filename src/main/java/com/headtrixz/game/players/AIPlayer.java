@@ -1,5 +1,6 @@
 package com.headtrixz.game.players;
 
+import com.headtrixz.factory.MiniMaxFactory;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.minimax.MiniMax;
 
@@ -17,7 +18,7 @@ public class AIPlayer extends Player {
      */
     public AIPlayer(GameModel game, String username) {
         super(username);
-        this.miniMax = new MiniMax(game);
+        this.miniMax = MiniMaxFactory.createMiniMax(MiniMaxFactory.MiniMaxType.NegaMax, game);
     }
 
     /**
