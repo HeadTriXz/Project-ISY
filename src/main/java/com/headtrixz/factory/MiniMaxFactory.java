@@ -1,7 +1,8 @@
 package com.headtrixz.factory;
 
 import com.headtrixz.game.GameModel;
-import com.headtrixz.minimax.BasicMinMax;
+import com.headtrixz.game.players.Player;
+import com.headtrixz.minimax.BasicMiniMax;
 import com.headtrixz.minimax.MiniMax;
 import com.headtrixz.minimax.NegaMax;
 
@@ -16,10 +17,10 @@ public class MiniMaxFactory {
         NegaMax, MiniMaxGPU, MiniMax
     }
 
-    public static MiniMax createMiniMax(MiniMaxType type, GameModel game) {
+    public static MiniMax createMiniMax(MiniMaxType type, GameModel game, Player player) {
         return switch (type) {
             case NegaMax -> new NegaMax(game);
-            case MiniMax -> new BasicMinMax(game);
+            case MiniMax -> new BasicMiniMax(game, player);
             case MiniMaxGPU -> throw new RuntimeException("Method not implemented");
         };
     }

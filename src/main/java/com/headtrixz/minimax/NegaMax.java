@@ -146,7 +146,7 @@ public class NegaMax implements MiniMax {
         }
 
         if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
-            return game.getScore(currentPlayer, depth + 1, maxDepth);
+            return game.getScore(currentPlayer, depth + 1);
         }
 
         Player opp = game.getOpponent(currentPlayer);

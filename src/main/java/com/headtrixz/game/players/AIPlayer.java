@@ -18,7 +18,8 @@ public class AIPlayer extends Player {
      */
     public AIPlayer(GameModel game, String username) {
         super(username);
-        this.miniMax = MiniMaxFactory.createMiniMax(MiniMaxFactory.MiniMaxType.MiniMax, game);
+        this.miniMax = MiniMaxFactory.createMiniMax(
+                MiniMaxFactory.MiniMaxType.MiniMax, game, this);
     }
 
     /**

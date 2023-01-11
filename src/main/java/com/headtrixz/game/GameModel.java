@@ -172,7 +172,7 @@ public abstract class GameModel {
      * @return a boolean that is true if the player has won
      */
     public boolean hasPlayerWon(Player player) {
-        return GameState.values()[player.getId() + 1] == getState();
+        return GameState.values()[player.getId()] == getState();
     }
 
     /**
@@ -221,10 +221,9 @@ public abstract class GameModel {
      *
      * @param currentPlayer The player whose turn it is to move.
      * @param depth         The depth of the current node in the tree.
-     * @param maxDepth      The max amount of layers to search through
      * @return The score of the current player.
      */
-    public abstract int getScore(Player currentPlayer, int depth, int maxDepth);
+    public abstract int getScore(Player currentPlayer, int depth);
 
     /**
      * Returns the current state of the game.
