@@ -17,7 +17,8 @@ public class BasicMinMax implements MiniMax {
 
         for (int move : baseGame.getValidMoves()) {
             clone.setMove(move, clone.getCurrentPlayer().getId());
-            int score = minMax(clone, Integer.MAX_VALUE, false);
+            int score = minMax(clone, Integer.MAX_VALUE - 1, false, Integer.MAX_VALUE);
+            clone.setMove(move, 0);
             if (value < score) {
                 value = score;
                 bestMove = move;
@@ -32,21 +33,23 @@ public class BasicMinMax implements MiniMax {
         return 0;
     }
 
-    private int minMax(GameModel game, int depth, boolean maxPlayer) {
-        GameModel clone = game.clone();
-        var validMoves = clone.getValidMoves();
+    private int minMax(GameModel game, int depth, boolean maxPlayer, int maxdepth) {
+        // GameModel clone = game.clone();
+        var validMoves = game.getValidMoves();
+        var hasWon = game.hasPlayerWon((maxPlayer) ? game.getCurrentPlayer() : game.getOpponent());
 
-        if (depth == 0 || validMoves.size() == 0) {
-            return clone.getScore((maxPlayer) ? clone.getCurrentPlayer() : clone.getOpponent(), 1,
-                    1);
+        if (depth == 0 || validMoves.size() == 0 || hasWon) {
+            return game.getScore((maxPlayer) ? game.getCurrentPlayer() : game.getOpponent(), depth,
+                    0);
         }
 
         if (maxPlayer) {
             int value = Integer.MIN_VALUE;
 
             for (int move : validMoves) {
-                clone.setMove(move, clone.getCurrentPlayer().getId());
-                value = Math.max(value, minMax(clone, depth - 1, false));
+                game.setMove(move, game.getCurrentPlayer().getId());
+                value = Math.max(value, minMax(game, depth - 1, false, maxdepth));
+                game.setMove(move, 0);
             }
 
             return value;
@@ -56,25 +59,12 @@ public class BasicMinMax implements MiniMax {
         int value = Integer.MAX_VALUE;
 
         for (int move : validMoves) {
-            clone.setMove(move, clone.getOpponent().getId());
-            value = Math.min(value, minMax(clone, depth - 1, true));
+            game.setMove(move, game.getOpponent().getId());
+            value = Math.min(value, minMax(game, depth - 1, true, maxdepth));
+            game.setMove(move, 0);
         }
 
         return value;
 
     }
 }
-
-// function  minimax( node, depth, maximizingPlayer ) is
-//     if depth = 0 or node is a terminal node then
-//         return the heuristic value of node
-//     if maximizingPlayer then
-//         value := −∞
-//         for each child of node do
-//             value := max( value, minimax( child, depth − 1, FALSE ) )
-//         return value
-//     else (* minimizing player *)
-//         value := +∞
-//         for each child of node do
-//             value := min( value, minimax( child, depth − 1, TRUE ) )
-//         return value
