@@ -24,7 +24,7 @@ public class BasicMiniMax implements MiniMax {
      */
     @Override
     public int getMove() {
-        return getMove(baseGame.getValidMoves().size());
+        return getMove(20);
     }
 
     /**
