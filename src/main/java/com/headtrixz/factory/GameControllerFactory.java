@@ -30,7 +30,7 @@ public class GameControllerFactory {
     public static GameController createGameController(GameType type) {
         String username = UIManager.getSetting("username");
         GameModel game = switch (type) {
-            case TicTacToe ->  new TicTacToe();
+            case TicTacToe -> new TicTacToe();
             case Othello -> new Othello();
         };
 

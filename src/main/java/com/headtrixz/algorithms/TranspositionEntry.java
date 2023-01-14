@@ -1,4 +1,4 @@
-package com.headtrixz.minimax;
+package com.headtrixz.algorithms;
 
 import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.players.Player;

@@ -1,10 +1,10 @@
 package com.headtrixz.factory;
 
+import com.headtrixz.algorithms.BasicMiniMax;
+import com.headtrixz.algorithms.MiniMax;
+import com.headtrixz.algorithms.MiniMaxAlphaBeta;
+import com.headtrixz.algorithms.NegaMax;
 import com.headtrixz.game.GameModel;
-import com.headtrixz.game.players.Player;
-import com.headtrixz.minimax.BasicMiniMax;
-import com.headtrixz.minimax.MiniMax;
-import com.headtrixz.minimax.NegaMax;
 
 /**
  * Creates a new MiniMax instance fresh from the factory.
@@ -14,7 +14,11 @@ public class MiniMaxFactory {
      * The different types of MiniMax.
      */
     public enum MiniMaxType {
-        NegaMax, MiniMaxGPU, MiniMax
+        NegaMax,
+        MiniMax,
+        MiniMaxAlphaBeta,
+        MiniMaxTransposition,
+        MiniMaxCombined
     }
 
     /**
@@ -22,14 +26,14 @@ public class MiniMaxFactory {
      *
      * @param type The specific algorithm to use.
      * @param game a link to the game.
-     * @param player the machine.
      * @return a fresh minimax instance.
      */
-    public static MiniMax createMiniMax(MiniMaxType type, GameModel game, Player player) {
+    public static MiniMax createMiniMax(MiniMaxType type, GameModel game) {
         return switch (type) {
             case NegaMax -> new NegaMax(game);
-            case MiniMax -> new BasicMiniMax(game, player);
-            case MiniMaxGPU -> throw new RuntimeException("Method not implemented");
+            case MiniMax -> new BasicMiniMax(game);
+            case MiniMaxAlphaBeta -> new MiniMaxAlphaBeta(game);
+            default -> throw new RuntimeException("Algorithm is not implemented");
         };
     }
 }

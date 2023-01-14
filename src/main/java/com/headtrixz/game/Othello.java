@@ -21,6 +21,16 @@ public class Othello extends GameModel {
         {1, 1}, // DOWN RIGHT
         {-1, 1} // DOWN LEFT
     };
+    private static final int[] WEIGHTS = {
+         4, -3,  2,  2,  2,  2, -3,  4,
+        -3, -4, -1, -1, -1, -1, -4, -3,
+         2, -1,  1,  0,  0,  1, -1,  2,
+         2, -1,  0,  1,  1,  0, -1,  2,
+         2, -1,  0,  1,  1,  0, -1,  2,
+         2, -1,  1,  0,  0,  1, -1,  2,
+        -3, -4, -1, -1, -1, -1, -4, -3,
+         4, -3,  2,  2,  2,  2, -3,  4
+    };
     private static final String NAME = "Othello";
 
     // GUI Config
@@ -120,15 +130,9 @@ public class Othello extends GameModel {
             return 0;
         }
 
-        final int[] weights = {
-            4, -3, 2, 2, 2, 2, -3, 4, -3, -4, -1, -1, -1, -1, -4, -3, 2, -1, 1, 0, 0, 1, -1, 2, 2,
-            -1, 0, 1, 1, 0, -1, 2, 2, -1, 0, 1, 1, 0, -1, 2, 2, -1, 1, 0, 0, 1, -1, 2, -3, -4, -1,
-            -1, -1, -1, -4, -3, 4, -3, 2, 2, 2, 2, -3, 4
-        };
-
-        int moves =  getValidMoves(currentPlayer.getId()).size();
+        int moves = getValidMoves(currentPlayer.getId()).size();
         int score = getPlayerScore(currentPlayer.getId()) * 100;
-        int weight = weights[latestMove] * 10;
+        int weight = WEIGHTS[latestMove] * 10;
 
         return moves + score + weight;
     }
