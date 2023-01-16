@@ -3,6 +3,7 @@ package com.headtrixz.factory;
 import com.headtrixz.algorithms.BasicMiniMax;
 import com.headtrixz.algorithms.MiniMax;
 import com.headtrixz.algorithms.MiniMaxAlphaBeta;
+import com.headtrixz.algorithms.MiniMaxTransposition;
 import com.headtrixz.algorithms.NegaMax;
 import com.headtrixz.game.GameModel;
 
@@ -33,6 +34,7 @@ public class MiniMaxFactory {
             case NegaMax -> new NegaMax(game);
             case MiniMax -> new BasicMiniMax(game);
             case MiniMaxAlphaBeta -> new MiniMaxAlphaBeta(game);
+            case MiniMaxTransposition -> new MiniMaxTransposition(game);
             default -> throw new RuntimeException("Algorithm is not implemented");
         };
     }
