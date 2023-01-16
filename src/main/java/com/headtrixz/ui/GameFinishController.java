@@ -6,6 +6,8 @@ import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.ui.elements.GameGrid;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -36,6 +38,18 @@ public class GameFinishController {
      */
     public void initialize() {
         String opponent = game.getPlayer(1).getUsername();
+        if (game.getState() == GameModel.GameState.PLAYER_ONE_WON) {
+            String fireworksPath =
+                GameFinishController.class.getResource("/images/firework.gif").toString();
+
+            Image image = new Image(fireworksPath, 300, 300, false, true);
+            ImageView imageView = new ImageView(image);
+            imageView.setX(10);
+
+            container.getChildren().add(imageView);
+        }
+
+
         String text = switch (game.getState()) {
             case PLAYER_ONE_WON ->
                 String.format("Gefeliciteerd, je hebt van %s gewonnen.", opponent);
