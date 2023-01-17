@@ -7,6 +7,9 @@ import com.headtrixz.game.GameModel;
 import com.headtrixz.ui.elements.GameGrid;
 import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -29,6 +32,13 @@ public class GameFinishController {
 
     private final GameModel game;
 
+    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+
+    private final int numberOfFireworks = 4;
+    private final int imageSize = 200;
+
+
+
     String fireworksPath =
         Objects.requireNonNull(GameFinishController.class.getResource("/images/firework.gif"))
             .toString();
@@ -48,7 +58,6 @@ public class GameFinishController {
      */
     public void initialize() {
         String opponent = game.getPlayer(1).getUsername();
-
         String text = switch (game.getState()) {
             case PLAYER_ONE_WON ->
                 String.format("Gefeliciteerd, je hebt van %s gewonnen.", opponent);
@@ -62,8 +71,7 @@ public class GameFinishController {
         GameBoard board = game.getBoard();
         GameGrid grid = new GameGrid(board.getSize(), 300.0, game.getBackgroundColor());
 
-        for (
-            int i = 0; i < board.getCellCount(); i++) {
+        for (int i = 0; i < board.getCellCount(); i++) {
             int move = board.getMove(i);
             if (move != EMPTY_CELL) {
                 grid.setTile(i, game.getImage(move));
@@ -73,20 +81,26 @@ public class GameFinishController {
         container.getChildren().add(grid);
 
         if (game.getState() == GameModel.GameState.PLAYER_ONE_WON) {
-            Platform.runLater(this::doFireworks);
+            executorService.schedule(this::doFireworks, 200, TimeUnit.MILLISECONDS);
+
         }
     }
 
-    public void doFireworks(){
+    /**
+     * This method adds fireworks to the containerGroup and put this in a random place.
+     */
+    public void doFireworks() {
         Random random = new Random();
-        for (int i = 0; i < 4; i++) {
-            Image image = new Image(fireworksPath, 200, 200, false, true);
-            ImageView imageView = new ImageView(image);
-            imageView.setX(random.nextInt(600));
-            imageView.setY(random.nextInt(400));
+        Platform.runLater(() -> {
+            for (int i = 0; i < numberOfFireworks; i++) {
+                Image image = new Image(fireworksPath, imageSize, imageSize, false, true);
+                ImageView imageView = new ImageView(image);
+                imageView.setX(random.nextInt(600) - (imageSize / 2));
+                imageView.setY(random.nextInt(400) - (imageSize / 2));
 
-            containerGroup.getChildren().add(imageView);
-        }
+                containerGroup.getChildren().add(imageView);
+            }
+        });
     }
 
     /**
