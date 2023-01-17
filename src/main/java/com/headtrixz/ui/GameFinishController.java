@@ -5,7 +5,11 @@ import static com.headtrixz.game.GameBoard.EMPTY_CELL;
 import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.ui.elements.GameGrid;
+import java.util.Objects;
+import java.util.Random;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -19,9 +23,15 @@ public class GameFinishController {
     private Text endText;
 
     @FXML
+    private Group containerGroup;
+    @FXML
     private StackPane container;
 
     private final GameModel game;
+
+    String fireworksPath =
+        Objects.requireNonNull(GameFinishController.class.getResource("/images/firework.gif"))
+            .toString();
 
     /**
      * Inits the game finish controller with data.
@@ -38,17 +48,6 @@ public class GameFinishController {
      */
     public void initialize() {
         String opponent = game.getPlayer(1).getUsername();
-        if (game.getState() == GameModel.GameState.PLAYER_ONE_WON) {
-            String fireworksPath =
-                GameFinishController.class.getResource("/images/firework.gif").toString();
-
-            Image image = new Image(fireworksPath, 300, 300, false, true);
-            ImageView imageView = new ImageView(image);
-            imageView.setX(10);
-
-            container.getChildren().add(imageView);
-        }
-
 
         String text = switch (game.getState()) {
             case PLAYER_ONE_WON ->
@@ -63,7 +62,8 @@ public class GameFinishController {
         GameBoard board = game.getBoard();
         GameGrid grid = new GameGrid(board.getSize(), 300.0, game.getBackgroundColor());
 
-        for (int i = 0; i < board.getCellCount(); i++) {
+        for (
+            int i = 0; i < board.getCellCount(); i++) {
             int move = board.getMove(i);
             if (move != EMPTY_CELL) {
                 grid.setTile(i, game.getImage(move));
@@ -71,6 +71,22 @@ public class GameFinishController {
         }
 
         container.getChildren().add(grid);
+
+        if (game.getState() == GameModel.GameState.PLAYER_ONE_WON) {
+            Platform.runLater(this::doFireworks);
+        }
+    }
+
+    public void doFireworks(){
+        Random random = new Random();
+        for (int i = 0; i < 4; i++) {
+            Image image = new Image(fireworksPath, 200, 200, false, true);
+            ImageView imageView = new ImageView(image);
+            imageView.setX(random.nextInt(600));
+            imageView.setY(random.nextInt(400));
+
+            containerGroup.getChildren().add(imageView);
+        }
     }
 
     /**
