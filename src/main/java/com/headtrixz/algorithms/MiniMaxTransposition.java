@@ -38,10 +38,7 @@ public class MiniMaxTransposition implements MiniMax {
         String gameAsString = Arrays.toString(baseGame.getBoard().getCells());
 
         int bestMove = -1;
-        int value = transpositionTable.get(gameAsString);
-        if (value != Integer.MIN_VALUE) {
-            return value;
-        }
+        int value = Integer.MIN_VALUE;
 
         for (int move : baseGame.getValidMoves()) {
             GameModel clone = baseGame.clone();
@@ -53,9 +50,6 @@ public class MiniMaxTransposition implements MiniMax {
                 bestMove = move;
             }
         }
-
-        transpositionTable.put(gameAsString, bestMove);
-
 
         return bestMove;
     }
@@ -70,8 +64,9 @@ public class MiniMaxTransposition implements MiniMax {
      */
     private int minimax(GameModel game, int depth, Player player) {
         game.setCurrentPlayer(player);
-
         Player maxPlayer = baseGame.getCurrentPlayer();
+        String gameAsString = Arrays.toString(baseGame.getBoard().getCells());
+
         if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
             return game.getScore(maxPlayer, depth);
         }
@@ -85,12 +80,23 @@ public class MiniMaxTransposition implements MiniMax {
             GameModel clone = game.clone();
             clone.setMove(move, player.getId());
 
-            int score = minimax(clone, depth - 1, opponent);
+            int score;
+            if (transpositionTable.containsKey(gameAsString)) {
+                score = transpositionTable.get(gameAsString);
+//                System.out.println("reused");
+            } else {
+                score = minimax(clone, depth - 1, opponent);
+                System.out.println("MINIMAX" + score);
+
+                transpositionTable.put(gameAsString, score);
+            }
             maxScore = player == maxPlayer
                 ? Math.max(maxScore, score)
                 : Math.min(maxScore, score);
         }
 
+        transpositionTable.put(gameAsString,maxScore);
+
         return maxScore;
-    }
+}
 }

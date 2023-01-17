@@ -53,7 +53,10 @@ public class TranspositionTable {
      */
     public void put(String state, int value) {
         table.put(state, value);
-        System.out.println(table);
+    }
+
+    public boolean containsKey(String gameAsString) {
+        return table.containsKey(gameAsString);
     }
 }
 
