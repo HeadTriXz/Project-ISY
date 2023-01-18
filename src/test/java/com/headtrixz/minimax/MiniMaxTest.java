@@ -27,19 +27,19 @@ class MiniMaxTest {
     /**
      * Tests specifically for tic-tac-toe.
      */
-    static class TestMiniMaxTestTicTacToe {
+    static class TestNegaMaxTestTicTacToe {
         private GameModel game;
 
         @BeforeEach
         void setUp() {
             TicTacToe game = new TicTacToe();
-            OfflineHelper helper = new OfflineHelper(game);
+            GameController controller = new GameController(game);
+            OfflineHelper helper = new OfflineHelper(controller, game);
 
             Player playerOne = new HumanPlayer(game, "Humon");
             Player playerTwo = new HumanPlayer(game, "Compuper");
 
-            GameController controller = new GameController();
-            game.initialize(controller, helper, playerOne, playerTwo);
+            game.initialize(helper, playerOne, playerTwo);
 
             this.game = game;
         }
@@ -51,7 +51,7 @@ class MiniMaxTest {
                 Helpers.loadMiniMaxTestCases("src/test/resources/tictactoe.txt");
 
             // get the minimax instance
-            MiniMax miniMax = new MiniMax(this.game);
+            NegaMax miniMax = new NegaMax(this.game);
 
             // keep count of amount of tests done
             final int[] testCaseCount = {1};
@@ -87,7 +87,7 @@ class MiniMaxTest {
             assert testCases != null;
             return testCases.stream().map(testCase -> {
                     // create a new minimax instance (simulate first move of game)
-                    MiniMax miniMax = new MiniMax(this.game);
+                    NegaMax miniMax = new NegaMax(this.game);
                     return DynamicTest.dynamicTest(
                         "Test Case(" + testCaseCount[0] + "): " + Arrays.toString(testCase.board)
                             + ", player: " + testCase.currentPlayerId + ".", () -> {
@@ -107,7 +107,7 @@ class MiniMaxTest {
                 Helpers.loadMiniMaxTestCases("src/test/resources/tictactoe.txt");
 
             // get the minimax instance
-            MiniMax miniMax = new MiniMax(this.game);
+            NegaMax miniMax = new NegaMax(this.game);
 
             // keep count of amount of tests done
             final int[] testCaseCount = {1};
@@ -139,7 +139,7 @@ class MiniMaxTest {
             assert testCases != null;
             return testCases.stream().map(testCase -> {
                 // create a new minimax instance (simulate first move of game)
-                MiniMax miniMax = new MiniMax(this.game);
+                NegaMax miniMax = new NegaMax(this.game);
                 return DynamicTest.dynamicTest("Test Case(" + testCaseCount[0]++ + "): "
                         + Arrays.toString(testCase.board) + ", player: " + testCase.currentPlayerId
                         + ".", () -> {
