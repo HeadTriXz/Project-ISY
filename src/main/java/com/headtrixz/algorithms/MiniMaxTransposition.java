@@ -66,6 +66,10 @@ public class MiniMaxTransposition implements MiniMax {
         Player maxPlayer = baseGame.getCurrentPlayer();
         String gameAsString = Arrays.toString(baseGame.getBoard().getCells());
 
+        if (transpositionTable.containsKey(gameAsString)) {
+            return transpositionTable.get(gameAsString);
+        }
+
         if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
             return game.getScore(maxPlayer, depth);
         }
@@ -79,13 +83,7 @@ public class MiniMaxTransposition implements MiniMax {
             GameModel clone = game.clone();
             clone.setMove(move, player.getId());
 
-            int score;
-            if (transpositionTable.containsKey(gameAsString)) {
-                score = transpositionTable.get(gameAsString);
-            } else {
-                score = minimax(clone, depth - 1, opponent);
-                transpositionTable.put(gameAsString, score);
-            }
+            int score = minimax(clone, depth - 1, opponent);
             maxScore = player == maxPlayer
                 ? Math.max(maxScore, score)
                 : Math.min(maxScore, score);
