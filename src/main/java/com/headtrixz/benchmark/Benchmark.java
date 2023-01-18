@@ -29,7 +29,6 @@ public class Benchmark {
                 long endTime = System.nanoTime();
                 double power = 1 * Math.pow(10, 6);
                 float time = (float) (((endTime - startTime) * 1.0) / power * 1.0);
-                System.out.println((endTime - startTime));
                 runTimes.add(time);
             }
             float totalTime = 0;
