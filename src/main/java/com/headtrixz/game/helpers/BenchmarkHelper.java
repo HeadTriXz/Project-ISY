@@ -1,5 +1,6 @@
 package com.headtrixz.game.helpers;
 
+import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.GameModel.GameState;
 import com.headtrixz.game.players.Player;
@@ -13,10 +14,11 @@ public class BenchmarkHelper extends GameModelHelper {
     /**
      * Represents a helper class that handles the game logic for the benchmark.
      *
-     * @param game       The game the helper is for.
+     * @param controller even though this is always _null_, do NOT DELETE.
+     * @param game The game the helper is for.
      */
-    public BenchmarkHelper(GameModel game) {
-        super(null, game);
+    public BenchmarkHelper(GameMethods controller, GameModel game) {
+        super(controller, game);
     }
 
     /**

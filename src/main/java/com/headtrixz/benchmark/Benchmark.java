@@ -22,7 +22,7 @@ public class Benchmark {
         Othello othello = new Othello();
         Player player = new AIPlayer(othello, "jannie", algorithm);
         Player player2 = new HackyAIPlayer(othello, "Lars, ga betere code schrijven.");
-        BenchmarkHelper helper = new BenchmarkHelper(othello);
+        BenchmarkHelper helper = new BenchmarkHelper(null, othello);
         othello.initialize(helper, player, player2);
 
         int[] benchmarkDepths = { 4, 8, 16 };
