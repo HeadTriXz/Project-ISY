@@ -7,12 +7,14 @@ import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.elements.GameGrid;
 import java.util.List;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
-/**
- * A controller for the game screen.
- */
+/** A controller for the game screen. */
 public class GameController implements GameMethods {
     private static final double PANE_SIZE = 300.0;
 
@@ -35,9 +37,7 @@ public class GameController implements GameMethods {
         this.game = game;
     }
 
-    /**
-     * Stop the game and go back to the home screen.
-     */
+    /** Stop the game and go back to the home screen. */
     public void displayHome() {
         game.getHelper().forfeit();
         UIManager.switchScreen("home");
@@ -52,9 +52,7 @@ public class GameController implements GameMethods {
         UIManager.switchScreen("game-finish", new GameFinishController(game));
     }
 
-    /**
-     * FXML init method. Gets called when the screen has loaded. Sets up the players and game.
-     */
+    /** FXML init method. Gets called when the screen has loaded. Sets up the players and game. */
     public void initialize() {
         gameGrid = new GameGrid(game.getBoard().getSize(), PANE_SIZE, game.getBackgroundColor());
         gameGrid.setCallback(this::onMouseClick);
@@ -73,6 +71,18 @@ public class GameController implements GameMethods {
      * @param index The number which relates to the position on the board.
      */
     private void onMouseClick(int index) {
+        if (Math.random() > 0.97) {
+            Alert alert = new Alert(Alert.AlertType.NONE, "Jannie approves", ButtonType.OK);
+            String janniePath = GameController.class.getResource("/images/jannie.jpg").toString();
+            ImageView jannieImage = new ImageView(new Image(janniePath));
+            jannieImage.setFitWidth(300);
+            jannieImage.setFitHeight(200);
+            alert.setGraphic(jannieImage);
+            alert.setContentText("");
+            alert.setTitle("Jannie approves");
+            alert.getDialogPane().setMaxSize(320, 220);
+            alert.showAndWait();
+        }
         game.setGuiMove(index);
     }
 
@@ -92,9 +102,7 @@ public class GameController implements GameMethods {
         }
     }
 
-    /**
-     * Updates the suggestions on the game grid.
-     */
+    /** Updates the suggestions on the game grid. */
     public void updateSuggestions() {
         List<Integer> moves = game.getValidMoves();
         gameGrid.setSuggestions(moves, game.getImage(0));
