@@ -45,8 +45,8 @@ public class Benchmark {
             avgTimes.add(totalTime / runTimes.size());
         }
         for (int i = 0; i < avgTimes.size(); i++) {
-            System.out.printf("Running with depth %d took %f milliseconds on average\n", benchmarkDepths[i],
-                    avgTimes.get(i));
+            System.out.printf("Running with depth %d took %f milliseconds on average\n",
+                    benchmarkDepths[i], avgTimes.get(i));
         }
 
         helper.forfeit();
