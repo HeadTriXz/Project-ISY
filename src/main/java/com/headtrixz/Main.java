@@ -1,5 +1,6 @@
 package com.headtrixz;
 
+import com.headtrixz.benchmark.Benchmark;
 import com.headtrixz.ui.UIManager;
 import javafx.application.Application;
 
@@ -13,6 +14,11 @@ public class Main {
      * @param args The command line parameters.
      */
     public static void main(String[] args) {
-        Application.launch(UIManager.class, args);
+        // Application.launch(UIManager.class, args);
+        if (args.length > 0 && args[0].equals("b")) {
+            // benchmark shit
+            Benchmark.benchmark();
+            return;
+        }
     }
 }

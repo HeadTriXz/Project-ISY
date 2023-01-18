@@ -1,6 +1,7 @@
 package com.headtrixz.game.players;
 
 import com.headtrixz.factory.MiniMaxFactory;
+import com.headtrixz.factory.MiniMaxFactory.MiniMaxType;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.minimax.MiniMax;
 
@@ -22,6 +23,11 @@ public class AIPlayer extends Player {
                 MiniMaxFactory.MiniMaxType.MiniMax, game, this);
     }
 
+    public AIPlayer(GameModel game, String username, MiniMaxType algorithm) {
+        super(username);
+        this.miniMax = MiniMaxFactory.createMiniMax(algorithm, game, this);
+    }
+
     /**
      * Get the Best Move™️ from the Minimax algorithm.
      *
@@ -30,5 +36,10 @@ public class AIPlayer extends Player {
     @Override
     public int getMove() {
         return miniMax.getMove();
+    }
+
+    @Override
+    public int getMove(int depth) {
+        return miniMax.getMove(depth);
     }
 }
