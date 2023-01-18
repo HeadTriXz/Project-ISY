@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.headtrixz.factory.MiniMaxFactory.MiniMaxType;
 import com.headtrixz.game.Othello;
-import com.headtrixz.game.helpers.OfflineHelper;
+import com.headtrixz.game.helpers.BenchmarkHelper;
 import com.headtrixz.game.players.AIPlayer;
 import com.headtrixz.game.players.HackyAIPlayer;
 import com.headtrixz.game.players.Player;
@@ -15,7 +15,7 @@ public class Benchmark {
         Othello othello = new Othello();
         Player player = new AIPlayer(othello, "jannie", algorithm);
         Player player2 = new HackyAIPlayer(othello, "Lars, ga betere code schrijven.");
-        OfflineHelper helper = new OfflineHelper(null, othello);
+        BenchmarkHelper helper = new BenchmarkHelper(null, othello);
         othello.initialize(helper, player, player2);
 
         int[] benchmarkDepths = { 4, 8, 16 };

@@ -16,3 +16,9 @@ Of druk op de mooie driehoekje in je editor.
 ```bash
 mvn clean compile jar:jar
 ```
+
+## Run benchmarks
+
+```bash
+mvn clean compile exec:java -Dexec.args="b"
+```
