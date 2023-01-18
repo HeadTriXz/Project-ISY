@@ -2,19 +2,21 @@ package com.headtrixz.algorithms;
 
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
+import java.util.Arrays;
 
 /**
- * Represents the MiniMax algorithm with Alpha-beta pruning.
+ * Represents the MiniMax algorithm with Alpha-beta pruning and Transposition Tables.
  */
-public class MiniMaxAlphaBeta implements MiniMax {
+public class MiniMaxOptimized implements MiniMax {
     private final GameModel baseGame;
+    private final TranspositionTable transpositionTable = TranspositionTable.getInstance();
 
     /**
-     * Represents the MiniMax algorithm with Alpha-beta pruning.
+     * Represents the MiniMax algorithm with Alpha-beta pruning and Transposition Tables.
      *
      * @param game The game the AI is currently playing in.
      */
-    public MiniMaxAlphaBeta(GameModel game) {
+    public MiniMaxOptimized(GameModel game) {
         this.baseGame = game;
     }
 
@@ -67,8 +69,13 @@ public class MiniMaxAlphaBeta implements MiniMax {
      */
     private int minimax(GameModel game, int depth, int alpha, int beta, Player player) {
         game.setCurrentPlayer(player);
-
         Player maxPlayer = baseGame.getCurrentPlayer();
+        String gameAsString = Arrays.toString(baseGame.getBoard().getCells());
+
+        if (transpositionTable.containsKey(gameAsString)) {
+            return transpositionTable.get(gameAsString);
+        }
+
         if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
             return game.getScore(maxPlayer, depth);
         }
@@ -95,6 +102,8 @@ public class MiniMaxAlphaBeta implements MiniMax {
                 break;
             }
         }
+
+        transpositionTable.put(gameAsString, maxScore);
 
         return maxScore;
     }

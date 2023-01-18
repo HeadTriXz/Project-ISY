@@ -13,7 +13,6 @@ public class TranspositionTable {
     private static HashMap<String, Integer> table;
     private static TranspositionTable instance = null;
 
-
     /**
      * Constructor to initialize the hashmap.
      */
@@ -55,6 +54,12 @@ public class TranspositionTable {
         table.put(state, value);
     }
 
+    /**
+     * Whether the transposition table contains a specific state of the board.
+     *
+     * @param gameAsString The state of the current game.
+     * @return Whether the transposition tables contains the state.
+     */
     public boolean containsKey(String gameAsString) {
         return table.containsKey(gameAsString);
     }
