@@ -5,7 +5,16 @@ import static com.headtrixz.game.GameBoard.EMPTY_CELL;
 import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.ui.elements.GameGrid;
+import java.util.Objects;
+import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -17,9 +26,22 @@ public class GameFinishController {
     private Text endText;
 
     @FXML
+    private Group containerGroup;
+    @FXML
     private StackPane container;
 
     private final GameModel game;
+
+    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+
+    private final int numberOfFireworks = 4;
+    private final int imageSize = 200;
+
+
+
+    String fireworksPath =
+        Objects.requireNonNull(GameFinishController.class.getResource("/images/firework.gif"))
+            .toString();
 
     /**
      * Inits the game finish controller with data.
@@ -57,6 +79,28 @@ public class GameFinishController {
         }
 
         container.getChildren().add(grid);
+
+        if (game.getState() == GameModel.GameState.PLAYER_ONE_WON) {
+            executorService.schedule(this::doFireworks, 200, TimeUnit.MILLISECONDS);
+
+        }
+    }
+
+    /**
+     * This method adds fireworks to the containerGroup and put this in a random place.
+     */
+    public void doFireworks() {
+        Random random = new Random();
+        Platform.runLater(() -> {
+            for (int i = 0; i < numberOfFireworks; i++) {
+                Image image = new Image(fireworksPath, imageSize, imageSize, false, true);
+                ImageView imageView = new ImageView(image);
+                imageView.setX(random.nextInt(600) - (imageSize / 2));
+                imageView.setY(random.nextInt(400) - (imageSize / 2));
+
+                containerGroup.getChildren().add(imageView);
+            }
+        });
     }
 
     /**
