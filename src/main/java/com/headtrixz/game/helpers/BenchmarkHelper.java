@@ -7,13 +7,12 @@ import com.headtrixz.game.players.Player;
 /**
  * Represents a helper class that handles the game logic for the benchmark.
  */
-public class BenchmarkHelper extends GameModelHelper{
+public class BenchmarkHelper extends GameModelHelper {
     private GameModel.GameState state;
 
     /**
      * Represents a helper class that handles the game logic for the benchmark.
      *
-     * @param controller The controller of the game.
      * @param game       The game the helper is for.
      */
     public BenchmarkHelper(GameModel game) {

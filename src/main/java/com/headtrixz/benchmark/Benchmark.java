@@ -1,13 +1,12 @@
 package com.headtrixz.benchmark;
 
-import java.util.ArrayList;
-
 import com.headtrixz.factory.MiniMaxFactory.MiniMaxType;
 import com.headtrixz.game.Othello;
 import com.headtrixz.game.helpers.BenchmarkHelper;
 import com.headtrixz.game.players.AIPlayer;
 import com.headtrixz.game.players.HackyAIPlayer;
 import com.headtrixz.game.players.Player;
+import java.util.ArrayList;
 
 /**
  * The **great** benchmark class.
@@ -15,6 +14,7 @@ import com.headtrixz.game.players.Player;
 public class Benchmark {
     /**
      * Run a benchmark.
+     *
      * @param algorithm the algorithm to use.
      */
     public static void benchmark(MiniMaxType algorithm) {
@@ -45,7 +45,8 @@ public class Benchmark {
             avgTimes.add(totalTime / runTimes.size());
         }
         for (int i = 0; i < avgTimes.size(); i++) {
-            System.out.printf("Running with depth %d took %f milliseconds on average\n", benchmarkDepths[i], avgTimes.get(i));
+            System.out.printf("Running with depth %d took %f milliseconds on average\n", benchmarkDepths[i],
+                    avgTimes.get(i));
         }
 
         helper.forfeit();
