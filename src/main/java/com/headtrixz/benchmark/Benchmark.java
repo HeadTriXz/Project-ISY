@@ -9,13 +9,20 @@ import com.headtrixz.game.players.AIPlayer;
 import com.headtrixz.game.players.HackyAIPlayer;
 import com.headtrixz.game.players.Player;
 
+/**
+ * The **great** benchmark class.
+ */
 public class Benchmark {
+    /**
+     * Run a benchmark.
+     * @param algorithm the algorithm to use.
+     */
     public static void benchmark(MiniMaxType algorithm) {
         System.out.println("Starting benchmark");
         Othello othello = new Othello();
         Player player = new AIPlayer(othello, "jannie", algorithm);
         Player player2 = new HackyAIPlayer(othello, "Lars, ga betere code schrijven.");
-        BenchmarkHelper helper = new BenchmarkHelper(null, othello);
+        BenchmarkHelper helper = new BenchmarkHelper(othello);
         othello.initialize(helper, player, player2);
 
         int[] benchmarkDepths = { 4, 8, 16 };
