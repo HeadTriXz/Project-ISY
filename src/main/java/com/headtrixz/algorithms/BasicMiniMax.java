@@ -42,7 +42,7 @@ public class BasicMiniMax implements MiniMax {
             clone.setMove(move, maxPlayer.getId());
 
             int score = minimax(clone, maxDepth, minPlayer);
-            if (score > value) {
+            if (score > value || bestMove == -1) {
                 value = score;
                 bestMove = move;
             }
