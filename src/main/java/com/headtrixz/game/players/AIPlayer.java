@@ -16,10 +16,9 @@ public class AIPlayer extends Player {
      * @param game The game the player is playing in.
      * @param username The username of the player.
      */
-    public AIPlayer(GameModel game, String username) {
+    public AIPlayer(GameModel game, String username, MiniMaxFactory.MiniMaxType type) {
         super(username);
-        this.miniMax = MiniMaxFactory.createMiniMax(
-                MiniMaxFactory.MiniMaxType.MiniMaxAlphaBeta, game);
+        this.miniMax = MiniMaxFactory.createMiniMax(type, game);
     }
 
     /**

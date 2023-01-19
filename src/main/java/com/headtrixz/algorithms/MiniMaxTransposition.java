@@ -3,19 +3,21 @@ package com.headtrixz.algorithms;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Basic Minimax is a recreation of a simple version of the minimax algorithm.
  */
 public class MiniMaxTransposition implements MiniMax {
     private final GameModel baseGame;
-    private final TranspositionTable transpositionTable = TranspositionTable.getInstance();
-
+    private final Map<Integer, TranspositionEntry> transpositionTable;
     /**
      * Create a new BasicMiniMax object.
      */
     public MiniMaxTransposition(GameModel game) {
         this.baseGame = game;
+        this.transpositionTable = new HashMap<>();
     }
 
     /**
@@ -64,10 +66,12 @@ public class MiniMaxTransposition implements MiniMax {
     private int minimax(GameModel game, int depth, Player player) {
         game.setCurrentPlayer(player);
         Player maxPlayer = baseGame.getCurrentPlayer();
-        String gameAsString = Arrays.toString(baseGame.getBoard().getCells());
 
-        if (transpositionTable.containsKey(gameAsString)) {
-            return transpositionTable.get(gameAsString);
+        int ttKey = TranspositionEntry.createHash(game.getBoard(), player);
+        TranspositionEntry ttEntry = transpositionTable.get(ttKey);
+
+        if (ttEntry != null && ttEntry.depth() >= depth) {
+            return ttEntry.value();
         }
 
         if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
@@ -89,7 +93,8 @@ public class MiniMaxTransposition implements MiniMax {
                 : Math.min(maxScore, score);
         }
 
-        transpositionTable.put(gameAsString, maxScore);
+        transpositionTable.put(ttKey,
+            new TranspositionEntry(maxScore, depth, TranspositionEntry.Flags.EXACT));
 
         return maxScore;
     }

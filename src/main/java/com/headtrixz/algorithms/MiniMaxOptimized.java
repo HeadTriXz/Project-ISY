@@ -3,13 +3,15 @@ package com.headtrixz.algorithms;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents the MiniMax algorithm with Alpha-beta pruning and Transposition Tables.
  */
 public class MiniMaxOptimized implements MiniMax {
     private final GameModel baseGame;
-    private final TranspositionTable transpositionTable = TranspositionTable.getInstance();
+    private final Map<Integer, TranspositionEntry> transpositionTable;
 
     /**
      * Represents the MiniMax algorithm with Alpha-beta pruning and Transposition Tables.
@@ -18,6 +20,7 @@ public class MiniMaxOptimized implements MiniMax {
      */
     public MiniMaxOptimized(GameModel game) {
         this.baseGame = game;
+        this.transpositionTable = new HashMap<>();
     }
 
     /**
@@ -41,11 +44,13 @@ public class MiniMaxOptimized implements MiniMax {
         int bestMove = -1;
         int value = Integer.MIN_VALUE;
 
+        System.out.println("Valid moves: " + Arrays.toString(baseGame.getValidMoves().toArray()));
         for (int move : baseGame.getValidMoves()) {
             GameModel clone = baseGame.clone();
             clone.setMove(move, maxPlayer.getId());
 
             int score = minimax(clone, maxDepth, Integer.MIN_VALUE, Integer.MAX_VALUE, minPlayer);
+            System.out.println("Move: " + move + "; Score: " + score);
             if (score > value) {
                 value = score;
                 bestMove = move;
@@ -58,33 +63,52 @@ public class MiniMaxOptimized implements MiniMax {
     /**
      * The minimax algorithm.
      *
-     * @param game Current game state.
-     * @param depth The max depth the algorithm should search.
-     * @param alpha The alpha value used in the alpha-beta pruning algorithm. It represents the
-     *     maximum value of the best option found so far for the maximizing player.
-     * @param beta The beta value used in the alpha-beta pruning algorithm. It represents the
-     *     minimum value of the best option found so far for the minimizing player.
+     * @param game   Current game state.
+     * @param depth  The max depth the algorithm should search.
+     * @param alpha  The alpha value used in the alpha-beta pruning algorithm. It represents the
+     *               maximum value of the best option found so far for the maximizing player.
+     * @param beta   The beta value used in the alpha-beta pruning algorithm. It represents the
+     *               minimum value of the best option found so far for the minimizing player.
      * @param player The player for who to search.
      * @return The best (or worst) value of any board.
      */
     private int minimax(GameModel game, int depth, int alpha, int beta, Player player) {
+        final int oldAlpha = alpha;
+
         game.setCurrentPlayer(player);
         Player maxPlayer = baseGame.getCurrentPlayer();
-        String gameAsString = Arrays.toString(baseGame.getBoard().getCells());
 
-        if (transpositionTable.containsKey(gameAsString)) {
-            return transpositionTable.get(gameAsString);
+        int ttKey = TranspositionEntry.createHash(game.getBoard(), player);
+        TranspositionEntry ttEntry = transpositionTable.get(ttKey);
+
+        if (ttEntry != null && ttEntry.depth() >= depth) {
+            switch (ttEntry.flag()) {
+                case EXACT -> {
+                    return ttEntry.value();
+                }
+                case LOWER_BOUND -> alpha = Math.max(alpha, ttEntry.value());
+                case UPPER_BOUND -> beta = Math.min(beta, ttEntry.value());
+                default -> throw new IllegalStateException("Invalid flag");
+            }
+
+            if (alpha >= beta) {
+                return ttEntry.value();
+            }
         }
 
         if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
-            return game.getScore(maxPlayer, depth);
+            return game.getScore(player, depth);
         }
 
-        int maxScore = player == maxPlayer
-                ? Integer.MIN_VALUE
-                : Integer.MAX_VALUE;
-
         Player opponent = game.getOpponent(player);
+//        if (!game.hasValidMoves(player.getId())) {
+//            return minimax(game, depth - 1, alpha, beta, opponent);
+//        }
+
+        int maxScore = player == maxPlayer
+            ? Integer.MIN_VALUE
+            : Integer.MAX_VALUE;
+
         for (int move : game.getValidMoves()) {
             GameModel clone = game.clone();
             clone.setMove(move, player.getId());
@@ -103,7 +127,14 @@ public class MiniMaxOptimized implements MiniMax {
             }
         }
 
-        transpositionTable.put(gameAsString, maxScore);
+        TranspositionEntry.Flags ttFlag = TranspositionEntry.Flags.EXACT;
+        if (maxScore < oldAlpha) {
+            ttFlag = TranspositionEntry.Flags.UPPER_BOUND;
+        } else if (maxScore > beta) {
+            ttFlag = TranspositionEntry.Flags.LOWER_BOUND;
+        }
+
+        transpositionTable.put(ttKey, new TranspositionEntry(maxScore, depth, ttFlag));
 
         return maxScore;
     }

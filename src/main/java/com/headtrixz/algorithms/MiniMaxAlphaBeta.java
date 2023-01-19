@@ -2,6 +2,7 @@ package com.headtrixz.algorithms;
 
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
+import java.util.Arrays;
 
 /**
  * Represents the MiniMax algorithm with Alpha-beta pruning.
@@ -39,12 +40,15 @@ public class MiniMaxAlphaBeta implements MiniMax {
         int bestMove = -1;
         int value = Integer.MIN_VALUE;
 
+        System.out.println("Valid moves: " + Arrays.toString(baseGame.getValidMoves().toArray()));
         for (int move : baseGame.getValidMoves()) {
             GameModel clone = baseGame.clone();
             clone.setMove(move, maxPlayer.getId());
 
             int score = minimax(clone, maxDepth, Integer.MIN_VALUE, Integer.MAX_VALUE, minPlayer);
-            if (score > value) {
+            System.out.println("Move: " + move + "; Score: " + score);
+
+            if (score >= value) {
                 value = score;
                 bestMove = move;
             }
@@ -73,11 +77,15 @@ public class MiniMaxAlphaBeta implements MiniMax {
             return game.getScore(maxPlayer, depth);
         }
 
+        Player opponent = game.getOpponent(player);
+        if (!game.hasValidMoves(player.getId())) {
+            return minimax(game, depth - 1, alpha, beta, opponent);
+        }
+
         int maxScore = player == maxPlayer
                 ? Integer.MIN_VALUE
                 : Integer.MAX_VALUE;
 
-        Player opponent = game.getOpponent(player);
         for (int move : game.getValidMoves()) {
             GameModel clone = game.clone();
             clone.setMove(move, player.getId());

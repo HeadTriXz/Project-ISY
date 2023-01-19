@@ -100,6 +100,7 @@ public class OnlineHelper extends GameModelHelper {
 
         if (player == localPlayer) {
             player.onTurn(m -> {
+                System.out.println("Move: " + m);
                 if (m == -1) {
                     return;
                 }
