@@ -45,7 +45,7 @@ public class MiniMaxAlphaBeta implements MiniMax {
             clone.setMove(move, maxPlayer.getId());
 
             int score = minimax(clone, maxDepth, Integer.MIN_VALUE, Integer.MAX_VALUE, minPlayer);
-            if (score >= value || bestMove == -1) {
+            if (score > value || bestMove == -1) {
                 value = score;
                 bestMove = move;
             }
@@ -69,11 +69,11 @@ public class MiniMaxAlphaBeta implements MiniMax {
     private int minimax(GameModel game, int depth, int alpha, int beta, Player player) {
         game.setCurrentPlayer(player);
 
-        Player maxPlayer = baseGame.getCurrentPlayer();
         if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
-            return game.getScore(maxPlayer, depth);
+            return game.getScore(player, depth);
         }
 
+        Player maxPlayer = baseGame.getCurrentPlayer();
         int maxScore = player == maxPlayer
                 ? Integer.MIN_VALUE
                 : Integer.MAX_VALUE;
@@ -86,13 +86,13 @@ public class MiniMaxAlphaBeta implements MiniMax {
             int score = minimax(clone, depth - 1, alpha, beta, opponent);
             if (player == maxPlayer) {
                 maxScore = Math.max(maxScore, score);
-                alpha = Math.max(alpha, score);
+                alpha = Math.max(alpha, maxScore);
             } else {
                 maxScore = Math.min(maxScore, score);
-                beta = Math.min(beta, score);
+                beta = Math.min(beta, maxScore);
             }
 
-            if (alpha >= beta) {
+            if (beta <= alpha) {
                 break;
             }
         }

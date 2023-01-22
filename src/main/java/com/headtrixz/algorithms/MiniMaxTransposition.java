@@ -12,6 +12,7 @@ import java.util.Map;
 public class MiniMaxTransposition implements MiniMax {
     private final GameModel baseGame;
     private final Map<Integer, TranspositionEntry> transpositionTable;
+
     /**
      * Create a new BasicMiniMax object.
      */
@@ -65,7 +66,6 @@ public class MiniMaxTransposition implements MiniMax {
      */
     private int minimax(GameModel game, int depth, Player player) {
         game.setCurrentPlayer(player);
-        Player maxPlayer = baseGame.getCurrentPlayer();
 
         int ttKey = TranspositionEntry.createHash(game.getBoard(), player);
         TranspositionEntry ttEntry = transpositionTable.get(ttKey);
@@ -75,9 +75,10 @@ public class MiniMaxTransposition implements MiniMax {
         }
 
         if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
-            return game.getScore(maxPlayer, depth);
+            return game.getScore(player, depth);
         }
 
+        Player maxPlayer = baseGame.getCurrentPlayer();
         int maxScore = player == maxPlayer
             ? Integer.MIN_VALUE
             : Integer.MAX_VALUE;

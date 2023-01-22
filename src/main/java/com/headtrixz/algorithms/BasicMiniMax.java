@@ -62,11 +62,11 @@ public class BasicMiniMax implements MiniMax {
     private int minimax(GameModel game, int depth, Player player) {
         game.setCurrentPlayer(player);
 
-        Player maxPlayer = baseGame.getCurrentPlayer();
         if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
-            return game.getScore(maxPlayer, depth);
+            return game.getScore(player, depth);
         }
 
+        Player maxPlayer = baseGame.getCurrentPlayer();
         int maxScore = player == maxPlayer
                 ? Integer.MIN_VALUE
                 : Integer.MAX_VALUE;

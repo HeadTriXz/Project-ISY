@@ -162,7 +162,7 @@ public class TournamentController implements GameMethods {
 
         Player playerOne = obj.get("PLAYERTOMOVE").equals(opponent)
             ? new RemotePlayer(opponent)
-            : new AIPlayer(game, username, MiniMaxFactory.MiniMaxType.MiniMaxAlphaBeta);
+            : new AIPlayer(game, username, MiniMaxFactory.MiniMaxType.MiniMaxOptimized);
         Player playerTwo = obj.get("PLAYERTOMOVE").equals(opponent)
             ? new AIPlayer(game, username, MiniMaxFactory.MiniMaxType.MiniMaxOptimized)
             : new RemotePlayer(opponent);

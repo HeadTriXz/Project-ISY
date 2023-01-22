@@ -71,10 +71,7 @@ public class MiniMaxOptimized implements MiniMax {
      * @return The best (or worst) value of any board.
      */
     private int minimax(GameModel game, int depth, int alpha, int beta, Player player) {
-        final int oldAlpha = alpha;
-
         game.setCurrentPlayer(player);
-        Player maxPlayer = baseGame.getCurrentPlayer();
 
         int ttKey = TranspositionEntry.createHash(game.getBoard(), player);
         TranspositionEntry ttEntry = transpositionTable.get(ttKey);
@@ -89,7 +86,7 @@ public class MiniMaxOptimized implements MiniMax {
                 default -> throw new IllegalStateException("Invalid flag");
             }
 
-            if (alpha >= beta) {
+            if (beta <= alpha) {
                 return ttEntry.value();
             }
         }
@@ -98,6 +95,7 @@ public class MiniMaxOptimized implements MiniMax {
             return game.getScore(player, depth);
         }
 
+        Player maxPlayer = baseGame.getCurrentPlayer();
         int maxScore = player == maxPlayer
             ? Integer.MIN_VALUE
             : Integer.MAX_VALUE;
@@ -110,21 +108,22 @@ public class MiniMaxOptimized implements MiniMax {
             int score = minimax(clone, depth - 1, alpha, beta, opponent);
             if (player == maxPlayer) {
                 maxScore = Math.max(maxScore, score);
-                alpha = Math.max(alpha, score);
+                alpha = Math.max(alpha, maxScore);
             } else {
                 maxScore = Math.min(maxScore, score);
-                beta = Math.min(beta, score);
+                beta = Math.min(beta, maxScore);
             }
 
-            if (alpha >= beta) {
+            if (beta <= alpha) {
                 break;
             }
         }
 
         TranspositionEntry.Flags ttFlag = TranspositionEntry.Flags.EXACT;
-        if (maxScore < oldAlpha) {
+        if (maxScore <= alpha) {
             ttFlag = TranspositionEntry.Flags.UPPER_BOUND;
-        } else if (maxScore > beta) {
+        }
+        if (maxScore >= beta) {
             ttFlag = TranspositionEntry.Flags.LOWER_BOUND;
         }
 
