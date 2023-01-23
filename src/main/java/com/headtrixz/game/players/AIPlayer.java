@@ -24,7 +24,7 @@ public class AIPlayer extends Player {
 
     public AIPlayer(GameModel game, String username, MiniMaxType algorithm) {
         super(username);
-        this.miniMax = MiniMaxFactory.createMiniMax(algorithm, game, this);
+        this.miniMax = MiniMaxFactory.createMiniMax(algorithm, game);
     }
 
     /**
