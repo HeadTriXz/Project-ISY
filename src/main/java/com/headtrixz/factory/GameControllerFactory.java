@@ -36,8 +36,8 @@ public class GameControllerFactory {
 
         GameController controller = new GameController(game);
         OfflineHelper helper = new OfflineHelper(controller, game);
-        Player playerOne = new AIPlayer(game, username, MiniMaxFactory.MiniMaxType.MiniMaxAlphaBeta);
-        Player playerTwo = new AIPlayer(game, "AI", MiniMaxFactory.MiniMaxType.MiniMaxOptimized);
+        Player playerOne = new HumanPlayer(game, username);
+        Player playerTwo = new AIPlayer(game, "AI");
 
         game.initialize(helper, playerOne, playerTwo);
         return controller;

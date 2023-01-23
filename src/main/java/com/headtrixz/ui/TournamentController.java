@@ -1,6 +1,5 @@
 package com.headtrixz.ui;
 
-import com.headtrixz.factory.MiniMaxFactory;
 import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
@@ -162,9 +161,9 @@ public class TournamentController implements GameMethods {
 
         Player playerOne = obj.get("PLAYERTOMOVE").equals(opponent)
             ? new RemotePlayer(opponent)
-            : new AIPlayer(game, username, MiniMaxFactory.MiniMaxType.MiniMaxOptimized);
+            : new AIPlayer(game, username);
         Player playerTwo = obj.get("PLAYERTOMOVE").equals(opponent)
-            ? new AIPlayer(game, username, MiniMaxFactory.MiniMaxType.MiniMaxOptimized)
+            ? new AIPlayer(game, username)
             : new RemotePlayer(opponent);
 
         System.out.println(playerTwo.getUsername());
