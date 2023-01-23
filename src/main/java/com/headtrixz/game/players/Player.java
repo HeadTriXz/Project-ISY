@@ -64,4 +64,13 @@ public abstract class Player {
      * @return the move the player has chosen, or -1.
      */
     public abstract int getMove();
+
+    /**
+     * Request a move from the player with a depth.
+     *
+     * @return the move the player has chosen, or -1.
+     */
+    public int getMove(int depth) {
+        return -1;
+    }
 }
