@@ -17,7 +17,7 @@ public class TicTacToe extends GameModel {
     private static final String NAME = "Tic-Tac-Toe";
 
     // GUI Config
-    private static final Color BACKGROUND_COLOR = Color.TRANSPARENT;
+    private static final Color BACKGROUND_COLOR = Color.rgb(24, 24, 37);
     private static final String PLAYER_ONE_IMAGE =
         TicTacToe.class.getResource("/images/x.png").toString();
     private static final String PLAYER_TWO_IMAGE =

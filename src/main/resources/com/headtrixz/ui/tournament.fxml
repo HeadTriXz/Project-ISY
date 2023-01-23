@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
@@ -11,16 +12,12 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.Label?>
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="5.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.headtrixz.ui.TournamentController">
    <children>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Toernooi" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Text>
+      <Label text="Toernooi" styleClass="title" textAlignment="CENTER" />
       <GridPane>
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -31,9 +28,9 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text fx:id="winsText" fill="GREEN" strokeType="OUTSIDE" strokeWidth="0.0" text="Gewonnen: 0" GridPane.halignment="CENTER" />
-            <Text fx:id="drawsText" fill="BLUE" strokeType="OUTSIDE" strokeWidth="0.0" text="Gelijkspel: 0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-            <Text fx:id="losesText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Verloren: 0" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+            <Label fx:id="winsLabel" styleClass="green" text="Gewonnen: 0" GridPane.halignment="CENTER" />
+            <Label fx:id="drawsLabel" styleClass="blue" text="Gelijkspel: 0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Label fx:id="losesLabel" styleClass="red" text="Verloren: 0" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
          </children>
       </GridPane>
       <HBox prefHeight="279.0" prefWidth="580.0">
@@ -44,10 +41,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT">
                            <children>
-                              <Text fx:id="playerOneText" strokeType="OUTSIDE" strokeWidth="0.0">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin></Text>
+                              <Label fx:id="playerOneLabel" />
                               <ImageView fx:id="playerOneIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </HBox>
@@ -55,24 +49,22 @@
                         <HBox alignment="CENTER_LEFT">
                            <children>
                               <ImageView fx:id="playerTwoIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
-                              <Text fx:id="playerTwoText" strokeType="OUTSIDE" strokeWidth="0.0">
+                              <Label fx:id="playerTwoLabel">
                                  <HBox.margin>
                                     <Insets right="3.0" />
-                                 </HBox.margin></Text>
+                                 </HBox.margin>
+                              </Label>
                            </children>
                         </HBox>
                      </children>
                   </HBox>
-                  <StackPane fx:id="containerStackPane" prefHeight="264.0" prefWidth="419.0">
-                     <children>
-                     </children>
-                  </StackPane>
+                  <StackPane fx:id="containerStackPane" prefHeight="264.0" prefWidth="419.0" />
                </children>
             </VBox>
             <Pane prefHeight="306.0" prefWidth="20.0" />
             <VBox prefHeight="306.0" prefWidth="155.0">
                <children>
-                  <Text fx:id="onlineText" strokeType="OUTSIDE" strokeWidth="0.0" text="Online: 0" />
+                  <Label fx:id="onlineLabel" text="Online: 0" />
                   <ListView fx:id="playersListView" focusTraversable="false" prefHeight="291.0" prefWidth="157.0" />
                </children>
             </VBox>
@@ -81,11 +73,14 @@
       <StackPane>
          <children>
             <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#disconnect" text="Verlaten" StackPane.alignment="CENTER_LEFT" />
-            <Text fx:id="loggedInAsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingelogd als: " StackPane.alignment="CENTER_RIGHT" />
+            <Label fx:id="loggedInAsLabel" text="Ingelogd als: " StackPane.alignment="CENTER_RIGHT" />
          </children>
       </StackPane>
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
+   <stylesheets>
+      <URL value="@stylesheet.css" />
+   </stylesheets>
 </VBox>

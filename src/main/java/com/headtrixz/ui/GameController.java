@@ -7,6 +7,7 @@ import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.elements.GameGrid;
 import java.util.List;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -20,9 +21,9 @@ public class GameController implements GameMethods {
     private GameGrid gameGrid;
 
     @FXML
-    private Text playerOneName;
+    private Label playerOneName;
     @FXML
-    private Text playerTwoName;
+    private Label playerTwoName;
     @FXML
     private StackPane container;
 

@@ -23,7 +23,10 @@ public class UIManager extends Application {
     public void start(Stage stage) {
         mainStage = stage;
 
-        stage.setTitle("ISY Project");
+        stage.setTitle("Roos&LeeSpelen");
+        stage.setMaxHeight(400);
+        stage.setMaxWidth(600);
+
         UIManager.switchScreen("home");
         stage.show();
     }
