@@ -16,7 +16,9 @@ public class Main {
      */
     public static void main(String[] args) {
         if (args.length > 0 && args[0].equals("b")) {
-            Benchmark.benchmark(MiniMaxType.MiniMax);
+            for (MiniMaxType type : MiniMaxType.values()) {
+                Benchmark.benchmark(type, 10);
+            }
             return;
         }
         Application.launch(UIManager.class, args);
