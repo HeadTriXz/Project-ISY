@@ -1,4 +1,4 @@
-package com.headtrixz.minimax;
+package com.headtrixz.algorithms;
 
 /**
  * Represents a MiniMax algorithm.

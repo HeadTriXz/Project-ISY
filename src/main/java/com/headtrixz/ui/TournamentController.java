@@ -166,6 +166,8 @@ public class TournamentController implements GameMethods {
             ? new AIPlayer(game, username)
             : new RemotePlayer(opponent);
 
+        System.out.println(playerTwo.getUsername());
+
         GameModelHelper helper = new OnlineHelper(this, game);
         game.initialize(helper, playerOne, playerTwo);
 

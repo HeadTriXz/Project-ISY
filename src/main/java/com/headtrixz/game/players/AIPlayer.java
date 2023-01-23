@@ -1,9 +1,9 @@
 package com.headtrixz.game.players;
 
+import com.headtrixz.algorithms.MiniMax;
 import com.headtrixz.factory.MiniMaxFactory;
 import com.headtrixz.factory.MiniMaxFactory.MiniMaxType;
 import com.headtrixz.game.GameModel;
-import com.headtrixz.minimax.MiniMax;
 
 /**
  * The AI player that makes use of minimax.
@@ -19,8 +19,7 @@ public class AIPlayer extends Player {
      */
     public AIPlayer(GameModel game, String username) {
         super(username);
-        this.miniMax = MiniMaxFactory.createMiniMax(
-                MiniMaxFactory.MiniMaxType.MiniMax, game, this);
+        this.miniMax = MiniMaxFactory.createMiniMax(MiniMaxType.MiniMaxOptimized, game);
     }
 
     public AIPlayer(GameModel game, String username, MiniMaxType algorithm) {
