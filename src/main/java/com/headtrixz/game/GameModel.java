@@ -223,7 +223,7 @@ public abstract class GameModel {
      * @param depth         The depth of the current node in the tree.
      * @return The score of the current player.
      */
-    public abstract int getScore(Player currentPlayer, int depth);
+    public abstract float getScore(Player currentPlayer, int depth);
 
     /**
      * Returns the current state of the game.

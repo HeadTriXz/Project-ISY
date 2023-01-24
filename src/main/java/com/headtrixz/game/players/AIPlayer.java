@@ -34,7 +34,7 @@ public class AIPlayer extends Player {
      */
     @Override
     public int getMove() {
-        return miniMax.getMove();
+        return miniMax.getMove(7);
     }
 
     @Override

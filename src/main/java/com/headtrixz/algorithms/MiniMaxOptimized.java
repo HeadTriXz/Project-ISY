@@ -42,13 +42,13 @@ public class MiniMaxOptimized implements MiniMax {
         Player minPlayer = baseGame.getOpponent(maxPlayer);
 
         int bestMove = -1;
-        int value = Integer.MIN_VALUE;
+        float value = Integer.MIN_VALUE;
 
         for (int move : baseGame.getValidMoves()) {
             GameModel clone = baseGame.clone();
             clone.setMove(move, maxPlayer.getId());
 
-            int score = minimax(clone, maxDepth, Integer.MIN_VALUE, Integer.MAX_VALUE, minPlayer);
+            float score = minimax(clone, maxDepth, Integer.MIN_VALUE, Integer.MAX_VALUE, minPlayer);
             if (score > value || bestMove == -1) {
                 value = score;
                 bestMove = move;
@@ -70,7 +70,7 @@ public class MiniMaxOptimized implements MiniMax {
      * @param player The player for who to search.
      * @return The best (or worst) value of any board.
      */
-    private int minimax(GameModel game, int depth, int alpha, int beta, Player player) {
+    private float minimax(GameModel game, int depth, float alpha, float beta, Player player) {
         game.setCurrentPlayer(player);
 
         int ttKey = TranspositionEntry.createHash(game.getBoard(), player);
@@ -91,12 +91,12 @@ public class MiniMaxOptimized implements MiniMax {
             }
         }
 
+        Player maxPlayer = baseGame.getCurrentPlayer();
         if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
-            return game.getScore(player, depth);
+            return game.getScore(maxPlayer, depth);
         }
 
-        Player maxPlayer = baseGame.getCurrentPlayer();
-        int maxScore = player == maxPlayer
+        float maxScore = player == maxPlayer
             ? Integer.MIN_VALUE
             : Integer.MAX_VALUE;
 
@@ -105,7 +105,7 @@ public class MiniMaxOptimized implements MiniMax {
             GameModel clone = game.clone();
             clone.setMove(move, player.getId());
 
-            int score = minimax(clone, depth - 1, alpha, beta, opponent);
+            float score = minimax(clone, depth - 1, alpha, beta, opponent);
             if (player == maxPlayer) {
                 maxScore = Math.max(maxScore, score);
                 alpha = Math.max(alpha, maxScore);

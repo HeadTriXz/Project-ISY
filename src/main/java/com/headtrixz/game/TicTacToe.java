@@ -71,7 +71,7 @@ public class TicTacToe extends GameModel {
      *
      * @return The score of the board.
      */
-    public int getScore(Player player, int depth) {
+    public float getScore(Player player, int depth) {
         return switch (getState()) {
             case DRAW, PLAYING -> 0;
             case PLAYER_ONE_WON -> player.getId() == PLAYER_ONE ? depth : -depth;
