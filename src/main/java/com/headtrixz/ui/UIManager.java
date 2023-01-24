@@ -5,6 +5,7 @@ import java.util.prefs.Preferences;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -69,7 +70,10 @@ public class UIManager extends Application {
     public static void switchScreen(String name) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(UIManager.class.getResource(name + ".fxml"));
-            mainStage.setScene(new Scene(fxmlLoader.load(), 600, 400));
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            scene.setFill(Color.rgb(30, 30, 46));
+
+            mainStage.setScene(scene);
             mainStage.setResizable(false);
         } catch (IOException e) {
             System.out.println("Something went wrong whilst switching screens");
@@ -88,7 +92,10 @@ public class UIManager extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(UIManager.class.getResource(name + ".fxml"));
             fxmlLoader.setController(controller);
 
-            mainStage.setScene(new Scene(fxmlLoader.load(), 600, 400));
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            scene.setFill(Color.rgb(30, 30, 46));
+
+            mainStage.setScene(scene);
             mainStage.setResizable(false);
         } catch (IOException e) {
             System.out.println("Something went wrong whilst switching screens");
