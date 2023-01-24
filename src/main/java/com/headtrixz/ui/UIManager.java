@@ -24,9 +24,6 @@ public class UIManager extends Application {
         mainStage = stage;
 
         stage.setTitle("Roos&LeeSpelen");
-        stage.setMaxHeight(400);
-        stage.setMaxWidth(600);
-
         UIManager.switchScreen("home");
         stage.show();
     }
