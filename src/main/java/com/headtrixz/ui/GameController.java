@@ -96,7 +96,7 @@ public class GameController implements GameMethods {
      * Updates the suggestions on the game grid.
      */
     public void updateSuggestions() {
-        List<Integer> moves = game.getValidMoves();
+        List<Integer> moves = game.getValidMoves(game.getCurrentPlayer().getId());
         gameGrid.setSuggestions(moves, game.getImage(0));
     }
 }

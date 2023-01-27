@@ -4,6 +4,7 @@ import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.Player;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,6 +13,8 @@ import java.util.Map;
 public class MiniMaxTransposition implements MiniMax {
     private final GameModel baseGame;
     private final Map<Integer, TranspositionEntry> transpositionTable;
+    private Long endTime;
+    private boolean hasTimedOut = false;
 
     /**
      * Create a new BasicMiniMax object.
@@ -42,7 +45,7 @@ public class MiniMaxTransposition implements MiniMax {
         int bestMove = -1;
         float value = Integer.MIN_VALUE;
 
-        for (int move : baseGame.getValidMoves()) {
+        for (int move : baseGame.getValidMoves(maxPlayer.getId())) {
             GameModel clone = baseGame.clone();
             clone.setMove(move, maxPlayer.getId());
 
@@ -57,6 +60,51 @@ public class MiniMaxTransposition implements MiniMax {
     }
 
     /**
+     * Returns the best move the current player can play based on the current game state.
+     *
+     * @param timeout The maximum amount of time in milliseconds to spend searching.
+     * @return The best move of the board.
+     */
+    public int iterativeDeepening(int timeout) {
+        endTime = System.currentTimeMillis() + timeout;
+
+        Player maxPlayer = baseGame.getCurrentPlayer();
+        Player minPlayer = baseGame.getOpponent();
+
+        int bestMove = -1;
+        List<Integer> moves = baseGame.getValidMoves(maxPlayer.getId());
+
+        outer: for (int d = 1; d < baseGame.getBoard().getCellCount(); d++) {
+            int tempMove = -1;
+            float maxScore = Integer.MIN_VALUE;
+
+            for (int move : moves) {
+                if (System.currentTimeMillis() >= endTime) {
+                    break outer;
+                }
+
+                GameModel clone = baseGame.clone();
+                clone.setMove(move, maxPlayer.getId());
+
+                float score = minimax(clone, d, minPlayer);
+                if (score > maxScore) {
+                    maxScore = score;
+                    tempMove = move;
+                }
+            }
+
+            if (!hasTimedOut || bestMove == -1) {
+                bestMove = tempMove;
+            }
+        }
+
+        endTime = null;
+        hasTimedOut = false;
+
+        return bestMove;
+    }
+
+    /**
      * The minimax algorithm.
      *
      * @param game   Current game state.
@@ -65,7 +113,10 @@ public class MiniMaxTransposition implements MiniMax {
      * @return The best (or worst) value of any board.
      */
     private float minimax(GameModel game, int depth, Player player) {
-        game.setCurrentPlayer(player);
+        if (endTime != null && System.currentTimeMillis() >= endTime) {
+            hasTimedOut = true;
+            return Integer.MIN_VALUE;
+        }
 
         int ttKey = TranspositionEntry.createHash(game.getBoard(), player);
         TranspositionEntry ttEntry = transpositionTable.get(ttKey);
@@ -75,7 +126,9 @@ public class MiniMaxTransposition implements MiniMax {
         }
 
         Player maxPlayer = baseGame.getCurrentPlayer();
-        if (depth == 0 || game.getState() != GameModel.GameState.PLAYING) {
+
+        List<Integer> moves = game.getValidMoves(player.getId());
+        if (depth == 0 || moves.size() == 0 || game.getState() != GameModel.GameState.PLAYING) {
             return game.getScore(maxPlayer, depth);
         }
 
@@ -84,7 +137,7 @@ public class MiniMaxTransposition implements MiniMax {
             : Integer.MAX_VALUE;
 
         Player opponent = game.getOpponent(player);
-        for (int move : game.getValidMoves()) {
+        for (int move : game.getValidMoves(player.getId())) {
             GameModel clone = game.clone();
             clone.setMove(move, player.getId());
 

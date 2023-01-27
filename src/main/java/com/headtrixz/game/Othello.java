@@ -1,5 +1,8 @@
 package com.headtrixz.game;
 
+import static com.headtrixz.game.GameBoard.PLAYER_ONE;
+import static com.headtrixz.game.GameBoard.PLAYER_TWO;
+
 import com.headtrixz.game.players.Player;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +25,14 @@ public class Othello extends GameModel {
     };
 
     private static final double[] SCORES = {
-        1.010000,  -0.415963, 0.920544,  -0.253853, -0.253853, 0.920544,  -0.415963, 1.010000,
-        -0.415963, -0.740000, -0.384101, -0.260463, -0.260463, -0.384101, -0.740000, -0.415963,
-        0.920544,  -0.384101, -0.239954, -0.155662, -0.155662, -0.239954, -0.384101, 0.920544,
-        -0.253853, -0.260463, -0.155662, 0.121869,  0.121869,  -0.155662, -0.260463, -0.253853,
-        -0.253853, -0.260463, -0.155662, 0.121869,  0.121869,  -0.155662, -0.260463, -0.253853,
-        0.920544,  -0.384101, -0.239954, -0.155662, -0.155662, -0.239954, -0.384101, 0.920544,
-        -0.415963, -0.740000, -0.384101, -0.260463, -0.260463, -0.384101, -0.740000, -0.415963,
-        1.010000,  -0.415963, 0.920544, -0.253853,  -0.253853, 0.920544,  -0.415963, 1.010000
+        1.010000,  -0.270000, 0.560000,  -0.253853, -0.253853, 0.560000,  -0.270000, 1.010000,
+        -0.270000, -0.740000, -0.384101, -0.080000, -0.080000, -0.384101, -0.740000, -0.270000,
+        0.560000,  -0.384101, -0.239954, -0.155662, -0.155662, -0.239954, -0.384101, 0.560000,
+        -0.253853, -0.080000, -0.155662, -0.010000, -0.010000, -0.155662, -0.080000, -0.253853,
+        -0.253853, -0.080000, -0.155662, -0.010000, -0.010000, -0.155662, -0.080000, -0.253853,
+        0.560000,  -0.384101, -0.239954, -0.155662, -0.155662, -0.239954, -0.384101, 0.560000,
+        -0.270000, -0.740000, -0.384101, -0.080000, -0.080000, -0.384101, -0.740000, -0.270000,
+        1.010000,  -0.270000, 0.560000,  -0.253853, -0.253853, 0.560000,  -0.270000, 1.010000
     };
 
     private static final String NAME = "Othello";
@@ -42,8 +45,6 @@ public class Othello extends GameModel {
         Othello.class.getResource("/images/white.png").toString();
     private static final String SUGGESTION_IMAGE =
         Othello.class.getResource("/images/suggestion.png").toString();
-
-    private float[] playerScores = new float[3];
 
     /**
      * Represents a game of Othello.
@@ -58,22 +59,10 @@ public class Othello extends GameModel {
             PLAYER_TWO_IMAGE
         );
 
-        board.setMove(27, GameBoard.PLAYER_TWO);
-        board.setMove(28, GameBoard.PLAYER_ONE);
-        board.setMove(35, GameBoard.PLAYER_ONE);
-        board.setMove(36, GameBoard.PLAYER_TWO);
-    }
-
-    /**
-     * Clone the Othello game.
-     *
-     * @return The clone of the game.
-     */
-    public Othello clone() {
-        Othello clone = (Othello) super.clone();
-        clone.playerScores = playerScores.clone();
-
-        return clone;
+        board.setMove(27, PLAYER_TWO);
+        board.setMove(28, PLAYER_ONE);
+        board.setMove(35, PLAYER_ONE);
+        board.setMove(36, PLAYER_TWO);
     }
 
     /**
@@ -113,28 +102,37 @@ public class Othello extends GameModel {
     }
 
     /**
+     * Get the score for a player by counting the number of cells that are owned by that player.
+     *
+     * @param player The player to get the score for.
+     * @return The number of cells that the player has taken.
+     */
+    private float getPlayerScore(int player) {
+        float score = 0;
+        for (int i = 0; i < board.getCellCount(); i++) {
+            if (board.getMove(i) == player) {
+                score += SCORES[i];
+            }
+            if (board.getMove(i) == player % 2 + 1) {
+                score -= SCORES[i];
+            }
+        }
+        return score;
+    }
+
+    /**
      * get the score of the game in its current state. the scoring is -2 if current player has won,
      * -1 if current player has lost, 0 if game is still going or ended in draw
      *
      * @return the score of the board
      */
-    public float getScore(Player currentPlayer, int depth) {
-        if (hasPlayerWon(currentPlayer)) {
-            return 1000f;
-        }
-
-        Player opponent = getOpponent(currentPlayer);
-        if (hasPlayerWon(opponent)) {
-            return -1000f;
-        }
-        if (getState() == GameState.DRAW) {
-            return 100f;
-        }
-
-        float maxScore = playerScores[currentPlayer.getId()];
-        float minScore = playerScores[opponent.getId()];
-
-        return maxScore - minScore;
+    public float getScore(Player player, int depth) {
+        return switch (getState()) {
+            case DRAW -> 100f;
+            case PLAYER_ONE_WON -> player.getId() == PLAYER_ONE ? 1000f : -1000f;
+            case PLAYER_TWO_WON -> player.getId() == PLAYER_TWO ? 1000f : -1000f;
+            case PLAYING -> getPlayerScore(player.getId());
+        };
     }
 
     /**
@@ -153,8 +151,17 @@ public class Othello extends GameModel {
             return GameState.PLAYING;
         }
 
-        float p1 = playerScores[GameBoard.PLAYER_ONE];
-        float p2 = playerScores[GameBoard.PLAYER_TWO];
+        int p1 = 0;
+        int p2 = 0;
+
+        for (int i = 0; i < board.getCellCount(); i++) {
+            if (board.getMove(i) == PLAYER_ONE) {
+                p1++;
+            }
+            if (board.getMove(i) == PLAYER_TWO) {
+                p2++;
+            }
+        }
 
         if (p1 > p2) {
             return GameState.PLAYER_ONE_WON;
@@ -165,15 +172,6 @@ public class Othello extends GameModel {
         }
 
         return GameState.DRAW;
-    }
-
-    /**
-     * Returns a list of all available cells on the board.
-     *
-     * @return A list of all available cells on the board.
-     */
-    public List<Integer> getValidMoves() {
-        return getValidMoves(getCurrentPlayer().getId());
     }
 
     /**
@@ -226,7 +224,7 @@ public class Othello extends GameModel {
      * @return Whether the players are still playing.
      */
     private boolean isPlaying() {
-        return hasValidMoves(GameBoard.PLAYER_ONE) || hasValidMoves(GameBoard.PLAYER_TWO);
+        return hasValidMoves(PLAYER_ONE) || hasValidMoves(PLAYER_TWO);
     }
 
     /**
@@ -270,11 +268,9 @@ public class Othello extends GameModel {
     public void setMove(int move, int player) {
         List<Integer> flips = getFlips(move, player);
         board.setMove(move, player);
-        playerScores[player] += SCORES[move];
 
         for (int cell : flips) {
             board.setMove(cell, player);
-            playerScores[player] += SCORES[cell];
         }
     }
 }

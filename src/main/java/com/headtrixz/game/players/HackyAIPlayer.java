@@ -32,7 +32,7 @@ public class HackyAIPlayer extends Player {
             e.printStackTrace();
         }
 
-        List<Integer> moves = game.getValidMoves();
+        List<Integer> moves = game.getValidMoves(getId());
         if (moves.size() == 0) {
             return -1;
         }

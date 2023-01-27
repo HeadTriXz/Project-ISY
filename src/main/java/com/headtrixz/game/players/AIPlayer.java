@@ -34,7 +34,8 @@ public class AIPlayer extends Player {
      */
     @Override
     public int getMove() {
-        return miniMax.getMove(7);
+        return miniMax.iterativeDeepening(10000);
+        // return miniMax.getMove(7);
     }
 
     @Override

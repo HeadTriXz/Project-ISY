@@ -165,17 +165,6 @@ public abstract class GameModel {
     }
 
     /**
-     * Check if the given player has won by checking if the GameState value with
-     * index users id + 1 is equal to the current state.
-     *
-     * @param player the player to check
-     * @return a boolean that is true if the player has won
-     */
-    public boolean hasPlayerWon(Player player) {
-        return GameState.values()[player.getId()] == getState();
-    }
-
-    /**
      * Initializes the game.
      *
      * @param helper A helper class for either an offline or online game.
@@ -235,9 +224,10 @@ public abstract class GameModel {
     /**
      * Returns a list of all available cells on the board.
      *
+     * @param player The player to get the valid moves for.
      * @return A list of all available cells on the board.
      */
-    public abstract List<Integer> getValidMoves();
+    public abstract List<Integer> getValidMoves(int player);
 
     /**
      * Returns whether the player has any available cells.
