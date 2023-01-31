@@ -185,9 +185,13 @@ public class TournamentController implements GameMethods {
             playerOneLabel.setText(playerOne.getUsername());
             playerOneIcon.setImage(black);
 
+            playerOneLabel.getParent().getStyleClass().add("player");
+
             Image white = new Image(game.getImage(GameBoard.PLAYER_TWO), 20, 20, false, true);
             playerTwoLabel.setText(playerTwo.getUsername());
             playerTwoIcon.setImage(white);
+
+            playerTwoLabel.getParent().getStyleClass().add("player");
 
             update(-1, playerOne);
         });

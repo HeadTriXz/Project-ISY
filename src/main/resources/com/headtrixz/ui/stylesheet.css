@@ -51,6 +51,14 @@
     -fx-font-weight: bold;
 }
 
+.player {
+    -fx-background-color: rgba(193, 201, 253, 0.2);
+    -fx-background-radius: 6px;
+    -fx-border-color: rgba(193, 201, 253, 0.7);
+    -fx-border-radius: 6px;
+    -fx-padding: 0 6px;
+}
+
 /* Text */
 .label,
 .text-field {

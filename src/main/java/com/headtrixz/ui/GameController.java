@@ -1,5 +1,6 @@
 package com.headtrixz.ui;
 
+import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.HumanPlayer;
@@ -8,8 +9,12 @@ import com.headtrixz.ui.elements.GameGrid;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
 
 /**
  * A controller for the game screen.
@@ -21,7 +26,11 @@ public class GameController implements GameMethods {
     private GameGrid gameGrid;
 
     @FXML
+    private ImageView playerOneIcon;
+    @FXML
     private Label playerOneName;
+    @FXML
+    private ImageView playerTwoIcon;
     @FXML
     private Label playerTwoName;
     @FXML
@@ -61,9 +70,13 @@ public class GameController implements GameMethods {
         gameGrid.setCallback(this::onMouseClick);
         container.getChildren().add(gameGrid);
 
-        // Set visible usernames.
+        Image black = new Image(game.getImage(GameBoard.PLAYER_ONE), 20, 20, false, true);
         playerOneName.setText(game.getPlayer(0).getUsername());
+        playerOneIcon.setImage(black);
+
+        Image white = new Image(game.getImage(GameBoard.PLAYER_TWO), 20, 20, false, true);
         playerTwoName.setText(game.getPlayer(1).getUsername());
+        playerTwoIcon.setImage(white);
 
         update(-1, null);
     }
