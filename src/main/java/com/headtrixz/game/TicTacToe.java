@@ -71,11 +71,12 @@ public class TicTacToe extends GameModel {
      *
      * @return The score of the board.
      */
-    public int getScore(Player player, int depth) {
+    public float getScore(Player player, int depth) {
         return switch (getState()) {
-            case DRAW, PLAYING -> 0;
-            case PLAYER_ONE_WON -> player.getId() == PLAYER_ONE ? depth : -depth;
-            case PLAYER_TWO_WON -> player.getId() == PLAYER_TWO ? depth : -depth;
+            case DRAW -> 1f;
+            case PLAYER_ONE_WON -> player.getId() == PLAYER_ONE ? 10f : -10f;
+            case PLAYER_TWO_WON -> player.getId() == PLAYER_TWO ? 10f : -10f;
+            case PLAYING -> 0;
         };
     }
 
@@ -84,7 +85,7 @@ public class TicTacToe extends GameModel {
      *
      * @return A list of all available cells on the board.
      */
-    public List<Integer> getValidMoves() {
+    public List<Integer> getValidMoves(int player) {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < board.getCellCount(); i++) {
             if (board.getMove(i) == EMPTY_CELL) {

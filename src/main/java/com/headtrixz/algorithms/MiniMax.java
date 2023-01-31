@@ -19,4 +19,12 @@ public interface MiniMax {
      * @return The best move.
      */
     int getMove(int maxDepth);
+
+    /**
+     * Returns the best move the current player can play based on the current game state.
+     *
+     * @param timeout The maximum amount of time in milliseconds to spend searching.
+     * @return The best move of the board.
+     */
+    int iterativeDeepening(int timeout);
 }

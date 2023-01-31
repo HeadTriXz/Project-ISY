@@ -10,7 +10,7 @@ import com.headtrixz.game.players.Player;
  * @param depth The depth the entry was created at.
  * @param flag  The flag of the entry.
  */
-public record TranspositionEntry(int value, int depth, Flags flag) {
+public record TranspositionEntry(float value, int depth, Flags flag) {
     enum Flags {
         EXACT,
         UPPER_BOUND,
