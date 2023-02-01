@@ -181,13 +181,13 @@ public class TournamentController implements GameMethods {
 
             containerStackPane.getChildren().add(gameGrid);
 
-            Image black = new Image(game.getImage(GameBoard.PLAYER_ONE), 20, 20, false, true);
+            Image black = new Image(game.getImage(GameBoard.PLAYER_ONE), 25, 25, false, true);
             playerOneLabel.setText(playerOne.getUsername());
             playerOneIcon.setImage(black);
 
             playerOneLabel.getParent().getStyleClass().add("player");
 
-            Image white = new Image(game.getImage(GameBoard.PLAYER_TWO), 20, 20, false, true);
+            Image white = new Image(game.getImage(GameBoard.PLAYER_TWO), 25, 25, false, true);
             playerTwoLabel.setText(playerTwo.getUsername());
             playerTwoIcon.setImage(white);
 

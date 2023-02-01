@@ -9,12 +9,9 @@ import com.headtrixz.ui.elements.GameGrid;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 
 /**
  * A controller for the game screen.
@@ -70,11 +67,11 @@ public class GameController implements GameMethods {
         gameGrid.setCallback(this::onMouseClick);
         container.getChildren().add(gameGrid);
 
-        Image black = new Image(game.getImage(GameBoard.PLAYER_ONE), 20, 20, false, true);
+        Image black = new Image(game.getImage(GameBoard.PLAYER_ONE), 25, 25, false, true);
         playerOneName.setText(game.getPlayer(0).getUsername());
         playerOneIcon.setImage(black);
 
-        Image white = new Image(game.getImage(GameBoard.PLAYER_TWO), 20, 20, false, true);
+        Image white = new Image(game.getImage(GameBoard.PLAYER_TWO), 25, 25, false, true);
         playerTwoName.setText(game.getPlayer(1).getUsername());
         playerTwoIcon.setImage(white);
 
