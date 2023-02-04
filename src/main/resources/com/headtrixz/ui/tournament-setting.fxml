@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.headtrixz.ui.TournamentSettingController">
     <columnConstraints>
@@ -63,9 +63,8 @@
             </TextField>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
                 <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Serveradres">
-                    </Text>
-                    <Label fx:id="ipLabel" textFill="RED" visible="false">
+                    <Label minWidth="-Infinity" text="Serveradres" />
+                    <Label fx:id="ipLabel" styleClass="red" visible="false">
                         <padding>
                             <Insets left="10.0" />
                         </padding>
@@ -74,9 +73,8 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="6">
                 <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Poort">
-                    </Text>
-                    <Label fx:id="portLabel" textFill="RED" visible="false">
+                    <Label minWidth="-Infinity" text="Poort" />
+                    <Label fx:id="portLabel" styleClass="red" visible="false">
                         <padding>
                             <Insets left="10.0" />
                         </padding>
@@ -85,9 +83,8 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
                 <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gebruikersnaam">
-                    </Text>
-                    <Label fx:id="usernameLabel" textFill="RED" visible="false">
+                    <Label minWidth="-Infinity" text="Gebruikersnaam" />
+                    <Label fx:id="usernameLabel" styleClass="red" visible="false">
                         <padding>
                             <Insets left="10.0" />
                         </padding>
@@ -110,11 +107,10 @@
     </Button>
     <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Toernooi">
-                <font>
-                    <Font name="System Bold" size="25.0" />
-                </font>
-            </Text>
+            <Label styleClass="title" text="Toernooi" />
         </children>
     </StackPane>
+    <stylesheets>
+        <URL value="@stylesheet.css" />
+    </stylesheets>
 </GridPane>

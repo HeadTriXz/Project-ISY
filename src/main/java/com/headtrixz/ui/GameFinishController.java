@@ -12,7 +12,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -23,10 +23,7 @@ import javafx.scene.text.Text;
  */
 public class GameFinishController {
     @FXML
-    private Text endText;
-
-    @FXML
-    private Group containerGroup;
+    private Label endLabel;
     @FXML
     private StackPane container;
 
@@ -36,8 +33,6 @@ public class GameFinishController {
 
     private final int numberOfFireworks = 4;
     private final int imageSize = 200;
-
-
 
     String fireworksPath =
         Objects.requireNonNull(GameFinishController.class.getResource("/images/firework.gif"))
@@ -66,7 +61,7 @@ public class GameFinishController {
             default -> "Deze uitkomst zou niet mogelijk moeten zijn";
         };
 
-        endText.setText(text);
+        endLabel.setText(text);
 
         GameBoard board = game.getBoard();
         GameGrid grid = new GameGrid(board.getSize(), 300.0, game.getBackgroundColor());
@@ -82,7 +77,6 @@ public class GameFinishController {
 
         if (game.getState() == GameModel.GameState.PLAYER_ONE_WON) {
             executorService.schedule(this::doFireworks, 200, TimeUnit.MILLISECONDS);
-
         }
     }
 
@@ -95,10 +89,11 @@ public class GameFinishController {
             for (int i = 0; i < numberOfFireworks; i++) {
                 Image image = new Image(fireworksPath, imageSize, imageSize, false, true);
                 ImageView imageView = new ImageView(image);
+                imageView.setManaged(false);
                 imageView.setX(random.nextInt(600) - (imageSize / 2));
                 imageView.setY(random.nextInt(400) - (imageSize / 2));
 
-                containerGroup.getChildren().add(imageView);
+                container.getChildren().add(imageView);
             }
         });
     }

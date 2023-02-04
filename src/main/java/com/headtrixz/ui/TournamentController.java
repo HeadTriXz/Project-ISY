@@ -24,11 +24,11 @@ import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 
 /**
  * Controller for the tournament screen.
@@ -39,25 +39,25 @@ public class TournamentController implements GameMethods {
     @FXML
     private StackPane containerStackPane;
     @FXML
-    private Text drawsText;
+    private Label drawsLabel;
     @FXML
-    private Text loggedInAsText;
+    private Label loggedInAsLabel;
     @FXML
-    private Text losesText;
+    private Label losesLabel;
     @FXML
-    private Text onlineText;
+    private Label onlineLabel;
     @FXML
     private ImageView playerOneIcon;
     @FXML
-    private Text playerOneText;
+    private Label playerOneLabel;
     @FXML
     private ListView<String> playersListView;
     @FXML
     private ImageView playerTwoIcon;
     @FXML
-    private Text playerTwoText;
+    private Label playerTwoLabel;
     @FXML
-    private Text winsText;
+    private Label winsLabel;
 
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     private GameModel game;
@@ -72,7 +72,7 @@ public class TournamentController implements GameMethods {
      */
     public void initialize() {
         username = UIManager.getSetting("username");
-        loggedInAsText.setText(String.format("Ingelogd als: %s", username));
+        loggedInAsLabel.setText(String.format("Ingelogd als: %s", username));
 
         Connection connection = Connection.getInstance();
         connection.getOutputHandler().login(username);
@@ -139,7 +139,7 @@ public class TournamentController implements GameMethods {
      */
     private String onDraw() {
         drawCount++;
-        drawsText.setText(String.format("Gelijkspel: %d", drawCount));
+        drawsLabel.setText(String.format("Gelijkspel: %d", drawCount));
         return "Match gelijkgespeeld tegen";
     }
 
@@ -179,13 +179,17 @@ public class TournamentController implements GameMethods {
 
             containerStackPane.getChildren().add(gameGrid);
 
-            Image black = new Image(game.getImage(GameBoard.PLAYER_ONE), 20, 20, false, true);
-            playerOneText.setText(playerOne.getUsername());
+            Image black = new Image(game.getImage(GameBoard.PLAYER_ONE), 25, 25, false, true);
+            playerOneLabel.setText(playerOne.getUsername());
             playerOneIcon.setImage(black);
 
-            Image white = new Image(game.getImage(GameBoard.PLAYER_TWO), 20, 20, false, true);
-            playerTwoText.setText(playerTwo.getUsername());
+            playerOneLabel.getParent().getStyleClass().add("player");
+
+            Image white = new Image(game.getImage(GameBoard.PLAYER_TWO), 25, 25, false, true);
+            playerTwoLabel.setText(playerTwo.getUsername());
             playerTwoIcon.setImage(white);
+
+            playerTwoLabel.getParent().getStyleClass().add("player");
 
             update(-1, playerOne);
         });
@@ -198,7 +202,7 @@ public class TournamentController implements GameMethods {
      */
     private String onLoss() {
         loseCount++;
-        losesText.setText(String.format("Verloren: %d", loseCount));
+        losesLabel.setText(String.format("Verloren: %d", loseCount));
         return "Match verloren van";
     }
 
@@ -209,7 +213,7 @@ public class TournamentController implements GameMethods {
         List<String> playersList = new ArrayList<>(Arrays.asList(message.getArray()));
 
         Platform.runLater(() -> {
-            onlineText.setText(String.format("Online: %d", playersList.size()));
+            onlineLabel.setText(String.format("Online: %d", playersList.size()));
             playersList.remove(username);
 
             playersListView.setItems(FXCollections.observableArrayList(playersList));
@@ -224,7 +228,7 @@ public class TournamentController implements GameMethods {
      */
     private String onWin() {
         winCount++;
-        winsText.setText(String.format("Gewonnen: %d", winCount));
+        winsLabel.setText(String.format("Gewonnen: %d", winCount));
         return "Match gewonnen van";
     }
 

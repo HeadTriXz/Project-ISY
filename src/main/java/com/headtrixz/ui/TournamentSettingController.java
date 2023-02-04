@@ -120,7 +120,7 @@ public class TournamentSettingController {
     public void message(String message, boolean failure) {
         messageLabel.setText(message);
         if (failure) {
-            messageLabel.setStyle("-fx-text-fill: #ff0000");
+            messageLabel.setStyle("-fx-text-fill: #f38ba8");
         }
     }
 

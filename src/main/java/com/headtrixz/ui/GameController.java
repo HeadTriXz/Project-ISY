@@ -1,5 +1,6 @@
 package com.headtrixz.ui;
 
+import com.headtrixz.game.GameBoard;
 import com.headtrixz.game.GameMethods;
 import com.headtrixz.game.GameModel;
 import com.headtrixz.game.players.HumanPlayer;
@@ -7,8 +8,10 @@ import com.headtrixz.game.players.Player;
 import com.headtrixz.ui.elements.GameGrid;
 import java.util.List;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 
 /**
  * A controller for the game screen.
@@ -20,9 +23,13 @@ public class GameController implements GameMethods {
     private GameGrid gameGrid;
 
     @FXML
-    private Text playerOneName;
+    private ImageView playerOneIcon;
     @FXML
-    private Text playerTwoName;
+    private Label playerOneName;
+    @FXML
+    private ImageView playerTwoIcon;
+    @FXML
+    private Label playerTwoName;
     @FXML
     private StackPane container;
 
@@ -60,9 +67,13 @@ public class GameController implements GameMethods {
         gameGrid.setCallback(this::onMouseClick);
         container.getChildren().add(gameGrid);
 
-        // Set visible usernames.
+        Image black = new Image(game.getImage(GameBoard.PLAYER_ONE), 25, 25, false, true);
         playerOneName.setText(game.getPlayer(0).getUsername());
+        playerOneIcon.setImage(black);
+
+        Image white = new Image(game.getImage(GameBoard.PLAYER_TWO), 25, 25, false, true);
         playerTwoName.setText(game.getPlayer(1).getUsername());
+        playerTwoIcon.setImage(white);
 
         update(-1, null);
     }

@@ -1,17 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Label?>
 
-<StackPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.image.ImageView?>
+<StackPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <VBox>
+         <children>
+            <HBox prefHeight="18.0" prefWidth="419.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" styleClass="player">
+                     <children>
+                        <Label fx:id="playerOneName" />
+                        <ImageView fx:id="playerOneIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </HBox>
+                  <Pane HBox.hgrow="SOMETIMES" />
+                  <HBox alignment="CENTER_LEFT" styleClass="player">
+                     <children>
+                        <ImageView fx:id="playerTwoIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="playerTwoName">
+                           <HBox.margin>
+                              <Insets right="3.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <StackPane fx:id="containerStackPane" prefHeight="264.0" prefWidth="419.0" />
+         </children>
+      </VBox>
       <Button onAction="#displayHome" mnemonicParsing="false" text="Geef op" StackPane.alignment="BOTTOM_LEFT" />
-      <Text fx:id="playerOneName" strokeType="OUTSIDE" strokeWidth="0.0" text="[Speler 1]" StackPane.alignment="TOP_LEFT" />
-      <Text fx:id="playerTwoName" strokeType="OUTSIDE" strokeWidth="0.0" text="[Speler 2]" StackPane.alignment="TOP_RIGHT" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
+   <stylesheets>
+      <URL value="@stylesheet.css" />
+   </stylesheets>
 </StackPane>

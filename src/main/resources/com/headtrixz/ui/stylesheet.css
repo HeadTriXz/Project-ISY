@@ -1,0 +1,89 @@
+/* Load fonts */
+@font-face {
+    font-family: 'Product Sans';
+    src: url('fonts/ProductSansRegular.ttf');
+}
+
+@font-face {
+    font-family: 'Product Sans';
+    font-weight: bold;
+    src: url('fonts/ProductSansBold.ttf');
+}
+
+/* Root */
+.root {
+    -fx-background-color: #1e1e2e;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #b4befe;
+    -fx-background-radius: 6px;
+    -fx-font-family: 'Product Sans';
+    -fx-text-fill: #1e1e2e;
+}
+
+.button:hover {
+    -fx-background-color: #c1c9fd;
+}
+
+/* Colors */
+.red {
+    -fx-text-fill: #f38ba8 !important;
+}
+
+.green {
+    -fx-text-fill: #a6e3a1 !important;
+}
+
+.blue {
+    -fx-text-fill: #89b4fa !important;
+}
+
+/* Labels */
+.finish {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+.title {
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+}
+
+.player {
+    -fx-background-color: rgba(193, 201, 253, 0.2);
+    -fx-background-radius: 6px;
+    -fx-border-color: rgba(193, 201, 253, 0.7);
+    -fx-border-radius: 6px;
+    -fx-padding: 0 6px;
+}
+
+/* Text */
+.label,
+.text-field {
+    -fx-text-fill: #cdd6f4;
+    -fx-font-family: 'Product Sans';
+}
+
+/* Text Fields */
+.text-field {
+    -fx-background-color: #181825;
+    -fx-background-radius: 6px;
+    -fx-text-fill: #a6adc8;
+}
+
+.text-field:hover {
+    -fx-background-color: #11111b;
+}
+
+/* List Views */
+.list-view {
+    -fx-background-color: #181825;
+    -fx-background-radius: 6px;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #a6adc8;
+}

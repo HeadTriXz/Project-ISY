@@ -29,7 +29,6 @@ public class GameGrid extends GridPane {
         super();
 
         setBackground(Background.fill(backgroundColor));
-        setGridLinesVisible(true);
         setMaxSize(gridSize, gridSize);
 
         paneSize = gridSize / size;
@@ -37,6 +36,7 @@ public class GameGrid extends GridPane {
             StackPane sp = new StackPane();
             sp.setMinSize(paneSize, paneSize);
             sp.setMaxSize(paneSize, paneSize);
+            sp.setStyle("-fx-border-color: #1e1e2e");
 
             final int index = i; // Java is stupid (╯°□°）╯︵ ┻━┻
             sp.setOnMouseClicked(a -> onClick(index));
@@ -61,7 +61,7 @@ public class GameGrid extends GridPane {
         view.setFitWidth(paneSize);
         view.setFitHeight(paneSize);
 
-        StackPane pane = (StackPane) this.getChildren().get(move + 1);
+        StackPane pane = (StackPane) this.getChildren().get(move);
         pane.setCursor(Cursor.DEFAULT);
         pane.getChildren().add(view);
     }
@@ -95,7 +95,7 @@ public class GameGrid extends GridPane {
      */
     public void clearBoard(int len) {
         for (int i = 0; i < len; i++) {
-            StackPane pane = (StackPane) this.getChildren().get(i + 1);
+            StackPane pane = (StackPane) this.getChildren().get(i);
             pane.getChildren().clear();
             pane.setCursor(Cursor.DEFAULT);
         }
@@ -109,7 +109,7 @@ public class GameGrid extends GridPane {
      */
     public void setSuggestions(List<Integer> suggestions, String path) {
         for (int move : suggestions) {
-            StackPane pane = (StackPane) this.getChildren().get(move + 1);
+            StackPane pane = (StackPane) this.getChildren().get(move);
             pane.setCursor(Cursor.HAND);
 
             if (path != null) {
